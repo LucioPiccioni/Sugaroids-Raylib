@@ -1,10 +1,21 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Aula 1\\Desktop\\Desarrollo1_TP1_PiccioniLucio\\",
+  "WorkspaceRootPath": "C:\\Users\\Aula 1\\Desktop\\Sugaroids Raylib\\Desarrollo1_TP1_PiccioniLucio\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{8B33C5F0-2716-430D-A6E9-83ADE9A5EDA7}|Sugaroids\\Pong.vcxproj|C:\\Users\\Aula 1\\Desktop\\Desarrollo1_TP1_PiccioniLucio\\Sugaroids\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{8B33C5F0-2716-430D-A6E9-83ADE9A5EDA7}|Sugaroids\\Pong.vcxproj|solutionrelative:Sugaroids\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{8B33C5F0-2716-430D-A6E9-83ADE9A5EDA7}|Sugaroids\\Pong.vcxproj|C:\\Users\\Aula 1\\Desktop\\Sugaroids Raylib\\Desarrollo1_TP1_PiccioniLucio\\Sugaroids\\player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{8B33C5F0-2716-430D-A6E9-83ADE9A5EDA7}|Sugaroids\\Pong.vcxproj|solutionrelative:Sugaroids\\player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8B33C5F0-2716-430D-A6E9-83ADE9A5EDA7}|Sugaroids\\Pong.vcxproj|C:\\Users\\Aula 1\\Desktop\\Sugaroids Raylib\\Desarrollo1_TP1_PiccioniLucio\\src\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{8B33C5F0-2716-430D-A6E9-83ADE9A5EDA7}|Sugaroids\\Pong.vcxproj|solutionrelative:src\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8B33C5F0-2716-430D-A6E9-83ADE9A5EDA7}|Sugaroids\\Pong.vcxproj|C:\\Users\\Aula 1\\Desktop\\Sugaroids Raylib\\Desarrollo1_TP1_PiccioniLucio\\Sugaroids\\player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{8B33C5F0-2716-430D-A6E9-83ADE9A5EDA7}|Sugaroids\\Pong.vcxproj|solutionrelative:Sugaroids\\player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Aula 1\\Desktop\\Desarrollo1_TP1_PiccioniLucio\\Sugaroids\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,24 +25,63 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "main.cpp",
-              "DocumentMoniker": "C:\\Users\\Aula 1\\Desktop\\Desarrollo1_TP1_PiccioniLucio\\Sugaroids\\main.cpp",
-              "RelativeDocumentMoniker": "Sugaroids\\main.cpp",
-              "ToolTip": "C:\\Users\\Aula 1\\Desktop\\Desarrollo1_TP1_PiccioniLucio\\Sugaroids\\main.cpp",
-              "RelativeToolTip": "Sugaroids\\main.cpp",
-              "ViewState": "AQIAAA8AAAAAAAAAAAAUwB8AAAAkAAAA",
+              "DocumentIndex": 2,
+              "Title": "player.cpp",
+              "DocumentMoniker": "C:\\Users\\Aula 1\\Desktop\\Sugaroids Raylib\\Desarrollo1_TP1_PiccioniLucio\\Sugaroids\\player.cpp",
+              "RelativeDocumentMoniker": "Sugaroids\\player.cpp",
+              "ToolTip": "C:\\Users\\Aula 1\\Desktop\\Sugaroids Raylib\\Desarrollo1_TP1_PiccioniLucio\\Sugaroids\\player.cpp",
+              "RelativeToolTip": "Sugaroids\\player.cpp",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAATAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-10-04T14:51:16.724Z",
+              "WhenOpened": "2024-10-04T15:30:53.769Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "player.h",
+              "DocumentMoniker": "C:\\Users\\Aula 1\\Desktop\\Sugaroids Raylib\\Desarrollo1_TP1_PiccioniLucio\\Sugaroids\\player.h",
+              "RelativeDocumentMoniker": "Sugaroids\\player.h",
+              "ToolTip": "C:\\Users\\Aula 1\\Desktop\\Sugaroids Raylib\\Desarrollo1_TP1_PiccioniLucio\\Sugaroids\\player.h",
+              "RelativeToolTip": "Sugaroids\\player.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-10-04T15:30:46.364Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "main.cpp",
+              "DocumentMoniker": "C:\\Users\\Aula 1\\Desktop\\Sugaroids Raylib\\Desarrollo1_TP1_PiccioniLucio\\src\\main.cpp",
+              "RelativeDocumentMoniker": "src\\main.cpp",
+              "ToolTip": "C:\\Users\\Aula 1\\Desktop\\Sugaroids Raylib\\Desarrollo1_TP1_PiccioniLucio\\src\\main.cpp",
+              "RelativeToolTip": "src\\main.cpp",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAABQAAABJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-10-04T15:07:28.582Z",
               "EditorCaption": ""
             },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "main.cpp",
+              "DocumentMoniker": "C:\\Users\\Aula 1\\Desktop\\Desarrollo1_TP1_PiccioniLucio\\Sugaroids\\main.cpp",
+              "RelativeDocumentMoniker": "..\\..\\Desarrollo1_TP1_PiccioniLucio\\Sugaroids\\main.cpp",
+              "ToolTip": "C:\\Users\\Aula 1\\Desktop\\Desarrollo1_TP1_PiccioniLucio\\Sugaroids\\main.cpp",
+              "RelativeToolTip": "..\\..\\Desarrollo1_TP1_PiccioniLucio\\Sugaroids\\main.cpp",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAUwB8AAAAkAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-10-04T14:51:16.724Z",
+              "EditorCaption": ""
             }
           ]
         }
