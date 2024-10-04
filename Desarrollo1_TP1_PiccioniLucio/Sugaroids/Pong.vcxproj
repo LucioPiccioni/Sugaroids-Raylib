@@ -19,11 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\eventManager.cpp" />
     <ClCompile Include="..\src\main.cpp" />
-    <ClCompile Include="player.cpp" />
+    <ClCompile Include="..\src\player.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="player.h" />
+    <ClInclude Include="..\src\eventManager.h" />
+    <ClInclude Include="..\src\player.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
