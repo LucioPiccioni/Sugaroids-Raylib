@@ -24,7 +24,10 @@
     <ClCompile Include="..\src\player.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\Bullets.h" />
     <ClInclude Include="..\src\eventManager.h" />
+    <ClInclude Include="..\src\sugaroid.h" />
+    <ClInclude Include="..\src\menus.h" />
     <ClInclude Include="..\src\player.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

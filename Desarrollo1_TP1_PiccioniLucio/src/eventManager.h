@@ -1,9 +1,9 @@
 #pragma once
+#include "menus.h"
+#include "raylib.h"
 
-enum class Menus
+
+namespace EventManager
 {
-	MainMenu,
-	Rules,
-	Credits,
-	Exit,
-};
+	void MusicControl(Menus gameState);
+}
