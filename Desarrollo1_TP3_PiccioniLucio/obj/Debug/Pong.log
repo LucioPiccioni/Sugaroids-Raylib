@@ -1,0 +1,34 @@
+﻿  main.cpp
+C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\src\main.cpp(38,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\src\main.cpp(135,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\src\main.cpp(147,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\src\main.cpp(264,39): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\src\main.cpp(266,39): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\src\main.cpp(282,28): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\src\main.cpp(286,28): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\src\main.cpp(287,21): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\src\main.cpp(291,28): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\src\main.cpp(294,21): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\src\main.cpp(295,28): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\src\main.cpp(300,13): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\src\main.cpp(301,14): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\src\main.cpp(382,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\src\main.cpp(399,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\src\main.cpp(429,17): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\src\main.cpp(469,15): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\src\main.cpp(470,83): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\src\main.cpp(473,18): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\src\main.cpp(474,81): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\src\main.cpp(476,107): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\src\main.cpp(477,115): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\src\main.cpp(478,115): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\src\main.cpp(479,119): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\src\main.cpp(480,105): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\src\main.cpp(481,93): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\src\main.cpp(484,143): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\src\main.cpp(485,137): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\src\main.cpp(486,119): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\src\main.cpp(487,135): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  player.cpp
+  Generating Code...
+  Pong.vcxproj -> C:\Users\Kapnack\Desktop\Desarrollo1_TP3_PiccioniLucio\bin\Debug\Sugaroids.exe
