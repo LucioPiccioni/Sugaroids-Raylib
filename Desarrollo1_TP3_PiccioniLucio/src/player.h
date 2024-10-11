@@ -3,14 +3,17 @@
 
 struct Player
 {
-	Vector2 pos = {};
 	int lives = 3;
-	float maxSpeed = 400.0f;
-	float width = 64 * 1.5;
-	float height = 64 * 1.5;
+	
+	Vector2 pos = {(float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2};
 	Vector2 speed = {};
-	float velocity = 150.0f;
-	float angle = 0;
 	Vector2 targetPos = {};
+	Vector2 directionVector;
+	float directionLength = 0;
+	float maxSpeed = 300.0f;
+	
+	float size = 64;
+	float angle = 0;
+
 };
 

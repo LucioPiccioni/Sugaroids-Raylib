@@ -7,4 +7,5 @@ enum class Menus
 	Rules,
 	Credits,
 	Exit,
+	None
 };
