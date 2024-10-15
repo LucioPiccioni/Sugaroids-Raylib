@@ -19,16 +19,24 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\bullet.cpp" />
     <ClCompile Include="..\src\eventManager.cpp" />
     <ClCompile Include="..\src\main.cpp" />
+    <ClCompile Include="..\src\menus.cpp" />
     <ClCompile Include="..\src\player.cpp" />
+    <ClCompile Include="..\src\scene.cpp" />
+    <ClCompile Include="..\src\sugaroid.cpp" />
+    <ClCompile Include="..\src\utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\Bullets.h" />
+    <ClInclude Include="..\src\bullet.h" />
     <ClInclude Include="..\src\eventManager.h" />
-    <ClInclude Include="..\src\sugaroid.h" />
     <ClInclude Include="..\src\menus.h" />
+    <ClInclude Include="..\src\mouse.h" />
     <ClInclude Include="..\src\player.h" />
+    <ClInclude Include="..\src\scene.h" />
+    <ClInclude Include="..\src\sugaroid.h" />
+    <ClInclude Include="..\src\utilities.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

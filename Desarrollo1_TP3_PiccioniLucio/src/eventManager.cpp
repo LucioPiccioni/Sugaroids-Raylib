@@ -1,6 +1,146 @@
 #include "eventManager.h"
 
-void EventManager::MusicControl(Menus gameState)
+void EventManager::MusicControl(Menus& gameState, Music& mainMenuMusic, Music& gamePlayMusic, Music& gameOverMusic, Music& creditsMusic, bool gameOver)
+{
+	const int AllMusic = 3;
+
+	Music* actualMusic = &mainMenuMusic;
+	Music* stopMusic[AllMusic] = { &mainMenuMusic, &gamePlayMusic,  &creditsMusic };
+
+	switch (gameState)
+	{
+	case Menus::MainMenu:
+
+		actualMusic = &mainMenuMusic;
+
+		stopMusic[0] = &gamePlayMusic;
+		stopMusic[1] = &gameOverMusic;
+		stopMusic[2] = &creditsMusic;
+		break;
+
+	case Menus::Playing:
+
+		switch (gameOver)
+		{
+		case true:
+
+			actualMusic = &gameOverMusic;
+
+			stopMusic[0] = &mainMenuMusic;
+			stopMusic[1] = &gamePlayMusic;
+			stopMusic[2] = &creditsMusic;
+			break;
+
+		case false:
+
+			actualMusic = &gamePlayMusic;
+
+			stopMusic[0] = &mainMenuMusic;
+			stopMusic[1] = &gameOverMusic;
+			stopMusic[2] = &creditsMusic;
+			break;
+
+		default:
+			break;
+		}
+
+		break;
+
+	case Menus::Rules:
+
+		actualMusic = &mainMenuMusic;
+
+		stopMusic[0] = &gamePlayMusic;
+		stopMusic[1] = &gameOverMusic;
+		stopMusic[2] = &creditsMusic;
+		break;
+
+	case Menus::Credits:
+
+		actualMusic = &creditsMusic;
+
+		stopMusic[0] = &gamePlayMusic;
+		stopMusic[1] = &gameOverMusic;
+		stopMusic[2] = &mainMenuMusic;
+		break;
+
+	case Menus::Exit:
+		break;
+
+	default:
+		break;
+	}
+
+	if (gameState != Menus::Exit)
+	{
+		if (!IsMusicStreamPlaying(*actualMusic))
+			PlayMusicStream(*actualMusic);
+	}
+
+	if (gameState != Menus::Exit)
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			if (IsMusicStreamPlaying(*stopMusic[i]))
+				StopMusicStream(*stopMusic[i]);
+		}
+	}
+
+	if (gameState != Menus::Exit)
+		UpdateMusicStream(*actualMusic);
+}
+
+void EventManager::ResetGame(std::vector<Bullet::Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids, Player::Player& player, bool& gameOver)
+{
+	sugaroids.clear();
+	bullets.clear();
+
+	player = Player::Player{};
+
+	gameOver = false;
+}
+
+void EventManager::SugaroidBulletCollition(std::vector<Bullet::Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids, Sound& boomSound, float& deltaTime, int& screenWidth, int& screenHeight)
 {
 
+	for (int i = 0; i < bullets.size(); )
+	{
+		bullets[i].position.x += bullets[i].velocity.x * deltaTime;
+		bullets[i].position.y += bullets[i].velocity.y * deltaTime;
+
+		bool bulletDestroyed = false;
+
+		for (int j = 0; j < sugaroids.size(); j++)
+		{
+			if (CheckCollisionCircles(bullets[i].position, bullets[i].radius, sugaroids[j].position, sugaroids[j].radius))
+			{
+				StopSound(boomSound);
+				PlaySound(boomSound);
+
+				sugaroids[j].toDestroy = true;
+				bullets[i].toDestroy = true;
+				bulletDestroyed = true;
+
+				break;
+			}
+		}
+
+		if (bullets[i].toDestroy ||
+			static_cast<int>(bullets[i].position.x + bullets[i].radius) < 0 ||
+			static_cast<int>(bullets[i].position.x - bullets[i].radius) > screenWidth ||
+			static_cast<int>(bullets[i].position.y + bullets[i].radius) < 0 ||
+			static_cast<int>(bullets[i].position.y - bullets[i].radius) > screenHeight)
+		{
+			bullets.erase(bullets.begin() + i);
+		}
+		else
+		{
+			i++;
+		}
+	}
+}
+
+bool EventManager::DidPlayerDied(Player::Player& player)
+{
+	return player.lives <= 0;
 }
