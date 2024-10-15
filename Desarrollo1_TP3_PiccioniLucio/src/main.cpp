@@ -56,7 +56,7 @@ int main()
 	while (!WindowShouldClose() && gameState != Menus::Exit)
 	{
 		deltaTime = GetFrameTime();
-		
+
 		EventManager::MusicControl(gameState, mainMenuMusic, gamePlayMusic, gameOverMusic, creditsMusic, gameOver);
 
 		if (gameState == Menus::Playing && !gameOver)
@@ -95,105 +95,23 @@ int main()
 		{
 		case Menus::MainMenu:
 
-			Scene::DrawMainMenu(gameState, gamesTitle, screenWidth, screenHeight);
+			Scene::DrawMainMenu(gameState, font, gamesTitle, screenWidth, screenHeight);
 			break;
 
 		case Menus::Playing:
 
 			if (gameOver)
 			{
-				const int maxButtons = 3;
+				Scene::DrawGameOver(gameState, font, screenHeight, screenHeight);
 
-				int textWidth = MeasureText("GAME OVER", 20);
-
-				Vector2 mouse;
-				Button button[maxButtons];
-
-				int startX, startY;
-
-				startX = (screenWidth - buttonWidth) / 2;
-				startY = (screenHeight - (buttonHeight * maxButtons + buttonSpacing * (maxButtons - 1)));
-
-				for (int i = 0; i < maxButtons; i++)
-				{
-					button[i].rec = { static_cast<float>(startX), static_cast<float>(startY + i * (buttonHeight + buttonSpacing)), static_cast<float>(buttonWidth), static_cast<float>(buttonHeight) };
-				}
-
-				button[0].option = Menus::Replay;
-				button[1].option = Menus::MainMenu;
-				button[2].option = Menus::Exit;
-
-				mouse = GetMousePosition();
-
-				for (int i = 0; i < maxButtons; i++)
-				{
-					if (Tools::CheckMouseButtonCollition(mouse, button[i].rec))
-					{
-						button[i].color = WHITE;
-
-						if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
-						{
-							button[i].color = YELLOW;
-						}
-
-						if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON))
-							gameState = button[i].option;
-					}
-				}
-
-				// Calcula el factor de escala basado en las proporciones de la pantalla y la imagen
-				float scaleFactor = std::min((float)screenWidth / gamesTitle.width, (float)screenHeight / gamesTitle.height);
-
-				// Calcula el nuevo tamaño del título basado en el factor de escala
-				float newWidth = gamesTitle.width * scaleFactor;
-				float newHeight = gamesTitle.height * scaleFactor;
-
-				// Dibuja el título centrado y escalado
-
-				DrawText("GAME OVER", (screenWidth - textWidth) / 2, screenHeight / 2, 20, RED);
-
-				for (int i = 0; i < maxButtons; i++)
-				{
-					switch (button[i].option)
-					{
-					case Menus::Replay:
-
-						Tools::DrawButton(button[i].rec, "Replay", button[i].color);
-						break;
-
-					case Menus::MainMenu:
-
-						Tools::DrawButton(button[i].rec, "MainMenu", button[i].color);
-						break;
-
-					case Menus::Exit:
-
-						Tools::DrawButton(button[i].rec, "Exit", button[i].color);
-						break;
-
-					default: break;
-					}
-				}
-
-				switch (gameState)
-				{
-				case Menus::Replay:
-
-					EventManager::ResetGame(bullets, sugaroids, player, gameOver);
-					gameState = Menus::Playing;
-					break;
-
-				case Menus::MainMenu:
-					break;
-				case Menus::Exit:
-					break;
-				default:
-					break;
-				}
-
+				EventManager::ShouldResetMatch(gameState, player, bullets, sugaroids, gameOver);
 			}
 			else
 			{
+				std::string pointsText = "Points: " + std::to_string((int)points);
+
+				DrawTextEx(font, pointsText.c_str(), Vector2{0,0}, scoreFontSize, 0, BLACK);
+
 				Scene::DrawGamePlay(bullets, sugaroids, player, bulletsImage, playerImage, sugaroidImage);
 			}
 

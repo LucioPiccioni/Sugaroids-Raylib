@@ -15,10 +15,10 @@ bool Tools::CheckMouseButtonCollition(Vector2 mouse, Rectangle button)
 	return false;
 }
 
-void Tools::DrawButton(Rectangle rect, const std::string& text, Color color)
+void Tools::DrawButton(Rectangle rect, const std::string& text, Color& color, Font& font)
 {
 	DrawRectangleRec(rect, color);
-	Vector2 textSize = MeasureTextEx(GetFontDefault(), text.c_str(), static_cast<float>(textFontSize), 1);
+	Vector2 textSize = MeasureTextEx(font, text.c_str(), static_cast<float>(textFontSize), 1);
 	Vector2 textPosition = { rect.x + (rect.width - textSize.x) / 2, rect.y + (rect.height - textSize.y) / 2 };
-	DrawText(text.c_str(), static_cast<int>(textPosition.x), static_cast<int>(textPosition.y), textFontSize, BLACK);
+	DrawTextEx(font, text.c_str(), Vector2{ textPosition.x, textPosition.y }, textFontSize, 0, BLACK);
 }

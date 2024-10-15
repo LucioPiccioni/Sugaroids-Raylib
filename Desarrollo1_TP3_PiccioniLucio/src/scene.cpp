@@ -1,6 +1,6 @@
 #include "scene.h"
 
-void Scene::DrawGamePlay(std::vector < Bullet::Bullet >& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids, Player::Player player, Texture2D bulletsImage, Texture2D playerImage, Texture2D sugaroidImage)
+void Scene::DrawGamePlay(std::vector <Bullet::Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids, Player::Player player, Texture2D bulletsImage, Texture2D playerImage, Texture2D sugaroidImage)
 {
 	for (int i = 0; i < bullets.size(); i++)
 	{
@@ -33,7 +33,7 @@ void Scene::DrawGamePlay(std::vector < Bullet::Bullet >& bullets, std::vector<Su
 	}
 }
 
-void Scene::DrawMainMenu(Menus& selectedOption, Texture2D& gamesTitle, int& screenWidth, int& screenHeight)
+void Scene::DrawMainMenu(Menus& gameState, Font& font, Texture2D& gamesTitle, int& screenWidth, int& screenHeight)
 {
 	const int maxButtons = 5;
 
@@ -69,7 +69,7 @@ void Scene::DrawMainMenu(Menus& selectedOption, Texture2D& gamesTitle, int& scre
 			}
 
 			if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON))
-				selectedOption = button[i].option;
+				gameState = button[i].option;
 		}
 	}
 
@@ -96,22 +96,22 @@ void Scene::DrawMainMenu(Menus& selectedOption, Texture2D& gamesTitle, int& scre
 		{
 		case Menus::Playing:
 
-			Tools::DrawButton(button[i].rec, "Play", button[i].color);
+			Tools::DrawButton(button[i].rec, "Play", button[i].color, font);
 			break;
 
 		case Menus::Rules:
 
-			Tools::DrawButton(button[i].rec, "Options", button[i].color);
+			Tools::DrawButton(button[i].rec, "Options", button[i].color, font);
 			break;
 
 		case Menus::Credits:
 
-			Tools::DrawButton(button[i].rec, "Credits", button[i].color);
+			Tools::DrawButton(button[i].rec, "Credits", button[i].color, font);
 			break;
 
 		case Menus::Exit:
 
-			Tools::DrawButton(button[i].rec, "Exit", button[i].color);
+			Tools::DrawButton(button[i].rec, "Exit", button[i].color, font);
 			break;
 
 		default: break;
@@ -195,27 +195,60 @@ void Scene::DrawGameRules(int screenWidth, int screenHeight, Font customFont)
 	DrawTextEx(customFont, "Press ESC to return to menu", backToMenuPos, textFontSize, 2, BLACK);
 }
 
-void Scene::DrawGameOver(int buttonSelected)
+void Scene::DrawGameOver(Menus& gameState, Font& font, int& screenWidth, int& screenHeight)
 {
-	Color textColor = WHITE;
+	const int maxButtons = 3;
 
-	const char* buttons[] = { "Replay", "Menu", "Exit" };
-	int buttonCount = sizeof(buttons) / sizeof(buttons[0]);
+	Vector2 mouse;
+	Button button[maxButtons] = {};
 
-	for (int i = 0; i < buttonCount; ++i) {
-		// Cambiar el color si el botón está seleccionado
-		if (i == buttonSelected) {
-			textColor = RED; // Rojo para el botón seleccionado
-		}
-		else {
-			textColor = BLACK; // Negro para los demás
-		}
+	int startX, startY;
 
-		// Dibujar el botón
-		DrawText(buttons[i], GetScreenWidth() / 2 - MeasureText(buttons[i], 20) / 2,
-			GetScreenHeight() / 2 + (i * 30), 20, textColor);
+	startX = screenWidth / 2 + buttonWidth / 2;
+	startY = (screenHeight / 1.5 - (buttonHeight * maxButtons + buttonSpacing * (maxButtons - 1)));
+
+	for (int i = 0; i < maxButtons; i++)
+	{
+		button[i].rec = { static_cast<float>(startX), static_cast<float>(startY + i * (buttonHeight + buttonSpacing)), static_cast<float>(buttonWidth), static_cast<float>(buttonHeight) };
 	}
 
-	// Resetear el color a blanco
-	textColor = WHITE; // Este valor se puede usar si hay más gráficos después
+	button[0].option = Menus::Replay;
+	button[1].option = Menus::MainMenu;
+	button[2].option = Menus::Exit;
+
+	mouse = GetMousePosition();
+
+	for (int i = 0; i < maxButtons; i++)
+	{
+		if (Tools::CheckMouseButtonCollition(mouse, button[i].rec))
+		{
+			button[i].color = WHITE;
+
+			if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+			{
+				button[i].color = YELLOW;
+			}
+
+			if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON))
+				gameState = button[i].option;
+		}
+	}
+
+	DrawTextEx(font, "GAME OVER", Vector2{(float)screenWidth / 2, (float)screenHeight / 3 }, 40, 0, RED);
+
+	for (int i = 0; i < maxButtons; i++)
+	{
+		switch (button[i].option)
+		{
+		case Menus::Replay:
+			Tools::DrawButton(button[i].rec, "Replay", button[i].color, font);
+			break;
+		case Menus::MainMenu:
+			Tools::DrawButton(button[i].rec, "MainMenu", button[i].color, font);
+			break;
+		case Menus::Exit:
+			Tools::DrawButton(button[i].rec, "Exit", button[i].color, font);
+			break;
+		}
+	}
 }

@@ -12,7 +12,7 @@ namespace Scene
 {
 	void DrawCredits(int screenWidth, int screenHeight, Font font);
 	void DrawGamePlay(std::vector<Bullet::Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids, Player::Player player, Texture2D bulletsImage, Texture2D playerImage, Texture2D sugaroidImage);
-	void DrawMainMenu(Menus& selectedOption, Texture2D& gamesTitle, int& screenWidth, int& screenHeight);
+	void DrawMainMenu(Menus& selectedOption, Font& font,Texture2D& gamesTitle, int& screenWidth, int& screenHeight);
 	void DrawGameRules(int screenWidth, int screenHeight, Font customFont);
-	void DrawGameOver(int buttonSelected);
+	void DrawGameOver(Menus& gameState, Font& font, int& screenWidth, int& screenHeight);
 }
