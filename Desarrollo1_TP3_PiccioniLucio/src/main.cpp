@@ -94,17 +94,12 @@ int main()
 
 		case Menus::Rules:
 		case Menus::Credits:
+		case Menus::Exit:
 
 			if (IsKeyPressed(KEY_ESCAPE))
 				gameState = Menus::MainMenu;
 			break;
 
-		case Menus::Exit:
-			break;
-		case Menus::None:
-			break;
-		case Menus::Replay:
-			break;
 		default:
 			break;
 		}
@@ -113,6 +108,8 @@ int main()
 		BeginDrawing();
 
 		ClearBackground(BLACK);
+
+		std::string pointsText = "Points: " + std::to_string((int)points);
 
 		DrawTexturePro(
 			backgroundImage,
@@ -132,19 +129,28 @@ int main()
 
 		case Menus::Playing:
 
-			if (gameOver)
+
+			switch (gameOver)
 			{
+			case true:
+
 				Scene::DrawGameOver(gameState, font, screenWidth, screenHeight);
 
 				EventManager::ShouldResetMatch(gameState, player, bullets, sugaroids, gameOver, points);
-			}
-			else
-			{
-				std::string pointsText = "Points: " + std::to_string((int)points);
+
+				break;
+
+			case false:
+
 
 				DrawTextEx(font, pointsText.c_str(), Vector2{ 0,0 }, scoreFontSize, 0, BLACK);
 
 				Scene::DrawGamePlay(bullets, sugaroids, player, bulletsImage, playerImage, sugaroidImage);
+
+				break;
+
+			default:
+				break;
 			}
 
 			break;

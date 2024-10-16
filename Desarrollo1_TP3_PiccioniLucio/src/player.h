@@ -12,7 +12,7 @@ namespace Player
 		Vector2 pos = { (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 };
 		Vector2 speed = {};
 		Vector2 targetPos = {};
-		Vector2 directionVector;
+		Vector2 directionVector = {};
 		float directionLength = 0;
 		float maxSpeed = 300.0f;
 
