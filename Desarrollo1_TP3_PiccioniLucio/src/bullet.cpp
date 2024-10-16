@@ -3,7 +3,7 @@
 void Bullet::SpawnStarBullet(Vector2 playerPosition, float playerAngle, std::vector<Bullet>& bullets)
 {
 	float size = 32.0f;
-	float speed = 500.0f;
+	float speed = 600.0f;
 
 	float playerAngleRadians = playerAngle * (PI / 180.0f);
 

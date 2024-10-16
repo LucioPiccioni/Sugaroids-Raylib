@@ -90,19 +90,35 @@ void EventManager::MusicControl(Menus& gameState, Music& mainMenuMusic, Music& g
 		UpdateMusicStream(*actualMusic);
 }
 
-void EventManager::ShouldResetMatch(Menus& gameState, Player::Player& player, std::vector<Bullet::Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids, bool& gameOver)
+void EventManager::ShouldResetMatch(Menus& gameState, Player::Player& player, std::vector<Bullet::Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids, bool& gameOver, double& points)
 {
-	if (gameState == Menus::Replay)
+	switch (gameState)
 	{
-		EventManager::ResetGame(bullets, sugaroids, player, gameOver);
+	case Menus::MainMenu:
+
+		EventManager::ResetGame(bullets, sugaroids, player, gameOver, points);
+		break;
+
+	case Menus::Replay:
+
+		EventManager::ResetGame(bullets, sugaroids, player, gameOver, points);
 		gameState = Menus::Playing;
+		break;
+
+	case Menus::Exit:
+		break;
+	default:
+		break;
 	}
+
 }
 
-void EventManager::ResetGame(std::vector<Bullet::Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids, Player::Player& player, bool& gameOver)
+void EventManager::ResetGame(std::vector<Bullet::Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids, Player::Player& player, bool& gameOver, double& points)
 {
 	sugaroids.clear();
 	bullets.clear();
+
+	points = 0;
 
 	player = Player::Player{};
 

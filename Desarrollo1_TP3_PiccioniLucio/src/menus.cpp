@@ -1,9 +1,9 @@
 #include "menus.h"
 
-const int buttonWidth = 100;
-const int buttonHeight = 25;
+const int buttonWidth = 200;
+const int buttonHeight = 60;
 const int buttonSpacing = 20;
 
 const int titlesFonstSize = 100;
-const int textFontSize = 20;
-const int scoreFontSize = 50;
+const int textFontSize = 40;
+const int scoreFontSize = 30;

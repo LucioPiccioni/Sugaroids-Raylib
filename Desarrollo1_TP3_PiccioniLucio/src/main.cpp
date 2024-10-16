@@ -14,8 +14,8 @@ int buttonSelected = 0;
 
 int main()
 {
-	int screenWidth = 800;
-	int screenHeight = 600;
+	int screenWidth = 1024;
+	int screenHeight = 768;
 
 	srand(time(nullptr));
 	InitWindow(screenWidth, screenHeight, "Sugaroids");
@@ -96,15 +96,16 @@ int main()
 		case Menus::MainMenu:
 
 			Scene::DrawMainMenu(gameState, font, gamesTitle, screenWidth, screenHeight);
+
 			break;
 
 		case Menus::Playing:
 
 			if (gameOver)
 			{
-				Scene::DrawGameOver(gameState, font, screenHeight, screenHeight);
+				Scene::DrawGameOver(gameState, font, screenWidth, screenHeight);
 
-				EventManager::ShouldResetMatch(gameState, player, bullets, sugaroids, gameOver);
+				EventManager::ShouldResetMatch(gameState, player, bullets, sugaroids, gameOver, points);
 			}
 			else
 			{

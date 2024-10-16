@@ -26,7 +26,7 @@ void Sugaroid::Constructor(Vector2 playerPosition, std::vector<Sugaroid>& sugaro
 	}
 
 	float size = static_cast<float>(rand() % 33 + 32);  // Random size between 32 and 64
-	float speed = static_cast<float>(rand() % 101 + 100);  // Random speed between 100 and 200
+	float speed = static_cast<float>(rand() % 201 + 100);  // Random speed between 100 and 200
 
 	Vector2 direction = { playerPosition.x - spawnPosition.x, playerPosition.y - spawnPosition.y };
 	float length = sqrt(direction.x * direction.x + direction.y * direction.y);
