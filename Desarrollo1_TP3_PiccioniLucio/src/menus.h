@@ -17,7 +17,7 @@ struct Button
 {
 	Rectangle rec;
 	Menus option = Menus::None;
-	Color color = GRAY;
+	Color color = { 255, 182, 193, 255 };
 };
 
 extern const int buttonWidth;

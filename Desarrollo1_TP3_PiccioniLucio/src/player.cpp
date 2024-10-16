@@ -3,8 +3,7 @@
 
 void Player::Movement(Player& player, float deltaTime, int screenWidth, int screenHeight)
 {
-	const float acceleration = 600.0f; // Aceleración al moverse
-	const float minSpeed = 20.0f; // Velocidad mínima para continuar moviéndose
+	const float acceleration = 600.0f;
 
 	if (IsMouseButtonDown(MOUSE_RIGHT_BUTTON))
 	{
@@ -24,17 +23,6 @@ void Player::Movement(Player& player, float deltaTime, int screenWidth, int scre
 			player.speed.x += player.directionVector.x * acceleration * deltaTime;
 			player.speed.y += player.directionVector.y * acceleration * deltaTime;
 		}
-	}
-	else
-	{
-		/*
-		float currentSpeed = sqrt(player.speed.x * player.speed.x + player.speed.y * player.speed.y);
-		if (currentSpeed < minSpeed)
-		{
-			player.speed.x = 0;
-			player.speed.y = 0;
-		}
-		*/
 	}
 
 	// Limit Max Velocity

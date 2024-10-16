@@ -11,7 +11,7 @@ void Scene::DrawGamePlay(std::vector <Bullet::Bullet>& bullets, std::vector<Suga
 			WHITE);
 	}
 
-	
+
 	DrawTexturePro(
 		playerImage,  // La textura original
 		Rectangle{ 0, 0, (float)playerImage.width, (float)playerImage.height },  // Fuente: toda la imagen original
@@ -55,6 +55,8 @@ void Scene::DrawMainMenu(Menus& gameState, Font& font, Texture2D& gamesTitle, in
 	button[2].option = Menus::Credits;
 	button[3].option = Menus::Exit;
 
+	Color outline = BLACK;
+
 	mouse = GetMousePosition();
 
 	for (int i = 0; i < maxButtons; i++)
@@ -73,14 +75,11 @@ void Scene::DrawMainMenu(Menus& gameState, Font& font, Texture2D& gamesTitle, in
 		}
 	}
 
-	// Calcula el factor de escala basado en las proporciones de la pantalla y la imagen
 	float scaleFactor = std::min((float)screenWidth / gamesTitle.width, (float)screenHeight / gamesTitle.height);
 
-	// Calcula el nuevo tamaño del título basado en el factor de escala
 	float newWidth = gamesTitle.width * scaleFactor;
 	float newHeight = gamesTitle.height * scaleFactor;
 
-	// Dibuja el título centrado y escalado
 	DrawTexturePro(
 		gamesTitle,
 		Rectangle{ 0, 0, (float)gamesTitle.width, (float)gamesTitle.height },  // Fuente: toda la imagen original
@@ -96,22 +95,22 @@ void Scene::DrawMainMenu(Menus& gameState, Font& font, Texture2D& gamesTitle, in
 		{
 		case Menus::Playing:
 
-			Tools::DrawButton(button[i].rec, "Play", button[i].color, font);
+			Tools::DrawButton(button[i].rec, "Play", button[i].color, outline, font);
 			break;
 
 		case Menus::Rules:
 
-			Tools::DrawButton(button[i].rec, "Options", button[i].color, font);
+			Tools::DrawButton(button[i].rec, "Rules", button[i].color, outline, font);
 			break;
 
 		case Menus::Credits:
 
-			Tools::DrawButton(button[i].rec, "Credits", button[i].color, font);
+			Tools::DrawButton(button[i].rec, "Credits", button[i].color, outline, font);
 			break;
 
 		case Menus::Exit:
 
-			Tools::DrawButton(button[i].rec, "Exit", button[i].color, font);
+			Tools::DrawButton(button[i].rec, "Exit", button[i].color, outline, font);
 			break;
 
 		default: break;
@@ -198,6 +197,8 @@ void Scene::DrawGameOver(Menus& gameState, Font& font, int& screenWidth, int& sc
 	Vector2 mouse = GetMousePosition();
 	Button button[maxButtons] = {};
 
+	Color outline = BLACK;
+
 	int startX, startY;
 
 	startX = (screenWidth - buttonWidth) / 2;
@@ -223,10 +224,6 @@ void Scene::DrawGameOver(Menus& gameState, Font& font, int& screenWidth, int& sc
 			if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON))
 				gameState = button[i].option;
 		}
-		else
-		{
-			button[i].color = GRAY;
-		}
 	}
 
 	Vector2 gameOverTextSize = MeasureTextEx(font, "GAME OVER", 50, 0);
@@ -239,13 +236,13 @@ void Scene::DrawGameOver(Menus& gameState, Font& font, int& screenWidth, int& sc
 		switch (button[i].option)
 		{
 		case Menus::Replay:
-			Tools::DrawButton(button[i].rec, "Replay", button[i].color, font);
+			Tools::DrawButton(button[i].rec, "Replay", button[i].color, outline, font);
 			break;
 		case Menus::MainMenu:
-			Tools::DrawButton(button[i].rec, "MainMenu", button[i].color, font);
+			Tools::DrawButton(button[i].rec, "MainMenu", button[i].color, outline, font);
 			break;
 		case Menus::Exit:
-			Tools::DrawButton(button[i].rec, "Exit", button[i].color, font);
+			Tools::DrawButton(button[i].rec, "Exit", button[i].color, outline, font);
 			break;
 		}
 	}

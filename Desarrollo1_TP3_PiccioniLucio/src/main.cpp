@@ -53,14 +53,24 @@ int main()
 
 	Texture2D gamesTitle = LoadTexture("../res/title.png");
 
-	while (!WindowShouldClose() && gameState != Menus::Exit)
+	bool pause = false;
+
+	while (gameState != Menus::Exit)
 	{
 		deltaTime = GetFrameTime();
 
 		EventManager::MusicControl(gameState, mainMenuMusic, gamePlayMusic, gameOverMusic, creditsMusic, gameOver);
 
-		if (gameState == Menus::Playing && !gameOver)
+		switch (gameState)
 		{
+		case Menus::MainMenu:
+
+			if (IsKeyPressed(KEY_ESCAPE))
+				gameState = Menus::Exit;
+			break;
+
+		case Menus::Playing:
+
 			mouse = GetMousePosition();
 
 			player.angle = atan2f(mouse.y - player.pos.y, mouse.x - player.pos.x) * (180.0f / PI);
@@ -77,7 +87,28 @@ int main()
 
 			gameOver = EventManager::DidPlayerDied(player);
 
+			if (IsKeyPressed(KEY_ESCAPE))
+				pause = !pause;
+
+			break;
+
+		case Menus::Rules:
+		case Menus::Credits:
+
+			if (IsKeyPressed(KEY_ESCAPE))
+				gameState = Menus::MainMenu;
+			break;
+
+		case Menus::Exit:
+			break;
+		case Menus::None:
+			break;
+		case Menus::Replay:
+			break;
+		default:
+			break;
 		}
+
 
 		BeginDrawing();
 
@@ -111,7 +142,7 @@ int main()
 			{
 				std::string pointsText = "Points: " + std::to_string((int)points);
 
-				DrawTextEx(font, pointsText.c_str(), Vector2{0,0}, scoreFontSize, 0, BLACK);
+				DrawTextEx(font, pointsText.c_str(), Vector2{ 0,0 }, scoreFontSize, 0, BLACK);
 
 				Scene::DrawGamePlay(bullets, sugaroids, player, bulletsImage, playerImage, sugaroidImage);
 			}
