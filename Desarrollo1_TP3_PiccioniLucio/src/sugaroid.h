@@ -13,6 +13,8 @@ namespace Sugaroid
 		float radius = 0;
 		bool toDestroy = false;
 		float size = 32;
+		bool didItHitPlayer = false;
+		bool bigSugaroid = false;
 	};
 
 	void Constructor(Vector2 playerPosition, std::vector<Sugaroid>& sugaroids, int screenWidth, int screenHeight);

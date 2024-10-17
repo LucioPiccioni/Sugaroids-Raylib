@@ -75,6 +75,7 @@ void Sugaroid::ActionManager(std::vector<Sugaroid>& sugaroids, Sound& hurtSound,
 			StopSound(hurtSound);
 			PlaySound(hurtSound);
 
+			sugaroids[i].didItHitPlayer = true;
 			sugaroids[i].toDestroy = true;
 			player.lives--;
 		}
@@ -85,10 +86,14 @@ void Sugaroid::ActionManager(std::vector<Sugaroid>& sugaroids, Sound& hurtSound,
 			static_cast<int>(sugaroids[i].position.y + sugaroids[i].radius) < 0 ||
 			static_cast<int>(sugaroids[i].position.y - sugaroids[i].radius) > screenHeight)
 		{
-			if (!sugaroids[i].toDestroy)
-				points += 5;
-			else
-				points += 25;
+			if (!sugaroids[i].didItHitPlayer)
+			{
+				if (sugaroids[i].toDestroy)
+					points += 25;
+				else
+					points += 5;
+
+			}
 
 			sugaroids.erase(sugaroids.begin() + i);
 		}

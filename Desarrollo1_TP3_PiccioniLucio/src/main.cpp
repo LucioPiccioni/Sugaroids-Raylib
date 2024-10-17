@@ -21,6 +21,7 @@ int main()
 	InitWindow(screenWidth, screenHeight, "Sugaroids");
 	SetTargetFPS(144);
 
+
 	bool gameOver = false;
 	float deltaTime;
 	Player::Player player;
@@ -30,7 +31,7 @@ int main()
 
 	InitAudioDevice();
 
-	Font font = LoadFont("../res/fonts/rubikBubbles/RubikBubbles-Regular.ttf");
+	Font font = LoadFontEx("../res/fonts/rubikBubbles/RubikBubbles-Regular.ttf", 40, 0, 0);
 
 	Texture2D playerImage = LoadTexture("../res/sprites/player/spaceship.png");
 	Texture2D sugaroidImage = LoadTexture("../res/sprites/enemies/sugaroid.png");
@@ -55,7 +56,9 @@ int main()
 
 	bool pause = false;
 
-	while (gameState != Menus::Exit)
+	SetExitKey(0);
+
+	while ( !WindowShouldClose() && gameState != Menus::Exit)
 	{
 		deltaTime = GetFrameTime();
 
@@ -71,24 +74,27 @@ int main()
 
 		case Menus::Playing:
 
-			mouse = GetMousePosition();
+			if (!gameOver)
+			{
+				mouse = GetMousePosition();
 
-			player.angle = atan2f(mouse.y - player.pos.y, mouse.x - player.pos.x) * (180.0f / PI);
+				player.angle = atan2f(mouse.y - player.pos.y, mouse.x - player.pos.x) * (180.0f / PI);
 
-			Player::Movement(player, deltaTime, screenWidth, screenHeight);
+				Player::Movement(player, deltaTime, screenWidth, screenHeight);
 
-			Player::Shoot(player, shootSound, bullets);
+				Player::Shoot(player, shootSound, bullets);
 
-			Sugaroid::Spawner(spawnTimer, deltaTime, player, sugaroids, screenWidth, screenHeight);
+				Sugaroid::Spawner(spawnTimer, deltaTime, player, sugaroids, screenWidth, screenHeight);
 
-			Sugaroid::ActionManager(sugaroids, hurtSound, deltaTime, screenWidth, screenHeight, points, player);
+				Sugaroid::ActionManager(sugaroids, hurtSound, deltaTime, screenWidth, screenHeight, points, player);
 
-			EventManager::SugaroidBulletCollition(bullets, sugaroids, boomSound, deltaTime, screenWidth, screenHeight);
+				EventManager::SugaroidBulletCollition(bullets, sugaroids, boomSound, deltaTime, screenWidth, screenHeight);
 
-			gameOver = EventManager::DidPlayerDied(player);
+				gameOver = EventManager::DidPlayerDied(player);
 
-			if (IsKeyPressed(KEY_ESCAPE))
-				pause = !pause;
+				if (IsKeyPressed(KEY_ESCAPE))
+					pause = !pause;
+			}
 
 			break;
 
