@@ -24,7 +24,6 @@ void Bullet::SpawnStarBullet(Vector2& playerPos, float& playerAngle,PowerUps& po
     // If Guided Power Up is on and there are sugaroids look for the closest one:
     if (powerUps.guidedMissiles && !sugaroids.empty())
     {
-        Sugaroid::Sugaroid* closestSugaroid = nullptr;
         float closestDistance = std::numeric_limits<float>::max();
 
         // Find Closest Sugaroid

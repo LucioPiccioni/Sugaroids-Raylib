@@ -126,16 +126,20 @@ void EventManager::ResetGame(std::vector<Bullet::Bullet>& bullets, std::vector<S
 	gameOver = false;
 }
 
-void EventManager::bulletActions(std::vector<Bullet::Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids, Sound& boomSound, float& deltaTime)
+void EventManager::BulletActions(std::vector<Bullet::Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids, Sound& boomSound, float& deltaTime)
 {
 	float angleToSugaroid = 0;
 
 	for (int i = 0; i < bullets.size(); )
 	{
 
-		Bullet::Movement(bullets[i], deltaTime);
+		if (static_cast<int>(bullets[i].position.x + bullets[i].radius) < 0 ||
+			static_cast<int>(bullets[i].position.x - bullets[i].radius) > screenWidth ||
+			static_cast<int>(bullets[i].position.y + bullets[i].radius) < 0 ||
+			static_cast<int>(bullets[i].position.y - bullets[i].radius) > screenHeight)
+			bullets[i].toDestroy = true;
 
-		bool bulletDestroyed = false;
+		Bullet::Movement(bullets[i], deltaTime);
 
 		for (int j = 0; j < sugaroids.size(); j++)
 		{
@@ -146,31 +150,39 @@ void EventManager::bulletActions(std::vector<Bullet::Bullet>& bullets, std::vect
 
 				sugaroids[j].toDestroy = true;
 				bullets[i].toDestroy = true;
-				bulletDestroyed = true;
+
+				for (Bullet::Bullet& bullet : bullets)
+				{
+					if (&sugaroids[j] == bullet.targetedSugaroid)
+					{
+						bullet.targetedSugaroid = nullptr;
+					}
+				}
 
 				break;
 			}
 		}
 
-		if (bullets[i].toDestroy ||
-			static_cast<int>(bullets[i].position.x + bullets[i].radius) < 0 ||
-			static_cast<int>(bullets[i].position.x - bullets[i].radius) > screenWidth ||
-			static_cast<int>(bullets[i].position.y + bullets[i].radius) < 0 ||
-			static_cast<int>(bullets[i].position.y - bullets[i].radius) > screenHeight)
-		{
+		if (bullets[i].toDestroy)
 			bullets.erase(bullets.begin() + i);
-		}
 		else
-		{
 			i++;
-		}
 	}
 }
 
-void EventManager::ActionManager(std::vector<Sugaroid::Sugaroid>& sugaroids, Sound& hurtSound, float& deltaTime, double& points, Player::Player& player)
+void EventManager::SugaroidsActions(std::vector<Sugaroid::Sugaroid>& sugaroids, std::vector<Bullet::Bullet>& bullets, Sound& hurtSound, float& deltaTime, double& points, Player::Player& player)
 {
 	for (int i = 0; i < sugaroids.size(); )
 	{
+		if (static_cast<int>(sugaroids[i].position.x + sugaroids[i].radius) < 0 ||
+			static_cast<int>(sugaroids[i].position.x - sugaroids[i].radius) > screenWidth ||
+			static_cast<int>(sugaroids[i].position.y + sugaroids[i].radius) < 0 ||
+			static_cast<int>(sugaroids[i].position.y - sugaroids[i].radius) > screenHeight)
+		{
+			sugaroids[i].outOfScreen = true;
+			sugaroids[i].toDestroy = true;
+		}
+
 		Sugaroid::Movement(sugaroids[i], deltaTime);
 
 		if (CheckCollisionCircles(player.pos, player.size / 2, sugaroids[i].position, sugaroids[i].radius))
@@ -183,28 +195,27 @@ void EventManager::ActionManager(std::vector<Sugaroid::Sugaroid>& sugaroids, Sou
 			player.lives--;
 		}
 
-		if (sugaroids[i].toDestroy ||
-			static_cast<int>(sugaroids[i].position.x + sugaroids[i].radius) < 0 ||
-			static_cast<int>(sugaroids[i].position.x - sugaroids[i].radius) > screenWidth ||
-			static_cast<int>(sugaroids[i].position.y + sugaroids[i].radius) < 0 ||
-			static_cast<int>(sugaroids[i].position.y - sugaroids[i].radius) > screenHeight)
+		if (!sugaroids[i].didItHitPlayer && sugaroids[i].toDestroy)
 		{
-			if (!sugaroids[i].didItHitPlayer)
-			{
-				if (sugaroids[i].toDestroy)
-					points += 25;
-				else
-					points += 5;
+			points += 25;
+		}
 
+		if (sugaroids[i].toDestroy)
+		{
+			for (Bullet::Bullet& bullet : bullets)
+			{
+				if (&sugaroids[i] == bullet.targetedSugaroid)
+				{
+					bullet.targetedSugaroid = nullptr;
+				}
 			}
 
 			sugaroids.erase(sugaroids.begin() + i);
 		}
 		else
-		{
 			i++;
-		}
 	}
+
 }
 
 bool EventManager::DidPlayerDied(Player::Player& player)

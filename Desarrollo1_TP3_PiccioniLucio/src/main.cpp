@@ -55,7 +55,7 @@ int main()
 
 	SetExitKey(0);
 
-	while ( !WindowShouldClose() && gameState != Menus::Exit)
+	while (!WindowShouldClose() && gameState != Menus::Exit)
 	{
 		deltaTime = GetFrameTime();
 
@@ -75,21 +75,24 @@ int main()
 
 			if (!gameOver)
 			{
-				mouse = GetMousePosition();
+				if (!pause)
+				{
+					mouse = GetMousePosition();
 
-				player.angle = atan2f(mouse.y - player.pos.y, mouse.x - player.pos.x) * (180.0f / PI);
+					player.angle = atan2f(mouse.y - player.pos.y, mouse.x - player.pos.x) * (180.0f / PI);
 
-				Player::Movement(player, deltaTime, screenWidth, screenHeight);
+					Player::Movement(player, deltaTime, screenWidth, screenHeight);
 
-				Player::Shoot(player, shootSound, bullets, sugaroids);
+					Player::Shoot(player, shootSound, bullets, sugaroids);
 
-				Sugaroid::Spawner(spawnTimer, deltaTime, player.pos, sugaroids);
+					Sugaroid::Spawner(spawnTimer, deltaTime, player.pos, sugaroids);
 
-				EventManager::ActionManager(sugaroids, hurtSound, deltaTime, points, player);
+					EventManager::SugaroidsActions(sugaroids, bullets, hurtSound, deltaTime, points, player);
 
-				EventManager::bulletActions(bullets, sugaroids, boomSound, deltaTime);
+					EventManager::BulletActions(bullets, sugaroids, boomSound, deltaTime);
 
-				gameOver = EventManager::DidPlayerDied(player);
+					gameOver = EventManager::DidPlayerDied(player);
+				}
 
 				if (IsKeyPressed(KEY_ESCAPE))
 					pause = !pause;

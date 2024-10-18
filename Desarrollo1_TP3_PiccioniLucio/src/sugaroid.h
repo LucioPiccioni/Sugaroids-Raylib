@@ -13,6 +13,7 @@ namespace Sugaroid
 		float size = 32;
 		bool didItHitPlayer = false;
 		bool bigSugaroid = false; 
+		bool outOfScreen = false;
 	};
 
 	void Constructor(Vector2& playerPosition, std::vector<Sugaroid>& sugaroids);
