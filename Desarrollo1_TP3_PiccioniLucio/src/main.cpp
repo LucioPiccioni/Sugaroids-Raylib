@@ -84,7 +84,7 @@ int main()
 
 					Player::Movement(player, deltaTime, screenWidth, screenHeight);
 
-					Player::Shoot(player, shootSound, bullets, sugaroids);
+					Player::Shoot(player, shootSound, bullets, sugaroids, deltaTime);
 
 					Sugaroid::Spawner(spawnTimer, deltaTime, player.pos, sugaroids);
 

@@ -18,6 +18,10 @@ namespace Player
 		float directionLength = 0;
 		float maxSpeed = 300.0f;
 
+		int bulletBuffer = 0;
+
+		float fireCooldown = 0;
+
 		PowerUps boost = {};
 
 		float size = 64;
@@ -26,5 +30,5 @@ namespace Player
 	};
 
 	void Movement(Player& player, float deltaTime, int screenWidth, int screenHeight);
-	void Shoot(Player& player, Sound& shootSound, std::vector<Bullet::Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids);
+	void Shoot(Player& player, Sound& shootSound, std::vector<Bullet::Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids, float& deltaTime);
 }

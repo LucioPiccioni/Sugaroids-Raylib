@@ -23,8 +23,6 @@ void Bullet::SpawnStarBullet(Vector2& playerPos, float& playerAngle, PowerUps& p
 	for (int i = 0; i < totalBulletsSpawn; i++)
 	{
 
-
-
 		float directionX = cos(playerAngleRadians);
 		float directionY = sin(playerAngleRadians);
 		Vector2 velocity = { directionX * speed, directionY * speed };

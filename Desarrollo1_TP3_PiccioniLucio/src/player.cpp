@@ -43,12 +43,30 @@ void Player::Movement(Player& player, float deltaTime, int screenWidth, int scre
 	if (player.pos.y > screenHeight) player.pos.y = 0;
 }
 
-void Player::Shoot(Player& player, Sound& shootSound, std::vector<Bullet::Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids)
+void Player::Shoot(Player& player, Sound& shootSound, std::vector<Bullet::Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids, float& deltaTime)
 {
+
 	if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
 	{
 		StopSound(shootSound);
 		PlaySound(shootSound);
-		Bullet::SpawnStarBullet(player.pos, player.angle, player.boost, bullets, sugaroids);
+
+		if (player.boost.x3Bullets)
+			player.bulletBuffer = 3;
+		else
+			player.bulletBuffer = 1;
 	}
+
+	if (player.fireCooldown <= 0)
+	{
+		if (player.bulletBuffer > 0)
+		{
+			Bullet::SpawnStarBullet(player.pos, player.angle, player.boost, bullets, sugaroids);
+
+			player.bulletBuffer--;
+			player.fireCooldown = 1;
+		}
+	}
+	else
+		player.fireCooldown -= 0.5;
 }
