@@ -19,4 +19,5 @@ namespace Bullet
 	};
 
 	void SpawnStarBullet(Vector2& playerPos, float& playerAngle, PowerUps& powerUps, std::vector<Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids);
+	void Movement(Bullet& bullet, float& deltaTime);
 }

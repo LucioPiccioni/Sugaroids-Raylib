@@ -37,17 +37,38 @@ void Bullet::SpawnStarBullet(Vector2& playerPos, float& playerAngle,PowerUps& po
             if (distance < closestDistance)
             {
                 closestDistance = distance;
-                closestSugaroid = &sugaroid;
+                newBullet.targetedSugaroid = &sugaroid;
             }
-        }
-
-        // if a target was found it changes trajectory
-        if (closestSugaroid != nullptr)
-        {
-            float angleToSugaroid = atan2(closestSugaroid->position.y - playerPos.y, closestSugaroid->position.x - playerPos.x);
-            newBullet.velocity = { cos(angleToSugaroid) * speed, sin(angleToSugaroid) * speed };
         }
     }
 
     bullets.push_back(newBullet);
+}
+
+void Bullet::Movement(Bullet& bullet, float& deltaTime)
+{
+    float angleToSugaroid = 0.0f;
+
+    if (bullet.targetedSugaroid != nullptr)
+    {
+        switch (bullet.targetedSugaroid->toDestroy)
+        {
+        case true:
+
+            bullet.targetedSugaroid = nullptr;
+            break;
+
+        case false:
+
+            angleToSugaroid = atan2(bullet.targetedSugaroid->position.y - bullet.position.y, bullet.targetedSugaroid->position.x - bullet.position.x);
+            bullet.velocity = { cosf(angleToSugaroid) * bullet.speed, sinf(angleToSugaroid) * bullet.speed };
+            break;
+
+        default:
+            break;
+        }
+    }
+
+    bullet.position.x += bullet.velocity.x * deltaTime;
+    bullet.position.y += bullet.velocity.y * deltaTime;
 }

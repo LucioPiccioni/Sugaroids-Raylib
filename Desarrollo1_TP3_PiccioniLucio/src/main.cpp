@@ -61,6 +61,8 @@ int main()
 
 		EventManager::MusicControl(gameState, mainMenuMusic, gamePlayMusic, gameOverMusic, creditsMusic, gameOver);
 
+		player.boost.guidedMissiles = true;
+
 		switch (gameState)
 		{
 		case Menus::MainMenu:
@@ -85,7 +87,7 @@ int main()
 
 				EventManager::ActionManager(sugaroids, hurtSound, deltaTime, points, player);
 
-				EventManager::SugaroidBulletCollition(bullets, sugaroids, boomSound, deltaTime);
+				EventManager::bulletActions(bullets, sugaroids, boomSound, deltaTime);
 
 				gameOver = EventManager::DidPlayerDied(player);
 

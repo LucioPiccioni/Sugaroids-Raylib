@@ -126,13 +126,14 @@ void EventManager::ResetGame(std::vector<Bullet::Bullet>& bullets, std::vector<S
 	gameOver = false;
 }
 
-void EventManager::SugaroidBulletCollition(std::vector<Bullet::Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids, Sound& boomSound, float& deltaTime)
+void EventManager::bulletActions(std::vector<Bullet::Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids, Sound& boomSound, float& deltaTime)
 {
+	float angleToSugaroid = 0;
 
 	for (int i = 0; i < bullets.size(); )
 	{
-		bullets[i].position.x += bullets[i].velocity.x * deltaTime;
-		bullets[i].position.y += bullets[i].velocity.y * deltaTime;
+
+		Bullet::Movement(bullets[i], deltaTime);
 
 		bool bulletDestroyed = false;
 
