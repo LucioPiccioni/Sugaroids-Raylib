@@ -63,7 +63,6 @@ int main()
 
 		EventManager::MusicControl(gameState, mainMenuMusic, gamePlayMusic, gameOverMusic, creditsMusic, gameOver);
 
-
 		switch (gameState)
 		{
 		case Menus::MainMenu:
@@ -119,6 +118,7 @@ int main()
 		ClearBackground(BLACK);
 
 		std::string pointsText = "Points: " + std::to_string((int)points);
+		std::string playerLives = "Lives: " + std::to_string(player.lives);
 
 		DrawTexturePro(
 			backgroundImage,
@@ -153,6 +153,7 @@ int main()
 
 
 				DrawTextEx(font, pointsText.c_str(), Vector2{ 0,0 }, scoreFontSize, 0, BLACK);
+				DrawTextEx(font, playerLives.c_str(), Vector2{ 0, 20}, scoreFontSize, 0, BLACK);
 
 				Scene::DrawGamePlay(bullets, sugaroids, player, bulletsImage, playerImage, sugaroidImage);
 

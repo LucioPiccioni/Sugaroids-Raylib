@@ -6,8 +6,6 @@ void Bullet::SpawnStarBullet(Vector2& playerPos, float& playerAngle, PowerUps& p
 	float size = 32.0f;
 	float speed = 600.0f;
 
-	int totalBulletsSpawn = 1;
-
 	// Calcula el ángulo inicial basado en el ángulo del jugador
 	float playerAngleRadians = playerAngle * (PI / 180.0f);
 
@@ -17,46 +15,39 @@ void Bullet::SpawnStarBullet(Vector2& playerPos, float& playerAngle, PowerUps& p
 	if (powerUps.x2Speed)
 		speed *= 1.50f;
 
-	if (powerUps.x3Bullets)
-		totalBulletsSpawn *= 3;
+	float directionX = cos(playerAngleRadians);
+	float directionY = sin(playerAngleRadians);
+	Vector2 velocity = { directionX * speed, directionY * speed };
 
-	for (int i = 0; i < totalBulletsSpawn; i++)
+	Bullet newBullet;
+	newBullet.position = playerPos;
+	newBullet.velocity = velocity;
+	newBullet.size = size;
+	newBullet.radius = size / 2;
+	newBullet.speed = speed;
+	newBullet.toDestroy = false;
+
+	// If Guided Power Up is on and there are sugaroids look for the closest one:
+	if (powerUps.guidedMissiles && !sugaroids.empty())
 	{
+		float closestDistance = std::numeric_limits<float>::max();
 
-		float directionX = cos(playerAngleRadians);
-		float directionY = sin(playerAngleRadians);
-		Vector2 velocity = { directionX * speed, directionY * speed };
-
-		Bullet newBullet;
-		newBullet.position = playerPos;
-		newBullet.velocity = velocity;
-		newBullet.size = size;
-		newBullet.radius = size / 2;
-		newBullet.speed = speed;
-		newBullet.toDestroy = false;
-
-		// If Guided Power Up is on and there are sugaroids look for the closest one:
-		if (powerUps.guidedMissiles && !sugaroids.empty())
+		// Find Closest Sugaroid
+		for (Sugaroid::Sugaroid& sugaroid : sugaroids)
 		{
-			float closestDistance = std::numeric_limits<float>::max();
+			float dx = sugaroid.position.x - playerPos.x;
+			float dy = sugaroid.position.y - playerPos.y;
+			float distance = sqrt(dx * dx + dy * dy);
 
-			// Find Closest Sugaroid
-			for (Sugaroid::Sugaroid& sugaroid : sugaroids)
+			if (distance < closestDistance)
 			{
-				float dx = sugaroid.position.x - playerPos.x;
-				float dy = sugaroid.position.y - playerPos.y;
-				float distance = sqrt(dx * dx + dy * dy);
-
-				if (distance < closestDistance)
-				{
-					closestDistance = distance;
-					newBullet.targetedSugaroid = &sugaroid;
-				}
+				closestDistance = distance;
+				newBullet.targetedSugaroid = &sugaroid;
 			}
 		}
-
-		bullets.push_back(newBullet);
 	}
+
+	bullets.push_back(newBullet);
 }
 
 void Bullet::Movement(Bullet& bullet, float& deltaTime)

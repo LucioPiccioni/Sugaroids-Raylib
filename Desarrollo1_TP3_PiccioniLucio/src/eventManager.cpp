@@ -132,6 +132,7 @@ void EventManager::BulletActions(std::vector<Bullet::Bullet>& bullets, std::vect
 
 	for (int i = 0; i < bullets.size(); )
 	{
+		Bullet::Movement(bullets[i], deltaTime);
 
 		if (static_cast<int>(bullets[i].position.x + bullets[i].radius) < 0 ||
 			static_cast<int>(bullets[i].position.x - bullets[i].radius) > screenWidth ||
@@ -139,7 +140,6 @@ void EventManager::BulletActions(std::vector<Bullet::Bullet>& bullets, std::vect
 			static_cast<int>(bullets[i].position.y - bullets[i].radius) > screenHeight)
 			bullets[i].toDestroy = true;
 
-		Bullet::Movement(bullets[i], deltaTime);
 
 		for (int j = 0; j < sugaroids.size(); j++)
 		{
@@ -195,7 +195,7 @@ void EventManager::SugaroidsActions(std::vector<Sugaroid::Sugaroid>& sugaroids, 
 			player.lives--;
 		}
 
-		if (!sugaroids[i].didItHitPlayer && sugaroids[i].toDestroy)
+		if (!sugaroids[i].didItHitPlayer && sugaroids[i].toDestroy && !sugaroids[i].outOfScreen)
 		{
 			points += 25;
 		}
