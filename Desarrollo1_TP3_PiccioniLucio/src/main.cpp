@@ -55,13 +55,14 @@ int main()
 
 	SetExitKey(0);
 
+	player.boost = { true, true, true, true};
+
 	while (!WindowShouldClose() && gameState != Menus::Exit)
 	{
 		deltaTime = GetFrameTime();
 
 		EventManager::MusicControl(gameState, mainMenuMusic, gamePlayMusic, gameOverMusic, creditsMusic, gameOver);
 
-		player.boost.guidedMissiles = true;
 
 		switch (gameState)
 		{
