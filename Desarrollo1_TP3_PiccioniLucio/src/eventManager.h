@@ -14,10 +14,11 @@ namespace EventManager
 {
 	void InitProgram();
 	void ProgramLoop();
-	void UnloadAssets(GameMusic& music, Font& font, GameTextures& textures, GameSounds& sounds);
+	void InitAssets(SoundTracks::GameMusic& music, Textures::GameTextures& textures, Sounds::GameSounds& sounds);
+	void UnloadAssets(SoundTracks::GameMusic& music, Font& font,Textures::GameTextures& textures, Sounds::GameSounds& sounds);
 
 
-	void MusicControl(Menus& gameState, GameMusic& music, bool& gameOver);
+	void MusicControl(Menus& gameState, SoundTracks::GameMusic& music, bool& gameOver);
 	void ShouldResetMatch(Menus& gameState, Player::Player& player, std::vector<Bullet::Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids, bool& gameOver, int& points);
 	void ResetGame(std::vector<Bullet::Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids, Player::Player& player, bool& gameOver, int& points);
 	void BulletActions(std::vector<Bullet::Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids, Sound& boomSound, float& deltaTime);

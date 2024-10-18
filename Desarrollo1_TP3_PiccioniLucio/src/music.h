@@ -1,10 +1,15 @@
 #pragma once
 #include "raylib.h"
 
-struct GameMusic
+namespace SoundTracks
 {
-	Music creditsMusic = LoadMusicStream("../res/music/Game Over! - Harris Cole.mp3");
-	Music mainMenuMusic = LoadMusicStream("../res/music/yawgooh - falling apart - Lofi Girl Ambient.mp3");
-	Music gameOverMusic = LoadMusicStream("../res/music/JEN - QUIET NIGHTS - soulmate.mp3");
-	Music gamePlayMusic = LoadMusicStream("../res/music/JEN - FACADE - soulmate.mp3");
-};
+	struct GameMusic
+	{
+		Music creditsMusic = {};
+		Music mainMenuMusic = {};
+		Music gameOverMusic = {};
+		Music gamePlayMusic = {};
+	};
+
+	void init(GameMusic& music);
+}

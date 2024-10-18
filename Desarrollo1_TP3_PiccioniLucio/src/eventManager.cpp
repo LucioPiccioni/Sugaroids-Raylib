@@ -24,6 +24,13 @@ void EventManager::InitProgram()
 	CloseWindow();
 }
 
+void EventManager::InitAssets(SoundTracks::GameMusic& music, Textures::GameTextures& textures, Sounds::GameSounds& sounds)
+{
+	Sounds::init(sounds);
+	SoundTracks::init(music);
+	Textures::init(textures);
+}
+
 void EventManager::ProgramLoop()
 {
 	bool gameOver = false;
@@ -35,9 +42,11 @@ void EventManager::ProgramLoop()
 
 	Font font = LoadFontEx("../res/fonts/rubikBubbles/RubikBubbles-Regular.ttf", 40, 0, 0);
 
-	GameMusic music = {};
-	GameTextures textures = {};
-	GameSounds sounds = {};
+	SoundTracks::GameMusic music = {};
+	Textures::GameTextures textures = {};
+	Sounds::GameSounds sounds = {};
+
+	InitAssets(music, textures, sounds);
 
 	std::vector<Bullet::Bullet> bullets;
 	std::vector<Sugaroid::Sugaroid> sugaroids;
@@ -175,7 +184,7 @@ void EventManager::ProgramLoop()
 	UnloadAssets(music, font, textures, sounds);
 }
 
-void EventManager::UnloadAssets(GameMusic& music, Font& font, GameTextures& textures, GameSounds& sounds)
+void EventManager::UnloadAssets(SoundTracks::GameMusic& music, Font& font, Textures::GameTextures& textures, Sounds::GameSounds& sounds)
 {
 	UnloadFont(font);
 
@@ -194,7 +203,7 @@ void EventManager::UnloadAssets(GameMusic& music, Font& font, GameTextures& text
 	UnloadSound(sounds.shootSound);
 }
 
-void EventManager::MusicControl(Menus& gameState, GameMusic& music, bool& gameOver)
+void EventManager::MusicControl(Menus& gameState, SoundTracks::GameMusic& music, bool& gameOver)
 {
 	const int AllMusic = 3;
 

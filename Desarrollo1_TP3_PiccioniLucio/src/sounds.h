@@ -1,9 +1,15 @@
 #pragma once
+#include "raylib.h"
 
-struct GameSounds
+namespace Sounds
 {
-	Sound hurtSound = LoadSound("../res/soundEffects/hurt.wav");
-	Sound boomSound = LoadSound("../res/soundEffects/boom.wav");
-	Sound dieSound = LoadSound("../res/soundEffects/die.wav");
-	Sound shootSound = LoadSound("../res/soundEffects/shoot.wav");
-};
+	struct GameSounds
+	{
+		Sound hurtSound = {};
+		Sound boomSound = {};
+		Sound dieSound = {};
+		Sound shootSound = {};
+	};
+
+	void init(GameSounds& music);
+}

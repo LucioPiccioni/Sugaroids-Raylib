@@ -23,9 +23,12 @@
     <ClCompile Include="..\src\eventManager.cpp" />
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\menus.cpp" />
+    <ClCompile Include="..\src\music.cpp" />
     <ClCompile Include="..\src\player.cpp" />
     <ClCompile Include="..\src\scene.cpp" />
+    <ClCompile Include="..\src\sounds.cpp" />
     <ClCompile Include="..\src\sugaroid.cpp" />
+    <ClCompile Include="..\src\textures.cpp" />
     <ClCompile Include="..\src\utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
