@@ -30,13 +30,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\bullet.h" />
+    <ClInclude Include="..\src\button.h" />
     <ClInclude Include="..\src\eventManager.h" />
     <ClInclude Include="..\src\menus.h" />
     <ClInclude Include="..\src\mouse.h" />
+    <ClInclude Include="..\src\music.h" />
     <ClInclude Include="..\src\player.h" />
     <ClInclude Include="..\src\powerUps.h" />
     <ClInclude Include="..\src\scene.h" />
+    <ClInclude Include="..\src\sounds.h" />
     <ClInclude Include="..\src\sugaroid.h" />
+    <ClInclude Include="..\src\textures.h" />
     <ClInclude Include="..\src\utilities.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

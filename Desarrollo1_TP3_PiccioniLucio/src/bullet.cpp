@@ -1,10 +1,11 @@
 #include "bullet.h"
 #include <cmath>
+#include <iostream>
 
 void Bullet::SpawnStarBullet(Vector2& playerPos, float& playerAngle, PowerUps& powerUps, std::vector<Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids)
 {
 	float size = 32.0f;
-	float speed = 600.0f;
+	float speed = 50.0f;
 
 	// Calcula el ángulo inicial basado en el ángulo del jugador
 	float playerAngleRadians = playerAngle * (PI / 180.0f);
@@ -44,6 +45,7 @@ void Bullet::SpawnStarBullet(Vector2& playerPos, float& playerAngle, PowerUps& p
 				closestDistance = distance;
 				newBullet.targetedSugaroid = &sugaroid;
 			}
+
 		}
 	}
 

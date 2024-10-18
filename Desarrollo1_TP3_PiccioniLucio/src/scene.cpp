@@ -1,4 +1,5 @@
 #include "scene.h"
+#include "button.h"
 
 void Scene::DrawGamePlay(std::vector <Bullet::Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids, Player::Player player, Texture2D bulletsImage, Texture2D playerImage, Texture2D sugaroidImage)
 {
@@ -15,8 +16,8 @@ void Scene::DrawGamePlay(std::vector <Bullet::Bullet>& bullets, std::vector<Suga
 	DrawTexturePro(
 		playerImage,  // La textura original
 		Rectangle{ 0, 0, (float)playerImage.width, (float)playerImage.height },  // Fuente: toda la imagen original
-		Rectangle{ player.pos.x, player.pos.y, 64, 64 },  // Destino: posición y nuevo tamaño 64x64
-		Vector2{ 32, 32 },  // Offset (centro) si es necesario, depende de cómo quieras alinear el sprite
+		Rectangle{ player.pos.x, player.pos.y, player.size, player.size },  // Destino: posición y nuevo tamaño 64x64
+		Vector2{ player.size / 2, player.size / 2 },  // Offset (centro) si es necesario, depende de cómo quieras alinear el sprite
 		player.angle,  // Rotación (0 si no quieres rotar)
 		WHITE  // Color (generalmente WHITE para no aplicar ningún tinte)
 	);

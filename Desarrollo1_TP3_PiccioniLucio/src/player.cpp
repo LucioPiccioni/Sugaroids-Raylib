@@ -12,11 +12,12 @@ void Player::Movement(Player& player, float deltaTime, int screenWidth, int scre
 
 		// Calculate direction of player to mouse
 		player.directionVector = { player.targetPos.x - player.pos.x, player.targetPos.y - player.pos.y };
-		player.directionLength = sqrt(player.directionVector.x * player.directionVector.x + player.directionVector.y * player.directionVector.y);
+		player.directionLength = sqrtf(player.directionVector.x * player.directionVector.x + player.directionVector.y * player.directionVector.y);
 
 		// Normalize direction
 		if (player.directionLength > 0)
 		{
+			//Resistence & Curve Movement
 			player.directionVector.x /= player.directionLength;
 			player.directionVector.y /= player.directionLength;
 

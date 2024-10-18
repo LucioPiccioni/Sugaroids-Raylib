@@ -13,13 +13,6 @@ enum class Menus
 	Replay
 };
 
-struct Button
-{
-	Rectangle rec;
-	Menus option = Menus::None;
-	Color color = { 255, 182, 193, 255 };
-};
-
 extern const int buttonWidth;
 extern const int buttonHeight;
 extern const int buttonSpacing;

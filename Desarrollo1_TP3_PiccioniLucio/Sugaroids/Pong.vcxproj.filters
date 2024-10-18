@@ -5,68 +5,95 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Archivos de encabezado">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="Archivos de recursos">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\GamePlay">
+      <UniqueIdentifier>{7910d900-dc58-4fee-b401-45d36523db81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Assets">
+      <UniqueIdentifier>{f1527f74-3549-4293-853c-b37b9d175123}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine">
+      <UniqueIdentifier>{1fbb306a-f678-4747-b886-a0d6142f7946}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\GamePlay">
+      <UniqueIdentifier>{693ebb78-45f4-4711-9319-9d999f8d21c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Engine">
+      <UniqueIdentifier>{eea819c2-0a84-4694-b0f2-d69a9e8e5016}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\bullet.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\eventManager.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\main.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\player.cpp">
-      <Filter>Archivos de origen</Filter>
+    <ClCompile Include="..\src\bullet.cpp">
+      <Filter>Archivos de origen\GamePlay</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\scene.cpp">
-      <Filter>Archivos de origen</Filter>
+    <ClCompile Include="..\src\player.cpp">
+      <Filter>Archivos de origen\GamePlay</Filter>
     </ClCompile>
     <ClCompile Include="..\src\sugaroid.cpp">
-      <Filter>Archivos de origen</Filter>
+      <Filter>Archivos de origen\GamePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\eventManager.cpp">
+      <Filter>Archivos de origen\Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\src\menus.cpp">
-      <Filter>Archivos de origen</Filter>
+      <Filter>Archivos de origen\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\scene.cpp">
+      <Filter>Archivos de origen\Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\src\utilities.cpp">
-      <Filter>Archivos de origen</Filter>
+      <Filter>Archivos de origen\Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\sugaroid.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\bullet.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\eventManager.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\menus.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\mouse.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Header Files\GamePlay</Filter>
     </ClInclude>
     <ClInclude Include="..\src\player.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Header Files\GamePlay</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\scene.h">
-      <Filter>Archivos de encabezado</Filter>
+    <ClInclude Include="..\src\bullet.h">
+      <Filter>Header Files\GamePlay</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\utilities.h">
-      <Filter>Archivos de encabezado</Filter>
+    <ClInclude Include="..\src\sounds.h">
+      <Filter>Header Files\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\textures.h">
+      <Filter>Header Files\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\music.h">
+      <Filter>Header Files\Assets</Filter>
     </ClInclude>
     <ClInclude Include="..\src\powerUps.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Header Files\GamePlay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\button.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\eventManager.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\menus.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\mouse.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\scene.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\utilities.h">
+      <Filter>Header Files\Engine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
