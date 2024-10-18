@@ -1,6 +1,9 @@
 #include "utilities.h"
 #include "menus.h"
 
+int screenWidth = 1024;
+int screenHeight = 768;
+
 bool Tools::CheckMouseButtonCollition(Vector2 mouse, Rectangle button)
 {
 	// is the point inside the rectangle's bounds?

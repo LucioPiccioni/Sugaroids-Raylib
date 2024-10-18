@@ -1,6 +1,9 @@
 #include "sugaroid.h"
+#include "utilities.h"
 
-void Sugaroid::Constructor(Vector2 playerPosition, std::vector<Sugaroid>& sugaroids, int screenWidth, int screenHeight)
+
+
+void Sugaroid::Constructor(Vector2& playerPosition, std::vector<Sugaroid>& sugaroids)
 {
 	int edge = rand() % 4 + 1;
 	Vector2 spawnPosition = { 0, 0 };
@@ -48,12 +51,12 @@ void Sugaroid::Constructor(Vector2 playerPosition, std::vector<Sugaroid>& sugaro
 	sugaroids.push_back(newSugaroid);
 }
 
-void Sugaroid::Spawner(float& spawnTimer, float& deltaTime, Player::Player& player, std::vector<Sugaroid>& sugaroids, int& screenWidth, int& screenHeight)
+void Sugaroid::Spawner(float& spawnTimer, float& deltaTime, Vector2& playerPos, std::vector<Sugaroid>& sugaroids)
 {
 	spawnTimer += deltaTime;
 	if (spawnTimer > 1)
 	{
-		Constructor(player.pos, sugaroids, screenWidth, screenHeight);
+		Constructor(playerPos, sugaroids);
 		spawnTimer = 0;
 	}
 }
@@ -62,44 +65,4 @@ void Sugaroid::Movement(Sugaroid& sugaroid, float& deltaTime)
 {
 	sugaroid.position.x += sugaroid.velocity.x * deltaTime;
 	sugaroid.position.y += sugaroid.velocity.y * deltaTime;
-}
-
-void Sugaroid::ActionManager(std::vector<Sugaroid>& sugaroids, Sound& hurtSound, float& deltaTime, int& screenWidth, int& screenHeight, double& points, Player::Player& player)
-{
-	for (int i = 0; i < sugaroids.size(); )
-	{
-		Movement(sugaroids[i], deltaTime);
-
-		if (CheckCollisionCircles(player.pos, player.size / 2, sugaroids[i].position, sugaroids[i].radius))
-		{
-			StopSound(hurtSound);
-			PlaySound(hurtSound);
-
-			sugaroids[i].didItHitPlayer = true;
-			sugaroids[i].toDestroy = true;
-			player.lives--;
-		}
-
-		if (sugaroids[i].toDestroy ||
-			static_cast<int>(sugaroids[i].position.x + sugaroids[i].radius) < 0 ||
-			static_cast<int>(sugaroids[i].position.x - sugaroids[i].radius) > screenWidth ||
-			static_cast<int>(sugaroids[i].position.y + sugaroids[i].radius) < 0 ||
-			static_cast<int>(sugaroids[i].position.y - sugaroids[i].radius) > screenHeight)
-		{
-			if (!sugaroids[i].didItHitPlayer)
-			{
-				if (sugaroids[i].toDestroy)
-					points += 25;
-				else
-					points += 5;
-
-			}
-
-			sugaroids.erase(sugaroids.begin() + i);
-		}
-		else
-		{
-			i++;
-		}
-	}
 }

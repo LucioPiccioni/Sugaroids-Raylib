@@ -34,6 +34,7 @@
     <ClInclude Include="..\src\menus.h" />
     <ClInclude Include="..\src\mouse.h" />
     <ClInclude Include="..\src\player.h" />
+    <ClInclude Include="..\src\powerUps.h" />
     <ClInclude Include="..\src\scene.h" />
     <ClInclude Include="..\src\sugaroid.h" />
     <ClInclude Include="..\src\utilities.h" />

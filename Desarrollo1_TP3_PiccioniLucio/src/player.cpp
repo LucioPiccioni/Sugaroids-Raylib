@@ -1,5 +1,6 @@
 #include "player.h"
 #include <cmath>
+#include <bullet.h>
 
 void Player::Movement(Player& player, float deltaTime, int screenWidth, int screenHeight)
 {
@@ -42,12 +43,12 @@ void Player::Movement(Player& player, float deltaTime, int screenWidth, int scre
 	if (player.pos.y > screenHeight) player.pos.y = 0;
 }
 
-void Player::Shoot(Player& player, Sound& shootSound, std::vector<Bullet::Bullet>& bullets)
+void Player::Shoot(Player& player, Sound& shootSound, std::vector<Bullet::Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids)
 {
 	if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
 	{
 		StopSound(shootSound);
 		PlaySound(shootSound);
-		Bullet::SpawnStarBullet(player.pos, player.angle, bullets);
+		Bullet::SpawnStarBullet(player.pos, player.angle, player.boost, bullets, sugaroids);
 	}
 }

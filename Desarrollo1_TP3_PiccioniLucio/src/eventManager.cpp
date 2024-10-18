@@ -1,4 +1,5 @@
 #include "eventManager.h"
+#include "utilities.h"
 
 void EventManager::MusicControl(Menus& gameState, Music& mainMenuMusic, Music& gamePlayMusic, Music& gameOverMusic, Music& creditsMusic, bool gameOver)
 {
@@ -125,7 +126,7 @@ void EventManager::ResetGame(std::vector<Bullet::Bullet>& bullets, std::vector<S
 	gameOver = false;
 }
 
-void EventManager::SugaroidBulletCollition(std::vector<Bullet::Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids, Sound& boomSound, float& deltaTime, int& screenWidth, int& screenHeight)
+void EventManager::SugaroidBulletCollition(std::vector<Bullet::Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids, Sound& boomSound, float& deltaTime)
 {
 
 	for (int i = 0; i < bullets.size(); )
@@ -157,6 +158,46 @@ void EventManager::SugaroidBulletCollition(std::vector<Bullet::Bullet>& bullets,
 			static_cast<int>(bullets[i].position.y - bullets[i].radius) > screenHeight)
 		{
 			bullets.erase(bullets.begin() + i);
+		}
+		else
+		{
+			i++;
+		}
+	}
+}
+
+void EventManager::ActionManager(std::vector<Sugaroid::Sugaroid>& sugaroids, Sound& hurtSound, float& deltaTime, double& points, Player::Player& player)
+{
+	for (int i = 0; i < sugaroids.size(); )
+	{
+		Sugaroid::Movement(sugaroids[i], deltaTime);
+
+		if (CheckCollisionCircles(player.pos, player.size / 2, sugaroids[i].position, sugaroids[i].radius))
+		{
+			StopSound(hurtSound);
+			PlaySound(hurtSound);
+
+			sugaroids[i].didItHitPlayer = true;
+			sugaroids[i].toDestroy = true;
+			player.lives--;
+		}
+
+		if (sugaroids[i].toDestroy ||
+			static_cast<int>(sugaroids[i].position.x + sugaroids[i].radius) < 0 ||
+			static_cast<int>(sugaroids[i].position.x - sugaroids[i].radius) > screenWidth ||
+			static_cast<int>(sugaroids[i].position.y + sugaroids[i].radius) < 0 ||
+			static_cast<int>(sugaroids[i].position.y - sugaroids[i].radius) > screenHeight)
+		{
+			if (!sugaroids[i].didItHitPlayer)
+			{
+				if (sugaroids[i].toDestroy)
+					points += 25;
+				else
+					points += 5;
+
+			}
+
+			sugaroids.erase(sugaroids.begin() + i);
 		}
 		else
 		{

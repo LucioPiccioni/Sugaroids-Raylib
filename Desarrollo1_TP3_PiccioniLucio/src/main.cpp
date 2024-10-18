@@ -14,9 +14,6 @@ int buttonSelected = 0;
 
 int main()
 {
-	int screenWidth = 1024;
-	int screenHeight = 768;
-
 	srand(time(nullptr));
 	InitWindow(screenWidth, screenHeight, "Sugaroids");
 	SetTargetFPS(144);
@@ -82,13 +79,13 @@ int main()
 
 				Player::Movement(player, deltaTime, screenWidth, screenHeight);
 
-				Player::Shoot(player, shootSound, bullets);
+				Player::Shoot(player, shootSound, bullets, sugaroids);
 
-				Sugaroid::Spawner(spawnTimer, deltaTime, player, sugaroids, screenWidth, screenHeight);
+				Sugaroid::Spawner(spawnTimer, deltaTime, player.pos, sugaroids);
 
-				Sugaroid::ActionManager(sugaroids, hurtSound, deltaTime, screenWidth, screenHeight, points, player);
+				EventManager::ActionManager(sugaroids, hurtSound, deltaTime, points, player);
 
-				EventManager::SugaroidBulletCollition(bullets, sugaroids, boomSound, deltaTime, screenWidth, screenHeight);
+				EventManager::SugaroidBulletCollition(bullets, sugaroids, boomSound, deltaTime);
 
 				gameOver = EventManager::DidPlayerDied(player);
 

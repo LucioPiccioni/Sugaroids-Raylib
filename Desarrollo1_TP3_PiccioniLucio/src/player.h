@@ -1,5 +1,7 @@
 #pragma once
 #include "raylib.h"
+#include "powerUps.h"
+#include "sugaroid.h"
 #include "bullet.h"
 #include <vector>
 
@@ -16,11 +18,13 @@ namespace Player
 		float directionLength = 0;
 		float maxSpeed = 300.0f;
 
+		PowerUps boost = {};
+
 		float size = 64;
 		float angle = 0;
 
 	};
 
 	void Movement(Player& player, float deltaTime, int screenWidth, int screenHeight);
-	void Shoot(Player& player, Sound& shootSound, std::vector<Bullet::Bullet>& bullets);
+	void Shoot(Player& player, Sound& shootSound, std::vector<Bullet::Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids);
 }

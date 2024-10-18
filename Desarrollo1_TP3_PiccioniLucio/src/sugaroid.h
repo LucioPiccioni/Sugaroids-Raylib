@@ -1,8 +1,6 @@
 #pragma once
 #include "raylib.h"
-#include "player.h"
 #include <vector>
-
 
 namespace Sugaroid
 {
@@ -14,11 +12,10 @@ namespace Sugaroid
 		bool toDestroy = false;
 		float size = 32;
 		bool didItHitPlayer = false;
-		bool bigSugaroid = false;
+		bool bigSugaroid = false; 
 	};
 
-	void Constructor(Vector2 playerPosition, std::vector<Sugaroid>& sugaroids, int screenWidth, int screenHeight);
-	void Spawner(float& spawnTimer, float& deltaTime, Player::Player& player, std::vector<Sugaroid>& sugaroids, int& screenWidth, int& screenHeight);
+	void Constructor(Vector2& playerPosition, std::vector<Sugaroid>& sugaroids);
+	void Spawner(float& spawnTimer, float& deltaTime,Vector2& playerPos, std::vector<Sugaroid>& sugaroids);
 	void Movement(Sugaroid& sugaroid, float& deltaTime);
-	void ActionManager(std::vector<Sugaroid>& sugaroids, Sound& hurtSound, float& deltaTime, int& screenWidth, int& screenHeight, double& points, Player::Player& player);
 }
