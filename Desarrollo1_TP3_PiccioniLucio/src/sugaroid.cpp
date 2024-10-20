@@ -1,7 +1,7 @@
 #include "sugaroid.h"
 #include "utilities.h"
 
-
+float sugaroidsSpawnRate = 1;
 
 void Sugaroid::Constructor(Vector2& playerPosition, std::vector<Sugaroid>& sugaroids)
 {
@@ -32,7 +32,7 @@ void Sugaroid::Constructor(Vector2& playerPosition, std::vector<Sugaroid>& sugar
 	float speed = static_cast<float>(rand() % 201 + 100);  // Random speed between 100 and 200
 
 	Vector2 direction = { playerPosition.x - spawnPosition.x, playerPosition.y - spawnPosition.y };
-	float length = sqrt(direction.x * direction.x + direction.y * direction.y);
+	float length = sqrtf(direction.x * direction.x + direction.y * direction.y);
 
 	Vector2 velocity = { 0.0f, 0.0f };
 	if (length > 0)
@@ -54,7 +54,7 @@ void Sugaroid::Constructor(Vector2& playerPosition, std::vector<Sugaroid>& sugar
 void Sugaroid::Spawner(float& spawnTimer, float& deltaTime, Vector2& playerPos, std::vector<Sugaroid>& sugaroids)
 {
 	spawnTimer += deltaTime;
-	if (spawnTimer > 1)
+	if (spawnTimer > sugaroidsSpawnRate)
 	{
 		Constructor(playerPos, sugaroids);
 		spawnTimer = 0;

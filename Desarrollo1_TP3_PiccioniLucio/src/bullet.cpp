@@ -5,7 +5,7 @@
 void Bullet::SpawnStarBullet(Vector2& playerPos, float& playerAngle, PowerUps& powerUps, std::vector<Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids)
 {
 	float size = 32.0f;
-	float speed = 50.0f;
+	float speed = 600.0f;
 
 	// Calcula el ángulo inicial basado en el ángulo del jugador
 	float playerAngleRadians = playerAngle * (PI / 180.0f);
@@ -13,7 +13,7 @@ void Bullet::SpawnStarBullet(Vector2& playerPos, float& playerAngle, PowerUps& p
 	if (powerUps.biggerBullets)
 		size *= 1.25f;
 
-	if (powerUps.x2Speed)
+	if (powerUps.x2BulletSpeed)
 		speed *= 1.50f;
 
 	float directionX = cos(playerAngleRadians);
@@ -58,21 +58,12 @@ void Bullet::Movement(Bullet& bullet, float& deltaTime)
 
 	if (bullet.targetedSugaroid != nullptr)
 	{
-		switch (bullet.targetedSugaroid->toDestroy)
-		{
-		case true:
-
+		if (bullet.targetedSugaroid->toDestroy)
 			bullet.targetedSugaroid = nullptr;
-			break;
-
-		case false:
-
+		else
+		{
 			angleToSugaroid = atan2(bullet.targetedSugaroid->position.y - bullet.position.y, bullet.targetedSugaroid->position.x - bullet.position.x);
 			bullet.velocity = { cosf(angleToSugaroid) * bullet.speed, sinf(angleToSugaroid) * bullet.speed };
-			break;
-
-		default:
-			break;
 		}
 	}
 

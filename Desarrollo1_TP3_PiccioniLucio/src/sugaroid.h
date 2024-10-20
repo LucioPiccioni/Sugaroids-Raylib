@@ -6,6 +6,7 @@ namespace Sugaroid
 {
 	struct Sugaroid
 	{
+
 		Vector2 position = {};
 		Vector2 velocity = {};
 		float radius = 0;
@@ -16,7 +17,10 @@ namespace Sugaroid
 		bool outOfScreen = false;
 	};
 
+
 	void Constructor(Vector2& playerPosition, std::vector<Sugaroid>& sugaroids);
 	void Spawner(float& spawnTimer, float& deltaTime,Vector2& playerPos, std::vector<Sugaroid>& sugaroids);
 	void Movement(Sugaroid& sugaroid, float& deltaTime);
 }
+
+extern float sugaroidsSpawnRate;

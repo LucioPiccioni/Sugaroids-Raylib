@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Archivos de origen">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="Archivos de recursos">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -22,46 +18,56 @@
     <Filter Include="Header Files\Engine">
       <UniqueIdentifier>{1fbb306a-f678-4747-b886-a0d6142f7946}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Archivos de origen\GamePlay">
+    <Filter Include="Cpp Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Cpp Files\GamePlay">
       <UniqueIdentifier>{693ebb78-45f4-4711-9319-9d999f8d21c3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Archivos de origen\Engine">
+    <Filter Include="Cpp Files\Engine">
       <UniqueIdentifier>{eea819c2-0a84-4694-b0f2-d69a9e8e5016}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cpp Files\Assets">
+      <UniqueIdentifier>{e5de016c-761c-4ef5-8253-383df1e74be3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp">
-      <Filter>Archivos de origen</Filter>
+      <Filter>Cpp Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\bullet.cpp">
-      <Filter>Archivos de origen\GamePlay</Filter>
+      <Filter>Cpp Files\GamePlay</Filter>
     </ClCompile>
     <ClCompile Include="..\src\player.cpp">
-      <Filter>Archivos de origen\GamePlay</Filter>
+      <Filter>Cpp Files\GamePlay</Filter>
     </ClCompile>
     <ClCompile Include="..\src\sugaroid.cpp">
-      <Filter>Archivos de origen\GamePlay</Filter>
+      <Filter>Cpp Files\GamePlay</Filter>
     </ClCompile>
     <ClCompile Include="..\src\eventManager.cpp">
-      <Filter>Archivos de origen\Engine</Filter>
+      <Filter>Cpp Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\src\menus.cpp">
-      <Filter>Archivos de origen\Engine</Filter>
+      <Filter>Cpp Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\src\scene.cpp">
-      <Filter>Archivos de origen\Engine</Filter>
+      <Filter>Cpp Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\src\utilities.cpp">
-      <Filter>Archivos de origen\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\sounds.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\textures.cpp">
-      <Filter>Archivos de origen</Filter>
+      <Filter>Cpp Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\src\music.cpp">
-      <Filter>Archivos de origen</Filter>
+      <Filter>Cpp Files\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\sounds.cpp">
+      <Filter>Cpp Files\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\textures.cpp">
+      <Filter>Cpp Files\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gameplayManager.cpp">
+      <Filter>Cpp Files\GamePlay</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +109,9 @@
     </ClInclude>
     <ClInclude Include="..\src\utilities.h">
       <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gameplayManager.h">
+      <Filter>Header Files\GamePlay</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

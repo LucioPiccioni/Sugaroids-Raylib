@@ -22,6 +22,10 @@ namespace Player
 
 		float fireCooldown = 0;
 
+		float levelUpPoints = 0;
+
+		int level = 0;
+
 		PowerUps boost = {};
 
 		float size = 64;

@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="..\src\bullet.cpp" />
     <ClCompile Include="..\src\eventManager.cpp" />
+    <ClCompile Include="..\src\gameplayManager.cpp" />
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\menus.cpp" />
     <ClCompile Include="..\src\music.cpp" />
@@ -35,6 +36,7 @@
     <ClInclude Include="..\src\bullet.h" />
     <ClInclude Include="..\src\button.h" />
     <ClInclude Include="..\src\eventManager.h" />
+    <ClInclude Include="..\src\gameplayManager.h" />
     <ClInclude Include="..\src\menus.h" />
     <ClInclude Include="..\src\mouse.h" />
     <ClInclude Include="..\src\music.h" />
