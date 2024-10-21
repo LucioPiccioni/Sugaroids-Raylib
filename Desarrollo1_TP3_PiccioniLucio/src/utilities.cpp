@@ -3,6 +3,7 @@
 
 int screenWidth = 1024;
 int screenHeight = 768;
+float timmerToCleanBuffer = 0;
 
 bool Tools::CheckMouseButtonCollition(Vector2 mouse, Rectangle button)
 {

@@ -80,7 +80,7 @@ void GameManager::BulletActions(std::vector<Bullet::Bullet>& bullets, std::vecto
 	}
 }
 
-void GameManager::SugaroidsActions(std::vector<Sugaroid::Sugaroid>& sugaroids, std::vector<Bullet::Bullet>& bullets, Sound& hurtSound, float& deltaTime, float& playerEXP, int& score , Player::Player& player)
+void GameManager::SugaroidsActions(std::vector<Sugaroid::Sugaroid>& sugaroids, std::vector<Bullet::Bullet>& bullets, Sound& hurtSound, float& deltaTime, float& playerEXP, int& score, Player::Player& player)
 {
 	for (int i = 0; i < sugaroids.size(); )
 	{
@@ -131,20 +131,20 @@ void GameManager::SugaroidsActions(std::vector<Sugaroid::Sugaroid>& sugaroids, s
 
 void GameManager::DificultyIncreas(float& sugaroidsSpawnTime)
 {
-	sugaroidsSpawnTime -= 0.25f;
+	sugaroidsSpawnTime -= sugaroidsSpawnTime * 0.25f;
 }
 
-void GameManager::PowerUnlockerLogic(PowerUps& boosts, float& sugaroidsSpawnTime)
+void GameManager::PowerUnlockerLogic(PowerUps& boosts, PowerUpList& powerUpUnlocked, float& sugaroidsSpawnTime)
 {
-	PowerUpList RandomPowerUp = PowerUpList::None;
+	powerUpUnlocked = PowerUpList::None;
 	bool reRol = false;
 
 	do
 	{
 		reRol = false;
-		RandomPowerUp = PowerUpRulete();
+		powerUpUnlocked = PowerUpRulete();
 
-		switch (RandomPowerUp)
+		switch (powerUpUnlocked)
 		{
 		case PowerUpList::BiggerBullets:
 
@@ -179,13 +179,17 @@ void GameManager::PowerUnlockerLogic(PowerUps& boosts, float& sugaroidsSpawnTime
 			break;
 
 		case PowerUpList::None:
+
+			reRol = true;
 			break;
 
 		default:
+
+			reRol = true;
 			break;
 		}
 
-	} while (RandomPowerUp == PowerUpList::None || reRol);
+	} while (powerUpUnlocked == PowerUpList::None || reRol);
 }
 
 PowerUpList GameManager::PowerUpRulete()
@@ -220,13 +224,15 @@ PowerUpList GameManager::PowerUpRulete()
 
 }
 
-bool GameManager::ShouldAddPowerUps(float& points)
+bool GameManager::AreAllPowerUpsUnlocked(PowerUps& boosts)
 {
-	if (points >= 500)
-	{
-		points = 0;
+	return boosts.biggerBullets && boosts.x2BulletSpeed && boosts.x3Bullets && boosts.guidedMissiles;
+}
+
+bool GameManager::ShouldAddPowerUps(float& playerEXP)
+{
+	if (playerEXP >= 500)
 		return true;
-	}
 	else
 		return false;
 }

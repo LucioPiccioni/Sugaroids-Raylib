@@ -17,20 +17,19 @@ namespace Player
 		Vector2 directionVector = {};
 		float directionLength = 0;
 		float maxSpeed = 300.0f;
-
-		int bulletBuffer = 0;
-
-		float fireCooldown = 0;
-
-		float levelUpPoints = 0;
-
-		int level = 0;
-
-		PowerUps boost = {};
-
 		float size = 64;
 		float angle = 0;
 
+		int bulletBuffer = 0;
+		float fireCooldown = 0;
+
+		float EXP = 0;
+		int level = 0;
+		bool levelingUp = false;
+
+		PowerUpList lastPowerUnlock = PowerUpList::None;
+
+		PowerUps boost = {};
 	};
 
 	void Movement(Player& player, float deltaTime, int screenWidth, int screenHeight);

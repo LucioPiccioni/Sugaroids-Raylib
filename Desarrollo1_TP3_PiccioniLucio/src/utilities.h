@@ -11,3 +11,4 @@ namespace Tools
 
 extern int screenWidth;
 extern int screenHeight;
+extern float timmerToCleanBuffer;

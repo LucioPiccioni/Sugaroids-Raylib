@@ -15,10 +15,11 @@ namespace GameManager
 
 	void DificultyIncreas(float& sugaroidsSpawnTime);
 
-	void PowerUnlockerLogic(PowerUps& boosts, float& sugaroidsSpawnTime);
+	void PowerUnlockerLogic(PowerUps& boosts, PowerUpList& powerUpUnlocked, float& sugaroidsSpawnTime);
 
 	PowerUpList PowerUpRulete();
 
+	bool AreAllPowerUpsUnlocked(PowerUps& boosts);
 	bool ShouldAddPowerUps(float& points);
 	bool DidPlayerDied(Player::Player& player);
 }

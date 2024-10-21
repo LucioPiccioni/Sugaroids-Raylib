@@ -1,9 +1,10 @@
 #include "sounds.h"
 
-void Sounds::init(GameSounds& music)
+void Sounds::init(GameSounds& sound)
 {
-	music.hurtSound = LoadSound("../res/soundEffects/hurt.wav");
-	music.boomSound = LoadSound("../res/soundEffects/boom.wav");
-	music.dieSound = LoadSound("../res/soundEffects/die.wav");
-	music.shootSound = LoadSound("../res/soundEffects/shoot.wav");
+	sound.hurt = LoadSound("../res/soundEffects/hurt.wav");
+	sound.boom = LoadSound("../res/soundEffects/boom.wav");
+	sound.die = LoadSound("../res/soundEffects/die.wav");
+	sound.shoot = LoadSound("../res/soundEffects/shoot.wav");
+	sound.levelUp = LoadSound("../res/soundEffects/levelUp.wav");
 }

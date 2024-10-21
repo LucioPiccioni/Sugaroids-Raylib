@@ -7,10 +7,17 @@ enum class Menus
 	Playing,
 	Rules,
 	Credits,
-	Exit,
+	WantToExit,
 	None,
 
-	Replay
+	Replay,
+
+	Resume,
+
+	ConfirmExit,
+	CancelExit,
+	Exit
+
 };
 
 extern const int buttonWidth;

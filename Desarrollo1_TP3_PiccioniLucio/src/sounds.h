@@ -5,10 +5,11 @@ namespace Sounds
 {
 	struct GameSounds
 	{
-		Sound hurtSound = {};
-		Sound boomSound = {};
-		Sound dieSound = {};
-		Sound shootSound = {};
+		Sound hurt = {};
+		Sound boom = {};
+		Sound die = {};
+		Sound shoot = {};
+		Sound levelUp = {};
 	};
 
 	void init(GameSounds& music);

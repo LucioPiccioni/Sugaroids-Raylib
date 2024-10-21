@@ -1,6 +1,7 @@
 #include "eventManager.h"
 #include "utilities.h"
 #include "gameplayManager.h"
+#include "button.h"
 #include "scene.h"
 #include <ctime>
 
@@ -41,7 +42,7 @@ void EventManager::ProgramLoop()
 	float spawnTimer = 0;
 	Vector2 mouse;
 
-	Font font = LoadFontEx("../res/fonts/rubikBubbles/RubikBubbles-Regular.ttf", 40, 0, 0);
+	Font font = LoadFontEx("../res/fonts/rubikBubbles/RubikBubbles-Regular.ttf", titlesFonstSize, 0, 0);
 
 	SoundTracks::GameMusic music = {};
 	Textures::GameTextures textures = {};
@@ -52,7 +53,10 @@ void EventManager::ProgramLoop()
 	std::vector<Bullet::Bullet> bullets;
 	std::vector<Sugaroid::Sugaroid> sugaroids;
 
+	Menus PreviousMenu = Menus::MainMenu;
+
 	bool pause = false;
+	bool allBoostsUnlocked = false;
 
 	while (!WindowShouldClose() && gameState != Menus::Exit)
 	{
@@ -64,15 +68,20 @@ void EventManager::ProgramLoop()
 		{
 		case Menus::MainMenu:
 
+			PreviousMenu = Menus::MainMenu;
+
 			if (IsKeyPressed(KEY_ESCAPE))
 				gameState = Menus::Exit;
 			break;
 
 		case Menus::Playing:
 
+			PreviousMenu = Menus::Playing;
+
 			if (!gameOver)
 			{
-				if (!pause)
+
+				if (!pause && !player.levelingUp)
 				{
 					mouse = GetMousePosition();
 
@@ -80,20 +89,33 @@ void EventManager::ProgramLoop()
 
 					Player::Movement(player, deltaTime, screenWidth, screenHeight);
 
-					Player::Shoot(player, sounds.shootSound, bullets, sugaroids, deltaTime);
+					Player::Shoot(player, sounds.shoot, bullets, sugaroids, deltaTime);
 
 					Sugaroid::Spawner(spawnTimer, deltaTime, player.pos, sugaroids);
 
-					GameManager::SugaroidsActions(sugaroids, bullets, sounds.hurtSound, deltaTime, player.levelUpPoints, points, player);
+					GameManager::SugaroidsActions(sugaroids, bullets, sounds.hurt, deltaTime, player.EXP, points, player);
 
-					GameManager::BulletActions(bullets, sugaroids, sounds.boomSound, deltaTime);
+					GameManager::BulletActions(bullets, sugaroids, sounds.boom, deltaTime);
 
 					gameOver = GameManager::DidPlayerDied(player);
 
-					if (!gameOver && GameManager::ShouldAddPowerUps(player.levelUpPoints))
-					{
-						GameManager::PowerUnlockerLogic(player.boost, sugaroidsSpawnRate);
-					}
+					player.levelingUp = GameManager::ShouldAddPowerUps(player.EXP);
+				}
+
+				if (!gameOver && player.EXP >= 500 && !allBoostsUnlocked)
+				{
+					GameManager::PowerUnlockerLogic(player.boost, player.lastPowerUnlock, sugaroidsSpawnRate);
+					//allBoostsUnlocked = GameManager::AreAllPowerUpsUnlocked(player.boost);
+					player.EXP = 0;
+					player.level++;
+					GameManager::DificultyIncreas(sugaroidsSpawnRate);
+					StopSound(sounds.levelUp);
+					PlaySound(sounds.levelUp);
+				}
+				else if (!gameOver && player.EXP >= 500 && allBoostsUnlocked)
+				{
+					player.EXP = 0;
+					player.level++;
 				}
 
 				if (IsKeyPressed(KEY_ESCAPE))
@@ -104,10 +126,13 @@ void EventManager::ProgramLoop()
 
 		case Menus::Rules:
 		case Menus::Credits:
-		case Menus::Exit:
+		case Menus::WantToExit:
 
 			if (IsKeyPressed(KEY_ESCAPE))
 				gameState = Menus::MainMenu;
+
+			ConfirmExit(gameState, PreviousMenu);
+
 			break;
 
 		default:
@@ -134,36 +159,38 @@ void EventManager::ProgramLoop()
 		{
 		case Menus::MainMenu:
 
-			Scene::DrawMainMenu(gameState, font, textures.gamesTitle, screenWidth, screenHeight);
-
+			if (timmerToCleanBuffer <= 0)
+				Scene::DrawMainMenu(gameState, font, textures.gamesTitle, screenWidth, screenHeight);
+			else
+				timmerToCleanBuffer -= 1 * deltaTime;
 			break;
 
 		case Menus::Playing:
 
-
-			switch (gameOver)
+			if (timmerToCleanBuffer <= 0)
 			{
-			case true:
+				if (gameOver)
+				{
+					Scene::DrawGameOver(gameState, font, screenWidth, screenHeight);
 
-				Scene::DrawGameOver(gameState, font, screenWidth, screenHeight);
+					GameManager::ShouldResetMatch(gameState, player, bullets, sugaroids, gameOver, points);
+				}
+				else
+				{
 
-				GameManager::ShouldResetMatch(gameState, player, bullets, sugaroids, gameOver, points);
+					Scene::DrawGamePlay(bullets, sugaroids, player, textures.bulletsImage, textures.playerImage, textures.sugaroidImage);
 
-				break;
+					if (player.levelingUp && !allBoostsUnlocked || allBoostsUnlocked && player.levelingUp)
+					{
+						Scene::DrawPowerUpUnlockHud(player.boost, player.lastPowerUnlock, player.levelingUp, font);
+					}
 
-			case false:
-
-
-				DrawTextEx(font, pointsText.c_str(), Vector2{ 0,0 }, scoreFontSize, 0, BLACK);
-				DrawTextEx(font, playerLives.c_str(), Vector2{ 0, 20 }, scoreFontSize, 0, BLACK);
-
-				Scene::DrawGamePlay(bullets, sugaroids, player, textures.bulletsImage, textures.playerImage, textures.sugaroidImage);
-
-				break;
-
-			default:
-				break;
+					DrawTextEx(font, pointsText.c_str(), Vector2{ 0,0 }, scoreFontSize, 0, BLACK);
+					DrawTextEx(font, playerLives.c_str(), Vector2{ 0, 20 }, scoreFontSize, 0, BLACK);
+				}
 			}
+			else
+				timmerToCleanBuffer -= 0.1f * deltaTime;
 
 			break;
 
@@ -177,7 +204,10 @@ void EventManager::ProgramLoop()
 			Scene::DrawCredits(screenWidth, screenHeight, font);
 			break;
 
-		case Menus::Exit:
+		case Menus::WantToExit:
+
+			Scene::DrawConfirmExit(font);
+
 			break;
 
 		default:
@@ -203,10 +233,10 @@ void EventManager::UnloadAssets(SoundTracks::GameMusic& music, Font& font, Textu
 	UnloadMusicStream(music.mainMenuMusic);
 	UnloadMusicStream(music.gameOverMusic);
 	UnloadMusicStream(music.gamePlayMusic);
-	UnloadSound(sounds.hurtSound);
-	UnloadSound(sounds.boomSound);
-	UnloadSound(sounds.dieSound);
-	UnloadSound(sounds.shootSound);
+	UnloadSound(sounds.hurt);
+	UnloadSound(sounds.boom);
+	UnloadSound(sounds.die);
+	UnloadSound(sounds.shoot);
 }
 
 void EventManager::MusicControl(Menus& gameState, SoundTracks::GameMusic& music, bool& gameOver)
@@ -218,7 +248,9 @@ void EventManager::MusicControl(Menus& gameState, SoundTracks::GameMusic& music,
 
 	switch (gameState)
 	{
+
 	case Menus::MainMenu:
+	case Menus::WantToExit:
 
 		actualMusic = &music.mainMenuMusic;
 
@@ -229,28 +261,21 @@ void EventManager::MusicControl(Menus& gameState, SoundTracks::GameMusic& music,
 
 	case Menus::Playing:
 
-		switch (gameOver)
+		if (gameOver)
 		{
-		case true:
-
 			actualMusic = &music.gameOverMusic;
 
 			stopMusic[0] = &music.mainMenuMusic;
 			stopMusic[1] = &music.gamePlayMusic;
 			stopMusic[2] = &music.creditsMusic;
-			break;
-
-		case false:
-
+		}
+		else
+		{
 			actualMusic = &music.gamePlayMusic;
 
 			stopMusic[0] = &music.mainMenuMusic;
 			stopMusic[1] = &music.gameOverMusic;
 			stopMusic[2] = &music.creditsMusic;
-			break;
-
-		default:
-			break;
 		}
 
 		break;
@@ -297,4 +322,76 @@ void EventManager::MusicControl(Menus& gameState, SoundTracks::GameMusic& music,
 
 	if (gameState != Menus::Exit)
 		UpdateMusicStream(*actualMusic);
+}
+
+void EventManager::ConfirmExit(Menus& gameState, Menus previusMenu)
+{
+	const int maxButtons = 2;
+
+	Color outLine = BLACK;
+
+	Vector2 mouse = GetMousePosition();
+	Button button[maxButtons];
+
+	int startX, startY;
+
+	startX = (screenWidth - buttonWidth) / 2;
+	startY = (screenHeight - (buttonHeight * maxButtons + buttonSpacing * (maxButtons - 1))) / 2;
+
+	button[0].option = Menus::ConfirmExit;
+	button[1].option = Menus::CancelExit;
+
+	for (int i = 0; i < maxButtons; i++)
+	{
+		button[i].rec = { static_cast<float>(startX), static_cast<float>(startY + i * (buttonHeight + buttonSpacing)), static_cast<float>(buttonWidth), static_cast<float>(buttonHeight) };
+
+		switch (button[i].option)
+		{
+		case Menus::ConfirmExit:
+
+			button[i].color = RED;
+			break;
+
+		case Menus::CancelExit:
+
+			button[i].color = GREEN;
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	for (int i = 0; i < maxButtons; i++)
+	{
+		if (Tools::CheckMouseButtonCollition(mouse, button[i].rec))
+		{
+			button[i].color = WHITE;
+
+			if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+			{
+				button[i].color = YELLOW;
+			}
+
+			if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON))
+				gameState = button[i].option;
+		}
+	}
+
+	switch (gameState)
+	{
+	case Menus::ConfirmExit:
+
+		gameState = Menus::Exit;
+		break;
+
+	case Menus::CancelExit:
+
+		gameState = previusMenu;
+		timmerToCleanBuffer = 0.01f;
+		break;
+
+	default:
+		break;
+	}
 }

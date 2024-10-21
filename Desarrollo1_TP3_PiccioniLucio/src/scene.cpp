@@ -23,7 +23,8 @@ void Scene::DrawGamePlay(std::vector <Bullet::Bullet>& bullets, std::vector<Suga
 	);
 
 
-	for (int i = 0; i < sugaroids.size(); i++) {
+	for (int i = 0; i < sugaroids.size(); i++) 
+	{
 		DrawTexturePro(
 			sugaroidImage,
 			Rectangle{ 0, 0, (float)sugaroidImage.width, (float)sugaroidImage.height },  // Fuente (imagen completa)
@@ -32,6 +33,76 @@ void Scene::DrawGamePlay(std::vector <Bullet::Bullet>& bullets, std::vector<Suga
 			0.0f,  // Rotación (puedes agregar rotación si es necesario)
 			WHITE);
 	}
+}
+
+void Scene::DrawPowerUpUnlockHud(PowerUps& boosts, PowerUpList& unlockedPower, bool& levelUp, Font& font)
+{
+	Vector2 mouse = GetMousePosition();
+	Button button = {};
+
+	Color outline = BLACK;
+	Color semiTransparentBlack = { 0, 0, 0, 256 - 256 / 4 };
+
+	float startX, startY;
+
+	startX = (screenWidth - buttonWidth) / 2;
+	startY = (screenHeight - screenHeight / 5) - buttonHeight / 2;
+
+	button.rec = { startX, startY, static_cast<float>(buttonWidth), static_cast<float>(buttonHeight) };
+
+	button.option = Menus::Resume;
+
+	std::string constText = "You unlocked: ";
+	std::string powerUpName = "";
+	std::string holeText = "";
+
+	switch (unlockedPower)
+	{
+	case PowerUpList::BiggerBullets:
+
+		powerUpName = "Bigger Bullets";
+		break;
+
+	case PowerUpList::X2BulletSpeed:
+
+		powerUpName = "Bullets Speed x2";
+		break;
+
+	case PowerUpList::X3Bullets:
+
+		powerUpName = "Burst Canyon";
+		break;
+
+	case PowerUpList::GuidedMissiles:
+
+		powerUpName = "Guided Missiles";
+		break;
+
+	default:
+		break;
+	}
+
+	holeText = constText + powerUpName + ".";
+
+	if (Tools::CheckMouseButtonCollition(mouse, button.rec))
+	{
+		button.color = IsMouseButtonDown(MOUSE_LEFT_BUTTON) ? YELLOW : WHITE;
+
+		if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON))
+			levelUp = false;
+	}
+
+	DrawRectangle(0, 0, screenWidth, screenHeight, semiTransparentBlack);
+
+	DrawTextEx(font,
+		holeText.c_str(),
+		Vector2{ static_cast<float>(screenWidth / 2 - MeasureTextEx(font, holeText.c_str(), textFontSize, 0).x / 2), screenHeight / 2 - MeasureTextEx(font, holeText.c_str(), textFontSize, 0).y / 2 },
+		textFontSize,
+		0,
+		WHITE);
+
+	Tools::DrawButton(button.rec, "Resume", button.color, outline, font);
+
 }
 
 void Scene::DrawMainMenu(Menus& gameState, Font& font, Texture2D& gamesTitle, int& screenWidth, int& screenHeight)
@@ -54,7 +125,7 @@ void Scene::DrawMainMenu(Menus& gameState, Font& font, Texture2D& gamesTitle, in
 	button[0].option = Menus::Playing;
 	button[1].option = Menus::Rules;
 	button[2].option = Menus::Credits;
-	button[3].option = Menus::Exit;
+	button[3].option = Menus::WantToExit;
 
 	Color outline = BLACK;
 
@@ -109,7 +180,7 @@ void Scene::DrawMainMenu(Menus& gameState, Font& font, Texture2D& gamesTitle, in
 			Tools::DrawButton(button[i].rec, "Credits", button[i].color, outline, font);
 			break;
 
-		case Menus::Exit:
+		case Menus::WantToExit:
 
 			Tools::DrawButton(button[i].rec, "Exit", button[i].color, outline, font);
 			break;
@@ -212,7 +283,7 @@ void Scene::DrawGameOver(Menus& gameState, Font& font, int& screenWidth, int& sc
 
 	button[0].option = Menus::Replay;
 	button[1].option = Menus::MainMenu;
-	button[2].option = Menus::Exit;
+	button[2].option = Menus::WantToExit;
 
 	// Procesar el estado del mouse y los clics
 	for (int i = 0; i < maxButtons; i++)
@@ -242,9 +313,86 @@ void Scene::DrawGameOver(Menus& gameState, Font& font, int& screenWidth, int& sc
 		case Menus::MainMenu:
 			Tools::DrawButton(button[i].rec, "MainMenu", button[i].color, outline, font);
 			break;
-		case Menus::Exit:
+		case Menus::WantToExit:
 			Tools::DrawButton(button[i].rec, "Exit", button[i].color, outline, font);
 			break;
 		}
 	}
+}
+
+void Scene::DrawConfirmExit(Font& font)
+{
+	Menus previousMenu = Menus::MainMenu;
+	const int maxButtons = 2;
+
+	Color outLine = BLACK;
+
+	Vector2 mouse = GetMousePosition();
+	Button button[maxButtons];
+
+	int startX, startY;
+
+	startX = (screenWidth - buttonWidth) / 2;
+	startY = (screenHeight - (buttonHeight * maxButtons + buttonSpacing * (maxButtons - 1))) / 2;
+
+	button[0].option = Menus::ConfirmExit;
+	button[1].option = Menus::CancelExit;
+
+	for (int i = 0; i < maxButtons; i++)
+	{
+		button[i].rec = { static_cast<float>(startX), static_cast<float>(startY + i * (buttonHeight + buttonSpacing)), static_cast<float>(buttonWidth), static_cast<float>(buttonHeight) };
+
+		switch (button[i].option)
+		{
+		case Menus::ConfirmExit:
+
+			button[i].color = RED;
+			break;
+
+		case Menus::CancelExit:
+
+			button[i].color = GREEN;
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	for (int i = 0; i < maxButtons; i++)
+	{
+		if (Tools::CheckMouseButtonCollition(mouse, button[i].rec))
+		{
+			button[i].color = WHITE;
+
+			if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+			{
+				button[i].color = YELLOW;
+			}
+
+		}
+	}
+
+	DrawRectangle(0, 0, screenWidth, screenHeight, Color{ 0,0,0,125 });
+
+	DrawTextEx(font, "Are you sure you want to exit?", 
+		Vector2{ static_cast<float>(screenWidth / 2 - MeasureText("Are you sure you want to exit?", 30) / 2) , static_cast<float>(screenHeight / 4) }, 
+		textFontSize, 0, outLine);
+
+	for (int i = 0; i < maxButtons; i++)
+	{
+		switch (button[i].option)
+		{
+		case Menus::ConfirmExit:
+			Tools::DrawButton(button[i].rec, "Yes", button[i].color, outLine, font);
+			break;
+
+		case Menus::CancelExit:
+			Tools::DrawButton(button[i].rec, "No", button[i].color, outLine, font);
+			break;
+
+		default: break;
+		}
+	}
+
 }

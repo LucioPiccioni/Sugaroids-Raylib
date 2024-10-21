@@ -19,6 +19,8 @@ namespace EventManager
 
 
 	void MusicControl(Menus& gameState, SoundTracks::GameMusic& music, bool& gameOver);
+
+	void ConfirmExit(Menus& gameState, Menus previusMenu);
 }
 
 extern Menus gameState;
