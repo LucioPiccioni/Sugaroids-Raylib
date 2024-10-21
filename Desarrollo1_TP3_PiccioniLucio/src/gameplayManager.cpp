@@ -131,7 +131,7 @@ void GameManager::SugaroidsActions(std::vector<Sugaroid::Sugaroid>& sugaroids, s
 
 void GameManager::DificultyIncreas(float& sugaroidsSpawnTime)
 {
-	sugaroidsSpawnTime -= sugaroidsSpawnTime * 0.25f;
+	sugaroidsSpawnTime -= sugaroidsSpawnTime * 0.15f;
 }
 
 void GameManager::PowerUnlockerLogic(PowerUps& boosts, PowerUpList& powerUpUnlocked, float& sugaroidsSpawnTime)

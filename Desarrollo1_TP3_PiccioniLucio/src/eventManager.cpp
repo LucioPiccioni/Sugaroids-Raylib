@@ -83,6 +83,8 @@ void EventManager::ProgramLoop()
 
 				if (!pause && !player.levelingUp)
 				{
+					allBoostsUnlocked = GameManager::AreAllPowerUpsUnlocked(player.boost);
+
 					mouse = GetMousePosition();
 
 					player.angle = atan2f(mouse.y - player.pos.y, mouse.x - player.pos.x) * (180.0f / PI);
@@ -99,13 +101,13 @@ void EventManager::ProgramLoop()
 
 					gameOver = GameManager::DidPlayerDied(player);
 
-					player.levelingUp = GameManager::ShouldAddPowerUps(player.EXP);
+					if (!allBoostsUnlocked)
+						player.levelingUp = GameManager::ShouldAddPowerUps(player.EXP);
 				}
 
 				if (!gameOver && player.EXP >= 500 && !allBoostsUnlocked)
 				{
 					GameManager::PowerUnlockerLogic(player.boost, player.lastPowerUnlock, sugaroidsSpawnRate);
-					//allBoostsUnlocked = GameManager::AreAllPowerUpsUnlocked(player.boost);
 					player.EXP = 0;
 					player.level++;
 					GameManager::DificultyIncreas(sugaroidsSpawnRate);
@@ -116,6 +118,9 @@ void EventManager::ProgramLoop()
 				{
 					player.EXP = 0;
 					player.level++;
+					GameManager::DificultyIncreas(sugaroidsSpawnRate);
+					StopSound(sounds.levelUp);
+					PlaySound(sounds.levelUp);
 				}
 
 				if (IsKeyPressed(KEY_ESCAPE))
@@ -180,7 +185,7 @@ void EventManager::ProgramLoop()
 
 					Scene::DrawGamePlay(bullets, sugaroids, player, textures.bulletsImage, textures.playerImage, textures.sugaroidImage);
 
-					if (player.levelingUp && !allBoostsUnlocked || allBoostsUnlocked && player.levelingUp)
+					if (player.levelingUp && !allBoostsUnlocked)
 					{
 						Scene::DrawPowerUpUnlockHud(player.boost, player.lastPowerUnlock, player.levelingUp, font);
 					}
