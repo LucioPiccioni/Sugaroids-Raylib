@@ -256,7 +256,6 @@ void EventManager::MusicControl(Menus& gameState, SoundTracks::GameMusic& music,
 	{
 
 	case Menus::MainMenu:
-	case Menus::WantToExit:
 
 		actualMusic = &music.mainMenuMusic;
 
@@ -302,6 +301,26 @@ void EventManager::MusicControl(Menus& gameState, SoundTracks::GameMusic& music,
 		stopMusic[0] = &music.gamePlayMusic;
 		stopMusic[1] = &music.gameOverMusic;
 		stopMusic[2] = &music.mainMenuMusic;
+		break;
+
+	case Menus::WantToExit:
+
+		if (gameOver)
+		{
+			actualMusic = &music.gameOverMusic;
+
+			stopMusic[0] = &music.mainMenuMusic;
+			stopMusic[1] = &music.gamePlayMusic;
+			stopMusic[2] = &music.creditsMusic;
+		}
+		else
+		{
+			actualMusic = &music.mainMenuMusic;
+
+			stopMusic[0] = &music.gamePlayMusic;
+			stopMusic[1] = &music.gameOverMusic;
+			stopMusic[2] = &music.creditsMusic;
+		}
 		break;
 
 	case Menus::Exit:
