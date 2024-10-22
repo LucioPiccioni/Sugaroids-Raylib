@@ -44,16 +44,12 @@ void GameManager::BulletActions(std::vector<Bullet::Bullet>& bullets, std::vecto
 	{
 		Bullet::Movement(bullets[i], deltaTime);
 
-		if (static_cast<int>(bullets[i].position.x + bullets[i].radius) < 0 ||
-			static_cast<int>(bullets[i].position.x - bullets[i].radius) > screenWidth ||
-			static_cast<int>(bullets[i].position.y + bullets[i].radius) < 0 ||
-			static_cast<int>(bullets[i].position.y - bullets[i].radius) > screenHeight)
+		if (Tools::CheckIfOutOfBounds(bullets[i].position, bullets[i].radius))
 			bullets[i].toDestroy = true;
-
 
 		for (int j = 0; j < sugaroids.size(); j++)
 		{
-			if (CheckCollisionCircles(bullets[i].position, bullets[i].radius, sugaroids[j].position, sugaroids[j].radius))
+			if (Tools::CheckCollisionCircles(bullets[i].position, bullets[i].radius, sugaroids[j].position, sugaroids[j].radius))
 			{
 				StopSound(boomSound);
 				PlaySound(boomSound);
@@ -84,10 +80,7 @@ void GameManager::SugaroidsActions(std::vector<Sugaroid::Sugaroid>& sugaroids, s
 {
 	for (int i = 0; i < sugaroids.size(); )
 	{
-		if (static_cast<int>(sugaroids[i].position.x + sugaroids[i].radius) < 0 ||
-			static_cast<int>(sugaroids[i].position.x - sugaroids[i].radius) > screenWidth ||
-			static_cast<int>(sugaroids[i].position.y + sugaroids[i].radius) < 0 ||
-			static_cast<int>(sugaroids[i].position.y - sugaroids[i].radius) > screenHeight)
+		if (Tools::CheckIfOutOfBounds(sugaroids[i].position, sugaroids[i].radius))
 		{
 			sugaroids[i].outOfScreen = true;
 			sugaroids[i].toDestroy = true;
@@ -95,7 +88,7 @@ void GameManager::SugaroidsActions(std::vector<Sugaroid::Sugaroid>& sugaroids, s
 
 		Sugaroid::Movement(sugaroids[i], deltaTime);
 
-		if (CheckCollisionCircles(player.pos, player.size / 2, sugaroids[i].position, sugaroids[i].radius))
+		if (Tools::CheckCollisionCircles(player.pos, player.size / 2, sugaroids[i].position, sugaroids[i].radius))
 		{
 			StopSound(hurtSound);
 			PlaySound(hurtSound);

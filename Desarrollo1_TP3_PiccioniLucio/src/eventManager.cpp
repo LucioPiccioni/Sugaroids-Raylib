@@ -241,6 +241,7 @@ void EventManager::UnloadAssets(SoundTracks::GameMusic& music, Font& font, Textu
 	UnloadSound(sounds.hurt);
 	UnloadSound(sounds.boom);
 	UnloadSound(sounds.die);
+	UnloadSound(sounds.levelUp);
 	UnloadSound(sounds.shoot);
 }
 
