@@ -1,6 +1,6 @@
 #pragma once
 #include "raylib.h"
-#include <vector>
+#include <list>
 
 namespace Sugaroid
 {
@@ -18,8 +18,8 @@ namespace Sugaroid
 	};
 
 
-	void Constructor(Vector2& playerPosition, std::vector<Sugaroid>& sugaroids);
-	void Spawner(float& spawnTimer, float& deltaTime,Vector2& playerPos, std::vector<Sugaroid>& sugaroids);
+	void Constructor(Vector2& playerPosition, std::list<Sugaroid>& sugaroids);
+	void Spawner(float& spawnTimer, float& deltaTime,Vector2& playerPos, std::list<Sugaroid>& sugaroids);
 	void Movement(Sugaroid& sugaroid, float& deltaTime);
 }
 

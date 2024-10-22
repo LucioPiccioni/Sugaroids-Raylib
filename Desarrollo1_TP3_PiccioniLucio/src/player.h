@@ -3,7 +3,7 @@
 #include "powerUps.h"
 #include "sugaroid.h"
 #include "bullet.h"
-#include <vector>
+#include <list>
 
 namespace Player
 {
@@ -33,5 +33,5 @@ namespace Player
 	};
 
 	void Movement(Player& player, float deltaTime, int screenWidth, int screenHeight);
-	void Shoot(Player& player, Sound& shootSound, std::vector<Bullet::Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids, float& deltaTime);
+	void Shoot(Player& player, Sound& shootSound, std::list<Bullet::Bullet>& bullets, std::list<Sugaroid::Sugaroid>& sugaroids, float& deltaTime);
 }

@@ -1,39 +1,42 @@
 #include "scene.h"
 #include "button.h"
 
-void Scene::DrawGamePlay(std::vector <Bullet::Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids, Player::Player player, Texture2D bulletsImage, Texture2D playerImage, Texture2D sugaroidImage)
+void Scene::DrawGamePlay(std::list<Bullet::Bullet>& bullets, std::list<Sugaroid::Sugaroid>& sugaroids, Player::Player player, Texture2D bulletsImage, Texture2D playerImage, Texture2D sugaroidImage)
 {
-	for (int i = 0; i < bullets.size(); i++)
+	// Dibujar balas
+	for (auto& bullet : bullets)
 	{
-		DrawTexturePro(bulletsImage, Rectangle{ 0, 0, (float)bulletsImage.width, (float)bulletsImage.height },  // Fuente (imagen completa)
-			Rectangle{ bullets[i].position.x, bullets[i].position.y,  bullets[i].size,  bullets[i].size },  // Destino (posicion y tamaño)
-			Vector2{ bullets[i].size / 2, bullets[i].size / 2 },  // Offset de origen para el centro
+		DrawTexturePro(bulletsImage,
+			Rectangle{ 0, 0, (float)bulletsImage.width, (float)bulletsImage.height },  // Fuente (imagen completa)
+			Rectangle{ bullet.position.x, bullet.position.y, bullet.size, bullet.size },  // Destino (posición y tamaño)
+			Vector2{ bullet.size / 2, bullet.size / 2 },  // Offset de origen para el centro
 			0.0f,
 			WHITE);
 	}
 
-
+	// Dibujar jugador
 	DrawTexturePro(
 		playerImage,  // La textura original
 		Rectangle{ 0, 0, (float)playerImage.width, (float)playerImage.height },  // Fuente: toda la imagen original
 		Rectangle{ player.pos.x, player.pos.y, player.size, player.size },  // Destino: posición y nuevo tamaño 64x64
-		Vector2{ player.size / 2, player.size / 2 },  // Offset (centro) si es necesario, depende de cómo quieras alinear el sprite
+		Vector2{ player.size / 2, player.size / 2 },  // Offset (centro) si es necesario
 		player.angle,  // Rotación (0 si no quieres rotar)
 		WHITE  // Color (generalmente WHITE para no aplicar ningún tinte)
 	);
 
-
-	for (int i = 0; i < sugaroids.size(); i++) 
+	// Dibujar sugaroids
+	for (auto& sugaroid : sugaroids)
 	{
 		DrawTexturePro(
 			sugaroidImage,
 			Rectangle{ 0, 0, (float)sugaroidImage.width, (float)sugaroidImage.height },  // Fuente (imagen completa)
-			Rectangle{ sugaroids[i].position.x, sugaroids[i].position.y, sugaroids[i].size, sugaroids[i].size },  // Destino (posición y tamaño)
-			Vector2{ sugaroids[i].size / 2, sugaroids[i].size / 2 },  // Offset del centro
+			Rectangle{ sugaroid.position.x, sugaroid.position.y, sugaroid.size, sugaroid.size },  // Destino (posición y tamaño)
+			Vector2{ sugaroid.size / 2, sugaroid.size / 2 },  // Offset del centro
 			0.0f,  // Rotación (puedes agregar rotación si es necesario)
 			WHITE);
 	}
 }
+
 
 void Scene::DrawPowerUpUnlockHud(PowerUps& boosts, PowerUpList& unlockedPower, bool& levelUp, Font& font)
 {

@@ -1,6 +1,6 @@
 #include "player.h"
 #include <cmath>
-#include <bullet.h>
+#include "bullet.h"
 
 void Player::Movement(Player& player, float deltaTime, int screenWidth, int screenHeight)
 {
@@ -10,24 +10,24 @@ void Player::Movement(Player& player, float deltaTime, int screenWidth, int scre
 	{
 		player.targetPos = GetMousePosition();
 
-		// Calculate direction of player to mouse
+		// Calcular dirección del jugador hacia el mouse
 		player.directionVector = { player.targetPos.x - player.pos.x, player.targetPos.y - player.pos.y };
 		player.directionLength = sqrtf(player.directionVector.x * player.directionVector.x + player.directionVector.y * player.directionVector.y);
 
-		// Normalize direction
+		// Normalizar la dirección
 		if (player.directionLength > 0)
 		{
-			//Resistence & Curve Movement
+			// Resistencia y movimiento curvo
 			player.directionVector.x /= player.directionLength;
 			player.directionVector.y /= player.directionLength;
 
-			// Acelera el jugador hacia la dirección del objetivo
+			// Acelerar el jugador hacia la dirección del objetivo
 			player.speed.x += player.directionVector.x * acceleration * deltaTime;
 			player.speed.y += player.directionVector.y * acceleration * deltaTime;
 		}
 	}
 
-	// Limit Max Velocity
+	// Limitar velocidad máxima
 	float currentSpeed = sqrt(player.speed.x * player.speed.x + player.speed.y * player.speed.y);
 	if (currentSpeed > player.maxSpeed)
 	{
@@ -38,15 +38,15 @@ void Player::Movement(Player& player, float deltaTime, int screenWidth, int scre
 	player.pos.x += player.speed.x * deltaTime;
 	player.pos.y += player.speed.y * deltaTime;
 
+	// Teletransporte si el jugador sale de la pantalla
 	if (player.pos.x < 0) player.pos.x = screenWidth;
 	if (player.pos.x > screenWidth) player.pos.x = 0;
 	if (player.pos.y < 0) player.pos.y = screenHeight;
 	if (player.pos.y > screenHeight) player.pos.y = 0;
 }
 
-void Player::Shoot(Player& player, Sound& shootSound, std::vector<Bullet::Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids, float& deltaTime)
+void Player::Shoot(Player& player, Sound& shootSound, std::list<Bullet::Bullet>& bullets, std::list<Sugaroid::Sugaroid>& sugaroids, float& deltaTime)
 {
-
 	if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
 	{
 		StopSound(shootSound);
@@ -69,5 +69,7 @@ void Player::Shoot(Player& player, Sound& shootSound, std::vector<Bullet::Bullet
 		}
 	}
 	else
+	{
 		player.fireCooldown -= 0.5;
+	}
 }

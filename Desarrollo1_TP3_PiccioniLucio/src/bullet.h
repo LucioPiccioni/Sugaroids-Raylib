@@ -2,7 +2,7 @@
 #include "raylib.h"
 #include "sugaroid.h"
 #include "powerUps.h"
-#include <vector>
+#include <list>
 
 namespace Bullet
 {
@@ -18,6 +18,6 @@ namespace Bullet
 		Sugaroid::Sugaroid* targetedSugaroid = nullptr;
 	};
 
-	void SpawnStarBullet(Vector2& playerPos, float& playerAngle, PowerUps& powerUps, std::vector<Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids);
+	void SpawnStarBullet(Vector2& playerPos, float& playerAngle, PowerUps& powerUps, std::list<Bullet>& bullets, std::list<Sugaroid::Sugaroid>& sugaroids);
 	void Movement(Bullet& bullet, float& deltaTime);
 }

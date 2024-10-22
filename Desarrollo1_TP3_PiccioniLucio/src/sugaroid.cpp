@@ -3,7 +3,7 @@
 
 float sugaroidsSpawnRate = 1;
 
-void Sugaroid::Constructor(Vector2& playerPosition, std::vector<Sugaroid>& sugaroids)
+void Sugaroid::Constructor(Vector2& playerPosition, std::list<Sugaroid>& sugaroids)
 {
 	int edge = rand() % 4 + 1;
 	Vector2 spawnPosition = { 0, 0 };
@@ -51,7 +51,8 @@ void Sugaroid::Constructor(Vector2& playerPosition, std::vector<Sugaroid>& sugar
 	sugaroids.push_back(newSugaroid);
 }
 
-void Sugaroid::Spawner(float& spawnTimer, float& deltaTime, Vector2& playerPos, std::vector<Sugaroid>& sugaroids)
+
+void Sugaroid::Spawner(float& spawnTimer, float& deltaTime, Vector2& playerPos, std::list<Sugaroid>& sugaroids)
 {
 	spawnTimer += deltaTime;
 	if (spawnTimer > sugaroidsSpawnRate)
@@ -60,6 +61,7 @@ void Sugaroid::Spawner(float& spawnTimer, float& deltaTime, Vector2& playerPos, 
 		spawnTimer = 0;
 	}
 }
+
 
 void Sugaroid::Movement(Sugaroid& sugaroid, float& deltaTime)
 {

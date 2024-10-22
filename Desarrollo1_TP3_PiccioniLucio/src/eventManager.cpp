@@ -49,8 +49,8 @@ void EventManager::ProgramLoop()
 
 	InitAssets(music, textures, sounds);
 
-	std::vector<Bullet::Bullet> bullets;
-	std::vector<Sugaroid::Sugaroid> sugaroids;
+	std::list<Bullet::Bullet> bullets;
+	std::list<Sugaroid::Sugaroid> sugaroids;
 
 	Menus PreviousMenu = Menus::MainMenu;
 

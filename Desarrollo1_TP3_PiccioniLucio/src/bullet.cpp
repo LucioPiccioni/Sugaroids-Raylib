@@ -2,7 +2,7 @@
 #include <cmath>
 #include <iostream>
 
-void Bullet::SpawnStarBullet(Vector2& playerPos, float& playerAngle, PowerUps& powerUps, std::vector<Bullet>& bullets, std::vector<Sugaroid::Sugaroid>& sugaroids)
+void Bullet::SpawnStarBullet(Vector2& playerPos, float& playerAngle, PowerUps& powerUps, std::list<Bullet>& bullets, std::list<Sugaroid::Sugaroid>& sugaroids)
 {
 	float size = 32.0f;
 	float speed = 600.0f;
@@ -28,12 +28,12 @@ void Bullet::SpawnStarBullet(Vector2& playerPos, float& playerAngle, PowerUps& p
 	newBullet.speed = speed;
 	newBullet.toDestroy = false;
 
-	// If Guided Power Up is on and there are sugaroids look for the closest one:
+	// Si la mejora de misiles guiados está activada y hay sugaroids, busca el más cercano:
 	if (powerUps.guidedMissiles && !sugaroids.empty())
 	{
 		float closestDistance = std::numeric_limits<float>::max();
 
-		// Find Closest Sugaroid
+		// Encuentra el sugaroid más cercano
 		for (Sugaroid::Sugaroid& sugaroid : sugaroids)
 		{
 			float dx = sugaroid.position.x - playerPos.x;
@@ -45,12 +45,12 @@ void Bullet::SpawnStarBullet(Vector2& playerPos, float& playerAngle, PowerUps& p
 				closestDistance = distance;
 				newBullet.targetedSugaroid = &sugaroid;
 			}
-
 		}
 	}
 
 	bullets.push_back(newBullet);
 }
+
 
 void Bullet::Movement(Bullet& bullet, float& deltaTime)
 {
