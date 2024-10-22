@@ -250,76 +250,48 @@ void EventManager::MusicControl(Menus& gameState, SoundTracks::GameMusic& music,
 	const int AllMusic = 3;
 
 	Music* actualMusic = &music.mainMenuMusic;
-	Music* stopMusic[AllMusic] = { &music.mainMenuMusic, &music.gamePlayMusic,  &music.creditsMusic };
+	Music* stopMusic[AllMusic] = { &music.gameOverMusic, &music.gamePlayMusic,  &music.creditsMusic };
 
 	switch (gameState)
 	{
 
 	case Menus::MainMenu:
 
-		actualMusic = &music.mainMenuMusic;
-
-		stopMusic[0] = &music.gamePlayMusic;
-		stopMusic[1] = &music.gameOverMusic;
-		stopMusic[2] = &music.creditsMusic;
+		SoundTracks::MainMenuOrganization(actualMusic, stopMusic, music);
 		break;
 
 	case Menus::Playing:
 
 		if (gameOver)
 		{
-			actualMusic = &music.gameOverMusic;
-
-			stopMusic[0] = &music.mainMenuMusic;
-			stopMusic[1] = &music.gamePlayMusic;
-			stopMusic[2] = &music.creditsMusic;
+			SoundTracks::GameOverOrganization(actualMusic, stopMusic, music);
 		}
 		else
 		{
-			actualMusic = &music.gamePlayMusic;
-
-			stopMusic[0] = &music.mainMenuMusic;
-			stopMusic[1] = &music.gameOverMusic;
-			stopMusic[2] = &music.creditsMusic;
+			SoundTracks::GamePlayOrganization(actualMusic, stopMusic, music);
 		}
 
 		break;
 
 	case Menus::Rules:
 
-		actualMusic = &music.mainMenuMusic;
-
-		stopMusic[0] = &music.gamePlayMusic;
-		stopMusic[1] = &music.gameOverMusic;
-		stopMusic[2] = &music.creditsMusic;
+		SoundTracks::MainMenuOrganization(actualMusic, stopMusic, music);
 		break;
 
 	case Menus::Credits:
 
-		actualMusic = &music.creditsMusic;
-
-		stopMusic[0] = &music.gamePlayMusic;
-		stopMusic[1] = &music.gameOverMusic;
-		stopMusic[2] = &music.mainMenuMusic;
+		SoundTracks::CreditsOrganization(actualMusic, stopMusic, music);
 		break;
 
 	case Menus::WantToExit:
 
 		if (gameOver)
 		{
-			actualMusic = &music.gameOverMusic;
-
-			stopMusic[0] = &music.mainMenuMusic;
-			stopMusic[1] = &music.gamePlayMusic;
-			stopMusic[2] = &music.creditsMusic;
+			SoundTracks::GameOverOrganization(actualMusic, stopMusic, music);
 		}
 		else
 		{
-			actualMusic = &music.mainMenuMusic;
-
-			stopMusic[0] = &music.gamePlayMusic;
-			stopMusic[1] = &music.gameOverMusic;
-			stopMusic[2] = &music.creditsMusic;
+			SoundTracks::MainMenuOrganization(actualMusic, stopMusic, music);
 		}
 		break;
 
