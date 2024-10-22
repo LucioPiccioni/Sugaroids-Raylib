@@ -6,7 +6,6 @@
 #include <ctime>
 
 Menus gameState = Menus::MainMenu;
-int buttonSelected = 0;
 
 void EventManager::InitProgram()
 {
@@ -249,8 +248,8 @@ void EventManager::MusicControl(Menus& gameState, SoundTracks::GameMusic& music,
 {
 	const int AllMusic = 3;
 
-	Music* actualMusic = &music.mainMenuMusic;
-	Music* stopMusic[AllMusic] = { &music.gameOverMusic, &music.gamePlayMusic,  &music.creditsMusic };
+	Music* actualMusic = nullptr;
+	Music* stopMusic[AllMusic] = { nullptr };
 
 	switch (gameState)
 	{
@@ -302,26 +301,25 @@ void EventManager::MusicControl(Menus& gameState, SoundTracks::GameMusic& music,
 		break;
 	}
 
-	if (gameState != Menus::Exit)
+	for (int i = 0; i < AllMusic; i++)
 	{
-		if (!IsMusicStreamPlaying(*actualMusic))
-			PlayMusicStream(*actualMusic);
-	}
-
-	if (gameState != Menus::Exit)
-	{
-		for (int i = 0; i < 3; i++)
+		if (stopMusic[i] != nullptr)
 		{
 			if (IsMusicStreamPlaying(*stopMusic[i]))
 				StopMusicStream(*stopMusic[i]);
 		}
 	}
 
-	if (gameState != Menus::Exit)
+	if (actualMusic != nullptr)
+	{
+		if (!IsMusicStreamPlaying(*actualMusic))
+			PlayMusicStream(*actualMusic);
+
 		UpdateMusicStream(*actualMusic);
+	}
 }
 
-void EventManager::ConfirmExit(Menus& gameState, Menus previusMenu)
+void EventManager::ConfirmExit(Menus& gameState, Menus& previusMenu)
 {
 	const int maxButtons = 2;
 
