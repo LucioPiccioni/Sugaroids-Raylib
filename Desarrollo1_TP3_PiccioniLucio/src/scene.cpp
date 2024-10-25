@@ -1,7 +1,7 @@
 #include "scene.h"
 #include "button.h"
 
-void Scene::DrawGamePlay(std::list<Bullet::Bullet>& bullets, std::list<Sugaroid::Sugaroid>& sugaroids, Player::Player player, Texture2D bulletsImage, Texture2D playerImage, Texture2D sugaroidImage)
+void Scene::DrawGamePlay(std::list<Bullet::Bullet> bullets, std::list<Sugaroid::Sugaroid> sugaroids, Player::Player player, Texture2D bulletsImage, Texture2D playerImage, Texture2D sugaroidImage)
 {
 	// Dibujar balas
 	for (auto& bullet : bullets)
@@ -38,7 +38,7 @@ void Scene::DrawGamePlay(std::list<Bullet::Bullet>& bullets, std::list<Sugaroid:
 }
 
 
-void Scene::DrawPowerUpUnlockHud(PowerUpList& unlockedPower, bool& levelUp, Font& font, int& screenWidth, int& screenHeight)
+void Scene::DrawPowerUpUnlockHud(PowerUpList unlockedPower, bool levelUp, Font font, int screenWidth, int screenHeight)
 {
 	Vector2 mouse = GetMousePosition();
 	Button button = {};
@@ -108,7 +108,7 @@ void Scene::DrawPowerUpUnlockHud(PowerUpList& unlockedPower, bool& levelUp, Font
 
 }
 
-void Scene::DrawMainMenu(Menus& gameState, Font& font, Texture2D& gamesTitle, int& screenWidth, int& screenHeight)
+void Scene::DrawMainMenu(Menus& gameState, Font&font, Texture2D gamesTitle, int screenWidth, int screenHeight)
 {
 	const int maxButtons = 5;
 
@@ -259,7 +259,7 @@ void Scene::DrawGameRules(int screenWidth, int screenHeight, Font customFont)
 	DrawTextEx(customFont, "Press ESC to return to menu", backToMenuPos, textFontSize, 2, BLACK);
 }
 
-void Scene::DrawGameOver(Menus& gameState, Font& font, int& screenWidth, int& screenHeight)
+void Scene::DrawGameOver(Menus& gameState, Font font, int screenWidth, int screenHeight)
 {
 	const int maxButtons = 3;
 	Vector2 mouse = GetMousePosition();
@@ -316,7 +316,7 @@ void Scene::DrawGameOver(Menus& gameState, Font& font, int& screenWidth, int& sc
 	}
 }
 
-void Scene::DrawConfirmExit(Font& font, int screenWidth, int screenHeight)
+void Scene::DrawConfirmExit(Font font, int screenWidth, int screenHeight)
 {
 	const int maxButtons = 2;
 

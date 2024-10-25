@@ -34,7 +34,7 @@ bool Tools::CheckIfOutOfBounds(Vector2 position, float radius, int screenWidth, 
 void Tools::DrawButton(Rectangle rect, const std::string text, Color color, Color outline, Font font)
 {
 	DrawRectangleRec(rect, color);
-	DrawRectangleLinesEx(rect, 10, outline);
+	DrawRectangleLinesEx(rect, 2, outline);
 	Vector2 textSize = MeasureTextEx(font, text.c_str(), static_cast<float>(textFontSize), 1);
 	Vector2 textPosition = { rect.x + (rect.width - textSize.x) / 2, rect.y + (rect.height - textSize.y) / 2 };
 	DrawTextEx(font, text.c_str(), Vector2{ textPosition.x, textPosition.y }, textFontSize, 0, BLACK);

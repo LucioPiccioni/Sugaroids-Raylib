@@ -101,9 +101,6 @@
     <ClInclude Include="..\src\menus.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\mouse.h">
-      <Filter>Header Files\Engine</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\scene.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
