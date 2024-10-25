@@ -13,14 +13,12 @@ namespace Sugaroid
 		bool toDestroy = false;
 		float size = 32;
 		bool didItHitPlayer = false;
-		bool bigSugaroid = false; 
+		bool bigSugaroid = false;
 		bool outOfScreen = false;
 	};
 
 
-	void Constructor(Vector2& playerPosition, std::list<Sugaroid>& sugaroids);
-	void Spawner(float& spawnTimer, float& deltaTime,Vector2& playerPos, std::list<Sugaroid>& sugaroids);
+	void Constructor(Vector2& playerPosition, std::list<Sugaroid>& sugaroids, int screenWidth, int screenHeight);
+	void Spawner(float& spawnTimer, float& sugaroidsSpawnRate, float& deltaTime, Vector2& playerPos, std::list<Sugaroid>& sugaroids, int screenWidth, int screenHeight);
 	void Movement(Sugaroid& sugaroid, float& deltaTime);
 }
-
-extern float sugaroidsSpawnRate;

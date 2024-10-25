@@ -20,10 +20,10 @@ enum class Menus
 
 };
 
-extern const int buttonWidth;
-extern const int buttonHeight;
-extern const int buttonSpacing;
+extern const float buttonWidth;
+extern const float buttonHeight;
+extern const float buttonSpacing;
 
-extern const int titlesFonstSize;
-extern const int textFontSize;
-extern const int scoreFontSize;
+extern const float titlesFontSize;
+extern const float textFontSize;
+extern const float scoreFontSize;

@@ -38,7 +38,7 @@ void Scene::DrawGamePlay(std::list<Bullet::Bullet>& bullets, std::list<Sugaroid:
 }
 
 
-void Scene::DrawPowerUpUnlockHud(PowerUps& boosts, PowerUpList& unlockedPower, bool& levelUp, Font& font)
+void Scene::DrawPowerUpUnlockHud(PowerUpList& unlockedPower, bool& levelUp, Font& font, int& screenWidth, int& screenHeight)
 {
 	Vector2 mouse = GetMousePosition();
 	Button button = {};
@@ -48,8 +48,8 @@ void Scene::DrawPowerUpUnlockHud(PowerUps& boosts, PowerUpList& unlockedPower, b
 
 	float startX, startY;
 
-	startX = (screenWidth - buttonWidth) / 2;
-	startY = (screenHeight - screenHeight / 5) - buttonHeight / 2;
+	startX = (static_cast<float>(screenWidth) - buttonWidth) / 2;
+	startY = (static_cast<float>(screenHeight) - screenHeight / 5) - buttonHeight / 2;
 
 	button.rec = { startX, startY, static_cast<float>(buttonWidth), static_cast<float>(buttonHeight) };
 
@@ -115,10 +115,10 @@ void Scene::DrawMainMenu(Menus& gameState, Font& font, Texture2D& gamesTitle, in
 	Vector2 mouse;
 	Button button[maxButtons] = {};
 
-	int startX, startY;
+	float startX, startY;
 
-	startX = (screenWidth - buttonWidth) / 2;
-	startY = (screenHeight - (buttonHeight * maxButtons + buttonSpacing * (maxButtons - 1)));
+	startX = (static_cast<float>(screenWidth) - buttonWidth) / 2;
+	startY = (static_cast<float>(screenHeight) - (buttonHeight * maxButtons + buttonSpacing * (maxButtons - 1)));
 
 	for (int i = 0; i < maxButtons; i++)
 	{
@@ -196,22 +196,20 @@ void Scene::DrawMainMenu(Menus& gameState, Font& font, Texture2D& gamesTitle, in
 
 void Scene::DrawCredits(int screenWidth, int screenHeight, Font customFont)
 {
-	const int titleFontSize = 40;
-	const int textFontSize = 20;
 	const int smallFontSize = 15;
 
-	Vector2 titlePos = { screenWidth / 2 - MeasureTextEx(customFont, "Credits", titleFontSize, 2).x / 2, screenHeight / 4 };
-	Vector2 developerPos = { screenWidth / 2 - MeasureTextEx(customFont, "Developer: Lucio Stefano Piccioni.", textFontSize, 2).x / 2, screenHeight / 4 + 60 };
-	Vector2 musicPos = { screenWidth / 2 - MeasureTextEx(customFont, "Music:", textFontSize, 2).x / 2, screenHeight / 2 - 60 };
-	Vector2 music1Pos = { screenWidth / 2 - MeasureTextEx(customFont, "1. 'Game Over!' - Harris Cole", smallFontSize, 2).x / 2, screenHeight / 2 - 30 };
-	Vector2 music2Pos = { screenWidth / 2 - MeasureTextEx(customFont, "2. 'Falling Apart' - yawgooh (Lofi Girl Ambient)", smallFontSize, 2).x / 2, screenHeight / 2 - 10 };
-	Vector2 music3Pos = { screenWidth / 2 - MeasureTextEx(customFont, "3. 'Quiet Nights' - JEN", smallFontSize, 2).x / 2, screenHeight / 2 + 10 };
-	Vector2 music4Pos = { screenWidth / 2 - MeasureTextEx(customFont, "4. 'Facade' - JEN", smallFontSize, 2).x / 2, screenHeight / 2 + 30 };
-	Vector2 soundEffectsPos = { screenWidth / 2 - MeasureTextEx(customFont, "Sound Effects:", textFontSize, 2).x / 2, screenHeight / 2 + 60 };
-	Vector2 chipTonePos = { screenWidth / 2 - MeasureTextEx(customFont, "ChipTone", smallFontSize, 2).x / 2, screenHeight / 2 + 90 };
-	Vector2 menuPos = { screenWidth / 2 - MeasureTextEx(customFont, "Press ESC to go back to the Menu.", smallFontSize, 2).x / 2, screenHeight - 40 };
+	Vector2 titlePos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Credits", titlesFontSize, 2).x / 2, static_cast<float>(screenHeight) / 4 };
+	Vector2 developerPos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Developer: Lucio Stefano Piccioni.", textFontSize, 2).x / 2, static_cast<float>(screenHeight) / 4 + 60 };
+	Vector2 musicPos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Music:", textFontSize, 2).x / 2, static_cast<float>(screenHeight) / 2 - 60 };
+	Vector2 music1Pos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "1. 'Game Over!' - Harris Cole", smallFontSize, 2).x / 2, static_cast<float>(screenHeight) / 2 - 30 };
+	Vector2 music2Pos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "2. 'Falling Apart' - yawgooh (Lofi Girl Ambient)", smallFontSize, 2).x / 2, static_cast<float>(screenHeight) / 2 - 10 };
+	Vector2 music3Pos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "3. 'Quiet Nights' - JEN", smallFontSize, 2).x / 2, static_cast<float>(screenHeight) / 2 + 10 };
+	Vector2 music4Pos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "4. 'Facade' - JEN", smallFontSize, 2).x / 2, static_cast<float>(screenHeight) / 2 + 30 };
+	Vector2 soundEffectsPos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Sound Effects:", textFontSize, 2).x / 2, static_cast<float>(screenHeight) / 2 + 60 };
+	Vector2 chipTonePos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "ChipTone", smallFontSize, 2).x / 2, static_cast<float>(screenHeight) / 2 + 90 };
+	Vector2 menuPos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Press ESC to go back to the Menu.", smallFontSize, 2).x / 2, static_cast<float>(screenHeight) - 40 };
 
-	DrawTextEx(customFont, "Credits", titlePos, titleFontSize, 2, BLACK);
+	DrawTextEx(customFont, "Credits", titlePos, titlesFontSize, 2, BLACK);
 	DrawTextEx(customFont, "Developer: Lucio Stefano Piccioni.", developerPos, textFontSize, 2, BLACK);
 	DrawTextEx(customFont, "Music:", musicPos, textFontSize, 2, BLACK);
 	DrawTextEx(customFont, "1. 'Game Over!' - Harris Cole", music1Pos, smallFontSize, 2, BLACK);
@@ -227,29 +225,24 @@ void Scene::DrawGameRules(int screenWidth, int screenHeight, Font customFont)
 {
 	ClearBackground(RAYWHITE);
 
-	int titleFontSize = 40;
-	int textFontSize = 20;
-	int lineSpacing = 30;
-	int sectionSpacing = 50;
+	Vector2 titlePos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Game Rules", titlesFontSize, 2).x / 2, static_cast<float>(screenHeight) / 10 };
 
-	Vector2 titlePos = { screenWidth / 2 - MeasureTextEx(customFont, "Game Rules", titleFontSize, 2).x / 2, screenHeight / 10 };
+	Vector2 controlsTitlePos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Controls:", textFontSize, 2).x / 2, titlePos.y + titlesFontSize + buttonSpacing };
+	Vector2 upArrowPos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Up Arrow: Move Up", textFontSize, 2).x / 2, controlsTitlePos.y + buttonSpacing };
+	Vector2 downArrowPos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Down Arrow: Move Down", textFontSize, 2).x / 2, upArrowPos.y + buttonSpacing };
+	Vector2 leftArrowPos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Left Arrow: Move Left", textFontSize, 2).x / 2, downArrowPos.y + buttonSpacing };
+	Vector2 rightArrowPos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Right Arrow: Move Right", textFontSize, 2).x / 2, leftArrowPos.y + buttonSpacing };
+	Vector2 firePos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Left Click: Fire", textFontSize, 2).x / 2, rightArrowPos.y + buttonSpacing };
+	Vector2 escPausePos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "ESC: Pause", textFontSize, 2).x / 2, firePos.y + buttonSpacing };
 
-	Vector2 controlsTitlePos = { screenWidth / 2 - MeasureTextEx(customFont, "Controls:", textFontSize, 2).x / 2, titlePos.y + titleFontSize + sectionSpacing };
-	Vector2 upArrowPos = { screenWidth / 2 - MeasureTextEx(customFont, "Up Arrow: Move Up", textFontSize, 2).x / 2, controlsTitlePos.y + lineSpacing };
-	Vector2 downArrowPos = { screenWidth / 2 - MeasureTextEx(customFont, "Down Arrow: Move Down", textFontSize, 2).x / 2, upArrowPos.y + lineSpacing };
-	Vector2 leftArrowPos = { screenWidth / 2 - MeasureTextEx(customFont, "Left Arrow: Move Left", textFontSize, 2).x / 2, downArrowPos.y + lineSpacing };
-	Vector2 rightArrowPos = { screenWidth / 2 - MeasureTextEx(customFont, "Right Arrow: Move Right", textFontSize, 2).x / 2, leftArrowPos.y + lineSpacing };
-	Vector2 firePos = { screenWidth / 2 - MeasureTextEx(customFont, "Left Click: Fire", textFontSize, 2).x / 2, rightArrowPos.y + lineSpacing };
-	Vector2 escPausePos = { screenWidth / 2 - MeasureTextEx(customFont, "ESC: Pause", textFontSize, 2).x / 2, firePos.y + lineSpacing };
+	Vector2 points1Pos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Points for destroying sugaroids: 25", textFontSize, 2).x / 2, escPausePos.y + buttonSpacing };
+	Vector2 points2Pos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Points for avoiding sugaroids: 5", textFontSize, 2).x / 2, points1Pos.y + buttonSpacing };
+	Vector2 lives1Pos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "You start with 3 lives.", textFontSize, 2).x / 2, points2Pos.y + buttonSpacing };
+	Vector2 lives2Pos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Lose all lives to end the game.", textFontSize, 2).x / 2, lives1Pos.y + buttonSpacing };
 
-	Vector2 points1Pos = { screenWidth / 2 - MeasureTextEx(customFont, "Points for destroying sugaroids: 25", textFontSize, 2).x / 2, escPausePos.y + sectionSpacing };
-	Vector2 points2Pos = { screenWidth / 2 - MeasureTextEx(customFont, "Points for avoiding sugaroids: 5", textFontSize, 2).x / 2, points1Pos.y + lineSpacing };
-	Vector2 lives1Pos = { screenWidth / 2 - MeasureTextEx(customFont, "You start with 3 lives.", textFontSize, 2).x / 2, points2Pos.y + lineSpacing };
-	Vector2 lives2Pos = { screenWidth / 2 - MeasureTextEx(customFont, "Lose all lives to end the game.", textFontSize, 2).x / 2, lives1Pos.y + lineSpacing };
+	Vector2 backToMenuPos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Press ESC to return to menu", textFontSize, 2).x / 2, static_cast<float>(screenHeight) - 60 };
 
-	Vector2 backToMenuPos = { screenWidth / 2 - MeasureTextEx(customFont, "Press ESC to return to menu", textFontSize, 2).x / 2, screenHeight - 60 };
-
-	DrawTextEx(customFont, "Game Rules", titlePos, titleFontSize, 2, BLACK);
+	DrawTextEx(customFont, "Game Rules", titlePos, titlesFontSize, 2, BLACK);
 	DrawTextEx(customFont, "Controls:", controlsTitlePos, textFontSize, 2, BLACK);
 	DrawTextEx(customFont, "Up Arrow: Move Up", upArrowPos, textFontSize, 2, BLACK);
 	DrawTextEx(customFont, "Down Arrow: Move Down", downArrowPos, textFontSize, 2, BLACK);
@@ -274,10 +267,10 @@ void Scene::DrawGameOver(Menus& gameState, Font& font, int& screenWidth, int& sc
 
 	Color outline = BLACK;
 
-	int startX, startY;
+	float startX, startY;
 
-	startX = (screenWidth - buttonWidth) / 2;
-	startY = ((screenHeight - screenHeight / 5) - (buttonHeight * maxButtons + buttonSpacing * (maxButtons - 1)));
+	startX = (static_cast<float>(screenWidth) - buttonWidth) / 2;
+	startY = ((static_cast<float>(screenHeight) - screenHeight / 5) - (buttonHeight * maxButtons + buttonSpacing * (maxButtons - 1)));
 
 	for (int i = 0; i < maxButtons; i++)
 	{
@@ -323,9 +316,8 @@ void Scene::DrawGameOver(Menus& gameState, Font& font, int& screenWidth, int& sc
 	}
 }
 
-void Scene::DrawConfirmExit(Font& font)
+void Scene::DrawConfirmExit(Font& font, int screenWidth, int screenHeight)
 {
-	Menus previousMenu = Menus::MainMenu;
 	const int maxButtons = 2;
 
 	Color outLine = BLACK;
@@ -333,10 +325,10 @@ void Scene::DrawConfirmExit(Font& font)
 	Vector2 mouse = GetMousePosition();
 	Button button[maxButtons];
 
-	int startX, startY;
+	float startX, startY;
 
-	startX = (screenWidth - buttonWidth) / 2;
-	startY = (screenHeight - (buttonHeight * maxButtons + buttonSpacing * (maxButtons - 1))) / 2;
+	startX = (static_cast<float>(screenWidth) - buttonWidth) / 2;
+	startY = (static_cast<float>(screenHeight) - (buttonHeight * maxButtons + buttonSpacing * (maxButtons - 1))) / 2;
 
 	button[0].option = Menus::ConfirmExit;
 	button[1].option = Menus::CancelExit;
@@ -378,8 +370,8 @@ void Scene::DrawConfirmExit(Font& font)
 
 	DrawRectangle(0, 0, screenWidth, screenHeight, Color{ 0,0,0,125 });
 
-	DrawTextEx(font, "Are you sure you want to exit?", 
-		Vector2{ static_cast<float>(screenWidth / 2 - MeasureText("Are you sure you want to exit?", 30) / 2) , static_cast<float>(screenHeight / 4) }, 
+	DrawTextEx(font, "Are you sure you want to exit?",
+		Vector2{ static_cast<float>(screenWidth) / 2 - MeasureText("Are you sure you want to exit?", 30) / 2 , static_cast<float>(screenHeight / 4) },
 		textFontSize, 0, outLine);
 
 	for (int i = 0; i < maxButtons; i++)

@@ -1,6 +1,8 @@
 #include "eventManager.h"
 
-void main()
+int main()
 {
 	EventManager::InitProgram();
+
+	return 0;
 }

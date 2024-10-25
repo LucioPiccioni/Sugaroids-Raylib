@@ -33,13 +33,13 @@ void GameManager::ResetGame(std::list<Bullet::Bullet>& bullets, std::list<Sugaro
     gameOver = false;
 }
 
-void GameManager::BulletActions(std::list<Bullet::Bullet>& bullets, std::list<Sugaroid::Sugaroid>& sugaroids, Sound& boomSound, float& deltaTime)
+void GameManager::BulletActions(std::list<Bullet::Bullet>& bullets, std::list<Sugaroid::Sugaroid>& sugaroids, Sound& boomSound, float deltaTime, int screenWidth, int screenHeight)
 {
     for (auto bulletIt = bullets.begin(); bulletIt != bullets.end(); )
     {
         Bullet::Movement(*bulletIt, deltaTime);
 
-        if (Tools::CheckIfOutOfBounds(bulletIt->position, bulletIt->radius))
+        if (Tools::CheckIfOutOfBounds(bulletIt->position, bulletIt->radius, screenWidth, screenHeight))
             bulletIt->toDestroy = true;
 
         for (auto& sugaroid : sugaroids)
@@ -71,11 +71,11 @@ void GameManager::BulletActions(std::list<Bullet::Bullet>& bullets, std::list<Su
     }
 }
 
-void GameManager::SugaroidsActions(std::list<Sugaroid::Sugaroid>& sugaroids, std::list<Bullet::Bullet>& bullets, Sound& hurtSound, float& deltaTime, float& playerEXP, int& score, Player::Player& player)
+void GameManager::SugaroidsActions(std::list<Sugaroid::Sugaroid>& sugaroids, std::list<Bullet::Bullet>& bullets, Sound& hurtSound, float& playerEXP, int& score, Player::Player& player, float deltaTime, int screenWidth, int screenHeight)
 {
     for (auto sugaroidIt = sugaroids.begin(); sugaroidIt != sugaroids.end(); )
     {
-        if (Tools::CheckIfOutOfBounds(sugaroidIt->position, sugaroidIt->radius))
+        if (Tools::CheckIfOutOfBounds(sugaroidIt->position, sugaroidIt->radius, screenHeight, screenWidth))
         {
             sugaroidIt->outOfScreen = true;
             sugaroidIt->toDestroy = true;
@@ -121,7 +121,7 @@ void GameManager::DificultyIncreas(float& sugaroidsSpawnTime)
     sugaroidsSpawnTime -= sugaroidsSpawnTime * 0.15f;
 }
 
-void GameManager::PowerUnlockerLogic(PowerUps& boosts, PowerUpList& powerUpUnlocked, float& sugaroidsSpawnTime)
+void GameManager::PowerUnlockerLogic(PowerUps& boosts, PowerUpList& powerUpUnlocked)
 {
     powerUpUnlocked = PowerUpList::None;
     bool reRol = false;

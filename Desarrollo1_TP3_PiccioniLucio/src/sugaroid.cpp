@@ -1,9 +1,7 @@
 #include "sugaroid.h"
 #include "utilities.h"
 
-float sugaroidsSpawnRate = 1;
-
-void Sugaroid::Constructor(Vector2& playerPosition, std::list<Sugaroid>& sugaroids)
+void Sugaroid::Constructor(Vector2& playerPosition, std::list<Sugaroid>& sugaroids, int screenWidth, int screenHeight)
 {
 	int edge = rand() % 4 + 1;
 	Vector2 spawnPosition = { 0, 0 };
@@ -52,12 +50,12 @@ void Sugaroid::Constructor(Vector2& playerPosition, std::list<Sugaroid>& sugaroi
 }
 
 
-void Sugaroid::Spawner(float& spawnTimer, float& deltaTime, Vector2& playerPos, std::list<Sugaroid>& sugaroids)
+void Sugaroid::Spawner(float& spawnTimer, float& sugaroidsSpawnRate, float& deltaTime, Vector2& playerPos, std::list<Sugaroid>& sugaroids, int screenWidth, int screenHeight)
 {
 	spawnTimer += deltaTime;
 	if (spawnTimer > sugaroidsSpawnRate)
 	{
-		Constructor(playerPos, sugaroids);
+		Constructor(playerPos, sugaroids, screenWidth, screenHeight);
 		spawnTimer = 0;
 	}
 }

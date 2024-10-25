@@ -5,12 +5,15 @@
 #include "scene.h"
 #include <ctime>
 
-Menus gameState = Menus::MainMenu;
-
 void EventManager::InitProgram()
 {
+	int screenWidth = 1024;
+	int screenHeight = 768;
 
-	srand(time(nullptr));
+#pragma warning(disable:4244)
+	srand(time(NULL));
+#pragma warning(default:4244)
+
 	InitWindow(screenWidth, screenHeight, "Sugaroids");
 
 	SetTargetFPS(144);
@@ -19,7 +22,7 @@ void EventManager::InitProgram()
 
 	InitAudioDevice();
 
-	ProgramLoop();
+	ProgramExecutionAndLoop(screenWidth, screenHeight);
 
 	CloseAudioDevice();
 	CloseWindow();
@@ -32,16 +35,20 @@ void EventManager::InitAssets(SoundTracks::GameMusic& music, Textures::GameTextu
 	Textures::init(textures);
 }
 
-void EventManager::ProgramLoop()
+void EventManager::ProgramExecutionAndLoop(int& screenWidth, int& screenHeight)
 {
+	Menus gameState = Menus::MainMenu;
+
 	bool gameOver = false;
 	float deltaTime;
 	Player::Player player;
 	int points = 0;
-	float spawnTimer = 0;
-	Vector2 mouse;
 
-	Font font = LoadFontEx("../res/fonts/rubikBubbles/RubikBubbles-Regular.ttf", titlesFonstSize, 0, 0);
+	float sugaroidsSpawnRate = 1;
+	float spawnTimer = 0;
+	Vector2 mouse = { 0,0 };
+
+	Font font = LoadFontEx("../res/fonts/rubikBubbles/RubikBubbles-Regular.ttf", static_cast<int>(titlesFontSize), 0, 0);
 
 	SoundTracks::GameMusic music = {};
 	Textures::GameTextures textures = {};
@@ -70,7 +77,7 @@ void EventManager::ProgramLoop()
 			PreviousMenu = Menus::MainMenu;
 
 			if (IsKeyPressed(KEY_ESCAPE))
-				gameState = Menus::Exit;
+				gameState = Menus::WantToExit;
 			break;
 
 		case Menus::Playing:
@@ -90,13 +97,13 @@ void EventManager::ProgramLoop()
 
 					Player::Movement(player, deltaTime, screenWidth, screenHeight);
 
-					Player::Shoot(player, sounds.shoot, bullets, sugaroids, deltaTime);
+					Player::Shoot(player, sounds.shoot, bullets, sugaroids);
 
-					Sugaroid::Spawner(spawnTimer, deltaTime, player.pos, sugaroids);
+					Sugaroid::Spawner(spawnTimer, sugaroidsSpawnRate, deltaTime, player.pos, sugaroids, screenWidth, screenHeight);
 
-					GameManager::SugaroidsActions(sugaroids, bullets, sounds.hurt, deltaTime, player.EXP, points, player);
+					GameManager::SugaroidsActions(sugaroids, bullets, sounds.hurt, player.EXP, points, player, deltaTime, screenWidth, screenHeight);
 
-					GameManager::BulletActions(bullets, sugaroids, sounds.boom, deltaTime);
+					GameManager::BulletActions(bullets, sugaroids, sounds.boom, deltaTime, screenWidth, screenHeight);
 
 					gameOver = GameManager::DidPlayerDied(player);
 
@@ -106,7 +113,7 @@ void EventManager::ProgramLoop()
 
 				if (!gameOver && player.EXP >= 500 && !allBoostsUnlocked)
 				{
-					GameManager::PowerUnlockerLogic(player.boost, player.lastPowerUnlock, sugaroidsSpawnRate);
+					GameManager::PowerUnlockerLogic(player.boost, player.lastPowerUnlock);
 					player.EXP = 0;
 					player.level++;
 					GameManager::DificultyIncreas(sugaroidsSpawnRate);
@@ -135,7 +142,7 @@ void EventManager::ProgramLoop()
 			if (IsKeyPressed(KEY_ESCAPE))
 				gameState = Menus::MainMenu;
 
-			ConfirmExit(gameState, PreviousMenu);
+			ConfirmExit(gameState, PreviousMenu, screenWidth, screenHeight);
 
 			break;
 
@@ -153,8 +160,8 @@ void EventManager::ProgramLoop()
 
 		DrawTexturePro(
 			textures.backgroundImage,
-			Rectangle{ 0, 0, (float)textures.backgroundImage.width, (float)textures.backgroundImage.height },
-			Rectangle{ 0, 0, (float)screenWidth, (float)screenHeight },
+			Rectangle{ 0.0f, 0.0f, static_cast<float>(textures.backgroundImage.width), static_cast<float>(textures.backgroundImage.height) },
+			Rectangle{ 0.0f, 0.0f, static_cast<float>(screenWidth), static_cast<float>(screenHeight) },
 			Vector2{ 0, 0 },
 			0.0f,
 			WHITE);
@@ -186,7 +193,7 @@ void EventManager::ProgramLoop()
 
 					if (player.levelingUp && !allBoostsUnlocked)
 					{
-						Scene::DrawPowerUpUnlockHud(player.boost, player.lastPowerUnlock, player.levelingUp, font);
+						Scene::DrawPowerUpUnlockHud(player.lastPowerUnlock, player.levelingUp, font, screenWidth, screenHeight);
 					}
 
 					DrawTextEx(font, pointsText.c_str(), Vector2{ 0,0 }, scoreFontSize, 0, BLACK);
@@ -210,7 +217,7 @@ void EventManager::ProgramLoop()
 
 		case Menus::WantToExit:
 
-			Scene::DrawConfirmExit(font);
+			Scene::DrawConfirmExit(font, screenWidth, screenHeight);
 
 			break;
 
@@ -319,7 +326,7 @@ void EventManager::MusicControl(Menus& gameState, SoundTracks::GameMusic& music,
 	}
 }
 
-void EventManager::ConfirmExit(Menus& gameState, Menus& previusMenu)
+void EventManager::ConfirmExit(Menus& gameState, Menus& previusMenu, int& screenWidth, int& screenHeight)
 {
 	const int maxButtons = 2;
 
@@ -328,7 +335,7 @@ void EventManager::ConfirmExit(Menus& gameState, Menus& previusMenu)
 	Vector2 mouse = GetMousePosition();
 	Button button[maxButtons];
 
-	int startX, startY;
+	float startX, startY;
 
 	startX = (screenWidth - buttonWidth) / 2;
 	startY = (screenHeight - (buttonHeight * maxButtons + buttonSpacing * (maxButtons - 1))) / 2;
@@ -338,7 +345,7 @@ void EventManager::ConfirmExit(Menus& gameState, Menus& previusMenu)
 
 	for (int i = 0; i < maxButtons; i++)
 	{
-		button[i].rec = { static_cast<float>(startX), static_cast<float>(startY + i * (buttonHeight + buttonSpacing)), static_cast<float>(buttonWidth), static_cast<float>(buttonHeight) };
+		button[i].rec = { startX, startY + i * (buttonHeight + buttonSpacing), static_cast<float>(buttonWidth), static_cast<float>(buttonHeight) };
 
 		switch (button[i].option)
 		{

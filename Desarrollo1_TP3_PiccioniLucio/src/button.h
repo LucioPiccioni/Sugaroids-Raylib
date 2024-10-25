@@ -4,7 +4,7 @@
 
 struct Button
 {
-	Rectangle rec;
+	Rectangle rec = { 0,0,0,0 };
 	Menus option = Menus::None;
 	Color color = { 255, 182, 193, 255 };
 };
