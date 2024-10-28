@@ -2,7 +2,7 @@
 #include <cmath>
 #include <iostream>
 
-void Bullet::SpawnStarBullet(Vector2& playerPos, float& playerAngle, PowerUps& powerUps, std::list<Bullet>& bullets, std::list<Sugaroid::Sugaroid>& sugaroids)
+Bullet::Bullet Bullet::SpawnBullet(Vector2 playerPos, float playerAngle, PowerUps powerUps, std::list<Sugaroid::Sugaroid> sugaroids)
 {
 	float size = 32.0f;
 	float speed = 600.0f;
@@ -48,11 +48,10 @@ void Bullet::SpawnStarBullet(Vector2& playerPos, float& playerAngle, PowerUps& p
 		}
 	}
 
-	bullets.push_back(newBullet);
+	return newBullet;
 }
 
-
-void Bullet::Movement(Bullet& bullet, float& deltaTime)
+void Bullet::Movement(Bullet& bullet, float deltaTime)
 {
 	float angleToSugaroid = 0.0f;
 

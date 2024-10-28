@@ -13,12 +13,12 @@
 namespace EventManager
 {
 	void InitProgram();
-	void ProgramExecutionAndLoop(int& screenWidth, int& screenHeight);
+	void ProgramExecutionAndLoop(int screenWidth, int screenHeight);
 	void InitAssets(SoundTracks::GameMusic& music, Textures::GameTextures& textures, Sounds::GameSounds& sounds);
 	void UnloadAssets(SoundTracks::GameMusic& music, Font& font, Textures::GameTextures& textures, Sounds::GameSounds& sounds);
 
 
-	void MusicControl(Menus& gameState, SoundTracks::GameMusic& music, bool& gameOver);
+	void MusicControl(Menus& gameState, SoundTracks::GameMusic music, bool gameOver);
 
-	void ConfirmExit(Menus& gameState, Menus& previusMenu, int& screenWidth, int& screenHeight);
+	void ConfirmExit(Menus& gameState, Menus previusMenu, int screenWidth, int screenHeight);
 }

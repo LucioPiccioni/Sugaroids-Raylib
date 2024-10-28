@@ -33,5 +33,5 @@ namespace Player
 	};
 
 	void Movement(Player& player, float deltaTime, int screenWidth, int screenHeight);
-	void Shoot(Player& player, Sound& shootSound, std::list<Bullet::Bullet>& bullets, std::list<Sugaroid::Sugaroid>& sugaroids);
+	void Shoot(Player& player, Sound shootSound, std::list<Bullet::Bullet>& bullets, std::list<Sugaroid::Sugaroid> sugaroids);
 }

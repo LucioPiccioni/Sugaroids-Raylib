@@ -35,7 +35,7 @@ void EventManager::InitAssets(SoundTracks::GameMusic& music, Textures::GameTextu
 	Textures::init(textures);
 }
 
-void EventManager::ProgramExecutionAndLoop(int& screenWidth, int& screenHeight)
+void EventManager::ProgramExecutionAndLoop(int screenWidth, int screenHeight)
 {
 	Menus gameState = Menus::MainMenu;
 
@@ -155,7 +155,7 @@ void EventManager::ProgramExecutionAndLoop(int& screenWidth, int& screenHeight)
 
 		ClearBackground(BLACK);
 
-		std::string pointsText = "Points: " + std::to_string((int)points);
+		std::string pointsText = "Points: " + std::to_string(points);
 		std::string playerLives = "Lives: " + std::to_string(player.lives);
 
 		DrawTexturePro(
@@ -184,7 +184,7 @@ void EventManager::ProgramExecutionAndLoop(int& screenWidth, int& screenHeight)
 				{
 					Scene::DrawGameOver(gameState, font, screenWidth, screenHeight);
 
-					GameManager::ShouldResetMatch(gameState, player, bullets, sugaroids, gameOver, points);
+					GameManager::ShouldResetMatch(gameState, player, bullets, sugaroids, gameOver, points, sugaroidsSpawnRate);
 				}
 				else
 				{
@@ -251,7 +251,7 @@ void EventManager::UnloadAssets(SoundTracks::GameMusic& music, Font& font, Textu
 	UnloadSound(sounds.shoot);
 }
 
-void EventManager::MusicControl(Menus& gameState, SoundTracks::GameMusic& music, bool& gameOver)
+void EventManager::MusicControl(Menus& gameState, SoundTracks::GameMusic music, bool gameOver)
 {
 	const int AllMusic = 3;
 
@@ -326,7 +326,7 @@ void EventManager::MusicControl(Menus& gameState, SoundTracks::GameMusic& music,
 	}
 }
 
-void EventManager::ConfirmExit(Menus& gameState, Menus& previusMenu, int& screenWidth, int& screenHeight)
+void EventManager::ConfirmExit(Menus& gameState, Menus previusMenu, int screenWidth, int screenHeight)
 {
 	const int maxButtons = 2;
 

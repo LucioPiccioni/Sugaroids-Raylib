@@ -8,7 +8,7 @@ void SoundTracks::init(GameMusic& music)
 	music.gamePlayMusic = LoadMusicStream("../res/music/JEN - FACADE - soulmate.mp3");
 }
 
-void SoundTracks::MainMenuOrganization(Music*& actualMusic, Music* stopMusic[], GameMusic& music)
+void SoundTracks::MainMenuOrganization(Music*& actualMusic, Music* stopMusic[], GameMusic music)
 {
 	actualMusic = &music.mainMenuMusic;
 
@@ -17,7 +17,7 @@ void SoundTracks::MainMenuOrganization(Music*& actualMusic, Music* stopMusic[], 
 	stopMusic[2] = &music.creditsMusic;
 }
 
-void SoundTracks::GamePlayOrganization(Music*& actualMusic, Music* stopMusic[], GameMusic& music)
+void SoundTracks::GamePlayOrganization(Music*& actualMusic, Music* stopMusic[], GameMusic music)
 {
 	actualMusic = &music.gamePlayMusic;
 
@@ -26,7 +26,7 @@ void SoundTracks::GamePlayOrganization(Music*& actualMusic, Music* stopMusic[], 
 	stopMusic[2] = &music.creditsMusic;
 }
 
-void SoundTracks::GameOverOrganization(Music*& actualMusic, Music* stopMusic[], GameMusic& music)
+void SoundTracks::GameOverOrganization(Music*& actualMusic, Music* stopMusic[], GameMusic music)
 {
 	actualMusic = &music.gameOverMusic;
 
@@ -35,7 +35,7 @@ void SoundTracks::GameOverOrganization(Music*& actualMusic, Music* stopMusic[], 
 	stopMusic[2] = &music.creditsMusic;
 }
 
-void SoundTracks::CreditsOrganization(Music*& actualMusic, Music* stopMusic[], GameMusic& music)
+void SoundTracks::CreditsOrganization(Music*& actualMusic, Music* stopMusic[], GameMusic music)
 {
 	actualMusic = &music.creditsMusic;
 

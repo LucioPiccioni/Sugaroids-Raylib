@@ -8,8 +8,8 @@
 
 namespace GameManager
 {
-	void ResetGame(std::list<Bullet::Bullet>& bullets, std::list<Sugaroid::Sugaroid>& sugaroids, Player::Player& player, bool& gameOver, int& points);
-	void ShouldResetMatch(Menus& gameState, Player::Player& player, std::list<Bullet::Bullet>& bullets, std::list<Sugaroid::Sugaroid>& sugaroids, bool& gameOver, int& points);
+	void ResetGame(std::list<Bullet::Bullet>& bullets, std::list<Sugaroid::Sugaroid>& sugaroids, Player::Player& player, bool& gameOver, int& points, float& sugaroidsSpawnTime);
+	void ShouldResetMatch(Menus& gameState, Player::Player& player, std::list<Bullet::Bullet>& bullets, std::list<Sugaroid::Sugaroid>& sugaroids, bool& gameOver, int& points, float& sugaroidsSpawnTime);
 	void BulletActions(std::list<Bullet::Bullet>& bullets, std::list<Sugaroid::Sugaroid>& sugaroids, Sound& boomSound, float deltaTime, int screenWidth, int screenHeight);
 	void SugaroidsActions(std::list<Sugaroid::Sugaroid>& sugaroids, std::list<Bullet::Bullet>& bullets, Sound& hurtSound, float& points, int& score, Player::Player& player, float deltaTime, int screenWidth, int screenHeight);
 

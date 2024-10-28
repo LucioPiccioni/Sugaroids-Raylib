@@ -18,6 +18,6 @@ namespace Bullet
 		Sugaroid::Sugaroid* targetedSugaroid = nullptr;
 	};
 
-	void SpawnStarBullet(Vector2& playerPos, float& playerAngle, PowerUps& powerUps, std::list<Bullet>& bullets, std::list<Sugaroid::Sugaroid>& sugaroids);
-	void Movement(Bullet& bullet, float& deltaTime);
+	Bullet SpawnBullet(Vector2 playerPos, float playerAngle, PowerUps powerUps, std::list<Sugaroid::Sugaroid> sugaroids);
+	void Movement(Bullet& bullet, float deltaTime);
 }

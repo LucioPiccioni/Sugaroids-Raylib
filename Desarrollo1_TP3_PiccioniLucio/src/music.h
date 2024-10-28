@@ -12,8 +12,8 @@ namespace SoundTracks
 	};
 
 	void init(GameMusic& music);
-	void MainMenuOrganization(Music*& actualMusic, Music* stopMusic[], GameMusic& music);
-	void GamePlayOrganization(Music*& actualMusic, Music* stopMusic[], GameMusic& music);
-	void GameOverOrganization(Music*& actualMusic, Music* stopMusic[], GameMusic& music);
-	void CreditsOrganization(Music*& actualMusic, Music* stopMusic[], GameMusic& music);
+	void MainMenuOrganization(Music*& actualMusic, Music* stopMusic[], GameMusic music);
+	void GamePlayOrganization(Music*& actualMusic, Music* stopMusic[], GameMusic music);
+	void GameOverOrganization(Music*& actualMusic, Music* stopMusic[], GameMusic music);
+	void CreditsOrganization(Music*& actualMusic, Music* stopMusic[], GameMusic music);
 }
