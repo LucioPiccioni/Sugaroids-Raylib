@@ -1,12 +1,11 @@
 #include "utilities.h"
+
 #include "menus.h"
 
 int screenWidth = 1024;
 int screenHeight = 768;
 
 float timmerToCleanBuffer = 0;
-
-void Tools::OpenURL(const std::string& url) { std::string PESADO = url; }
 
 bool Tools::CheckCollisionCircles(Vector2 center1, float radius1, Vector2 center2, float radius2)
 {
@@ -37,8 +36,8 @@ bool Tools::CheckIfOutOfBounds(Vector2 position, float radius, int newScreenWidt
 
 void Tools::DrawButton(Rectangle rect, const std::string text, Color color, Color outline, Font font, int newScreenWidth, int newScreenHeight, float scaleFactor)
 {
-    float scaleX = static_cast<float>(newScreenWidth) / static_cast<float>(screenWidth);
-    float scaleY = static_cast<float>(newScreenHeight) / static_cast<float>(screenHeight);
+	float scaleX = static_cast<float>(newScreenWidth) / static_cast<float>(screenWidth);
+	float scaleY = static_cast<float>(newScreenHeight) / static_cast<float>(screenHeight);
 
 	float centerX = rect.x + rect.width / 2;
 	float centerY = rect.y + rect.height / 2;
@@ -49,38 +48,39 @@ void Tools::DrawButton(Rectangle rect, const std::string text, Color color, Colo
 	rect.x = centerX - rect.width / 2;
 	rect.y = centerY - rect.height / 2;
 
-    DrawRectangleRec(rect, color);
-    DrawRectangleLinesEx(rect, 2, outline);
+	DrawRectangleRec(rect, color);
+	DrawRectangleLinesEx(rect, 2, outline);
 
-    Vector2 textSize = MeasureTextEx(font, text.c_str(), static_cast<float>(textFontSize) * scaleFactor, 1);
+	Vector2 textSize = MeasureTextEx(font, text.c_str(), static_cast<float>(textFontSize) * scaleFactor, 1);
 
-    Vector2 textPosition = {
-        rect.x + (rect.width - textSize.x) / 2,
-        rect.y + (rect.height - textSize.y) / 2
-    };
+	Vector2 textPosition = {
+		rect.x + (rect.width - textSize.x) / 2,
+		rect.y + (rect.height - textSize.y) / 2
+	};
 
-	DrawTextPro(font, 
-		text.c_str(), 
-		textPosition, 
-		Vector2{0,0},
+	DrawTextPro(font,
+		text.c_str(),
+		textPosition,
+		Vector2{ 0,0 },
 		0,
-		textFontSize * scaleFactor, 
-		0, 
+		textFontSize * scaleFactor,
+		0,
 		BLACK);
 }
 
-
-
-void Tools::AdjustSizeAndPos(Vector2& position, float& size, float& radius,int newScreenWidth, int newScreenHeight)
+void Tools::AdjustSizeAndPos(Vector2& position, float& size, float& radius, int newScreenWidth, int newScreenHeight)
 {
 	float scaleX = static_cast<float>(newScreenWidth) / static_cast<float>(screenWidth);
 	float scaleY = static_cast<float>(newScreenHeight) / static_cast<float>(screenHeight);
 
-	position.x *= scaleX;
-	position.y *= scaleY;
+	float scale = (scaleX + scaleY) / 2;
 
-	size =
-	
-	radius = radius / 2;
+	position.x *= scale;
+	position.y *= scale;
+#pragma warning(disable:4244)
+	size = static_cast<int>(size * scale);
+#pragma warning(default:4244)
+
+	radius = size / 2;
 }
 

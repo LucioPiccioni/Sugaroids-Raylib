@@ -1,11 +1,12 @@
 #include "scene.h"
+
 #include "button.h"
 #include "utilities.h"
 
-void Scene::DrawGamePlay(std::list<Bullet::Bullet> bullets, std::list<Sugaroid::Sugaroid> sugaroids, Player::Player player, Texture2D bulletsImage, Texture2D playerImage, Texture2D sugaroidImage)
+void Scene::DrawGamePlay(Shader shader, std::list<Bullet::Bullet> bullets, std::list<Sugaroid::Sugaroid> sugaroids, Player::Player player, Texture2D bulletsImage, Texture2D playerImage, Texture2D sugaroidImage)
 {
 	// Dibujar balas
-	for (auto& bullet : bullets)
+	for (const auto& bullet : bullets)
 	{
 		DrawTexturePro(bulletsImage,
 			Rectangle{ 0, 0, static_cast<float>(bulletsImage.width), static_cast<float>(bulletsImage.height) },  // Fuente (imagen completa)
@@ -15,18 +16,31 @@ void Scene::DrawGamePlay(std::list<Bullet::Bullet> bullets, std::list<Sugaroid::
 			WHITE);
 	}
 
-	// Ajustar y dibujar jugador
-	DrawTexturePro(
-		playerImage,  // La textura original
-		Rectangle{ 0, 0, static_cast<float>(playerImage.width), static_cast<float>(playerImage.height) },  // Fuente: toda la imagen original
-		Rectangle{ player.pos.x, player.pos.y, player.size, player.size },  // Destino: posición y nuevo tamaño
-		Vector2{ player.size / 2, player.size / 2 },  // Offset (centro) si es necesario
-		player.angle,  // Rotación (0 si no quieres rotar)
-		WHITE  // Color (generalmente WHITE para no aplicar ningún tinte)
-	);
+	if (player.invisibility <= 0)
+		DrawTexturePro(
+			playerImage,  // La textura original
+			Rectangle{ 0, 0, static_cast<float>(playerImage.width), static_cast<float>(playerImage.height) },  // Fuente: toda la imagen original
+			Rectangle{ player.pos.x, player.pos.y, player.size, player.size },  // Destino: posición y nuevo tamaño
+			Vector2{ player.size / 2, player.size / 2 },  // Offset (centro) si es necesario
+			player.angle,  // Rotación (0 si no quieres rotar)
+			WHITE  // Color (generalmente WHITE para no aplicar ningún tinte)
+		);
+	else
+	{
+		BeginShaderMode(shader);
+		DrawTexturePro(
+			playerImage,  // La textura original
+			Rectangle{ 0, 0, static_cast<float>(playerImage.width), static_cast<float>(playerImage.height) },  // Fuente: toda la imagen original
+			Rectangle{ player.pos.x, player.pos.y, player.size, player.size },  // Destino: posición y nuevo tamaño
+			Vector2{ player.size / 2, player.size / 2 },  // Offset (centro) si es necesario
+			player.angle,  // Rotación (0 si no quieres rotar)
+			WHITE  // Color (generalmente WHITE para no aplicar ningún tinte)
+		);
+		EndShaderMode();
+	}
 
 	// Dibujar sugaroids
-	for (auto& sugaroid : sugaroids)
+	for (const auto& sugaroid : sugaroids)
 	{
 		DrawTexturePro(
 			sugaroidImage,

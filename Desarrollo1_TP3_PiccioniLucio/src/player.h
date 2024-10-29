@@ -22,6 +22,8 @@ namespace Player
 		float radius = size / 2;
 		float angle = 0;
 
+		float invisibility = 0;
+
 		int bulletBuffer = 0;
 		float fireCooldown = 0;
 

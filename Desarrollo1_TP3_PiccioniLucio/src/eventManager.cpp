@@ -1,9 +1,11 @@
 #include "eventManager.h"
+
+#include <ctime>
+
 #include "utilities.h"
 #include "gameplayManager.h"
 #include "button.h"
 #include "scene.h"
-#include <ctime>
 
 void Engine::InitProgram()
 {
@@ -51,6 +53,8 @@ void Engine::ProgramExecutionAndLoop()
 	Textures::GameTextures textures = {};
 	Sounds::GameSounds sounds = {};
 
+	Shader shader = LoadShader(0, "../src/blink_shader.fs");
+
 	InitAssets(music, textures, sounds);
 
 	std::list<Bullet::Bullet> bullets;
@@ -65,8 +69,17 @@ void Engine::ProgramExecutionAndLoop()
 	int newScreenWidth = screenWidth;
 	int newScreenHeight = screenHeight;
 
+	float blinkFrequency = 0.5f;  // Frecuencia del parpadeo
+	float blinkAmplitude = 1.5f;   // Amplitud del parpadeo
+
 	while (!WindowShouldClose() && gameState != Menus::Exit)
 	{
+
+		double time = GetTime();
+		SetShaderValue(shader, GetShaderLocation(shader, "time"), &time, SHADER_UNIFORM_FLOAT);
+		SetShaderValue(shader, GetShaderLocation(shader, "blinkFrequency"), &blinkFrequency, SHADER_UNIFORM_FLOAT);
+		SetShaderValue(shader, GetShaderLocation(shader, "blinkAmplitude"), &blinkAmplitude, SHADER_UNIFORM_FLOAT);
+
 		deltaTime = GetFrameTime();
 
 		if (IsKeyDown(KEY_DOWN))
@@ -86,14 +99,11 @@ void Engine::ProgramExecutionAndLoop()
 			newScreenHeight = screenHeight;
 		}
 
-		if (IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_UP) || IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_RIGHT) || IsKeyPressed(KEY_R))
-			Tools::AdjustSizeAndPos(player.pos, player.size, player.radius, newScreenWidth, newScreenHeight);
-
 		SetWindowSize(newScreenWidth, newScreenHeight);
 
 		float scaleFactorX = static_cast<float>(newScreenWidth) / static_cast<float>(screenWidth);
 		float scaleFactorY = static_cast<float>(newScreenHeight) / static_cast<float>(screenHeight);
-		float scaleFactor = std::min(scaleFactorX, scaleFactorY);
+		float scaleFactor = (scaleFactorX + scaleFactorY) / 2;
 
 		Engine::MusicControl(gameState, music, gameOver);
 
@@ -139,6 +149,9 @@ void Engine::ProgramExecutionAndLoop()
 
 					if (!allBoostsUnlocked)
 						player.levelingUp = GameManager::ShouldAddPowerUps(player.EXP);
+
+					if (player.invisibility > 0)
+						player.invisibility -= deltaTime;
 				}
 
 				if (!gameOver && player.EXP >= 500 && !allBoostsUnlocked)
@@ -219,7 +232,7 @@ void Engine::ProgramExecutionAndLoop()
 				else
 				{
 
-					Scene::DrawGamePlay(bullets, sugaroids, player, textures.bulletsImage, textures.playerImage, textures.sugaroidImage);
+					Scene::DrawGamePlay(shader, bullets, sugaroids, player, textures.bulletsImage, textures.playerImage, textures.sugaroidImage);
 
 					if (player.levelingUp && !allBoostsUnlocked)
 					{
@@ -258,6 +271,7 @@ void Engine::ProgramExecutionAndLoop()
 		EndDrawing();
 	}
 
+	UnloadShader(shader);
 	UnloadAssets(music, font, textures, sounds);
 }
 

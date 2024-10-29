@@ -1,4 +1,5 @@
 #include "gameplayManager.h"
+
 #include "utilities.h"
 
 void GameManager::ShouldResetMatch(Menus& gameState, Player::Player& player, std::list<Bullet::Bullet>& bullets, std::list<Sugaroid::Sugaroid>& sugaroids, bool& gameOver, int& points, float& sugaroidsSpawnTime)
@@ -84,7 +85,12 @@ void GameManager::SugaroidsActions(std::list<Sugaroid::Sugaroid>& sugaroids, Sou
 
 			sugaroidIt->didItHitPlayer = true;
 			sugaroidIt->toDestroy = true;
-			player.lives--;
+
+			if (player.invisibility <= 0)
+			{
+				player.lives--;
+				player.invisibility = 1;
+			}
 		}
 	}
 }

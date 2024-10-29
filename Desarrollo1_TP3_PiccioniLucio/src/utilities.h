@@ -1,11 +1,11 @@
 #pragma once
 
-#include "raylib.h"
 #include <string>
+
+#include "raylib.h"
 
 namespace Tools
 {
-	void OpenURL(const std::string& url);
 	bool CheckCollisionCircles(Vector2 center1, float radius1, Vector2 center2, float radius2);
 	bool CheckMouseButtonCollition(Vector2 mouse, Rectangle button);
 	bool CheckIfOutOfBounds(Vector2 position, float radius, int newScreenWidth, int newScreenHeight);
