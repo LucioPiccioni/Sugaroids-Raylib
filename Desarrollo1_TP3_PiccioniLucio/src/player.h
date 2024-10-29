@@ -36,6 +36,6 @@ namespace Player
 		PowerUps boost = {};
 	};
 
-	void Movement(Player& player, float deltaTime, int screenWidth, int screenHeight);
+	void Movement(Player& player, float deltaTime);
 	void Shoot(Player& player, Sound shootSound, std::list<Bullet::Bullet>& bullets, std::list<Sugaroid::Sugaroid>& sugaroids);
 }

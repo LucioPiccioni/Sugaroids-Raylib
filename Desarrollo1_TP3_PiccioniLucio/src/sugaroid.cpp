@@ -1,7 +1,7 @@
 #include "sugaroid.h"
 #include "utilities.h"
 
-void Sugaroid::Constructor(Vector2& playerPosition, std::list<Sugaroid>& sugaroids, int newScreenWidth, int newScreenHeight)
+void Sugaroid::Constructor(Vector2& playerPosition, std::list<Sugaroid>& sugaroids)
 {
 	int edge = rand() % 4 + 1;
 	Vector2 spawnPosition = { 0, 0 };
@@ -9,20 +9,20 @@ void Sugaroid::Constructor(Vector2& playerPosition, std::list<Sugaroid>& sugaroi
 	switch (edge)
 	{
 	case 1:  // Top edge
-		spawnPosition.x = static_cast<float>(rand() % newScreenWidth);
+		spawnPosition.x = static_cast<float>(rand() % screenWidth);
 		spawnPosition.y = 0.0f;
 		break;
 	case 2:  // Bottom edge
-		spawnPosition.x = static_cast<float>(rand() % newScreenWidth);
-		spawnPosition.y = static_cast<float>(newScreenHeight);
+		spawnPosition.x = static_cast<float>(rand() % screenWidth);
+		spawnPosition.y = static_cast<float>(screenHeight);
 		break;
 	case 3:  // Left edge
 		spawnPosition.x = 0.0f;
-		spawnPosition.y = static_cast<float>(rand() % newScreenHeight);
+		spawnPosition.y = static_cast<float>(rand() % screenHeight);
 		break;
 	case 4:  // Right edge
-		spawnPosition.x = static_cast<float>(newScreenWidth);
-		spawnPosition.y = static_cast<float>(rand() % newScreenHeight);
+		spawnPosition.x = static_cast<float>(screenWidth);
+		spawnPosition.y = static_cast<float>(rand() % screenHeight);
 		break;
 	}
 
@@ -51,12 +51,12 @@ void Sugaroid::Constructor(Vector2& playerPosition, std::list<Sugaroid>& sugaroi
 }
 
 
-void Sugaroid::Spawner(float& spawnTimer, float& sugaroidsSpawnRate, float& deltaTime, Vector2& playerPos, std::list<Sugaroid>& sugaroids, int newScreenWidth, int newScreenHeight)
+void Sugaroid::Spawner(float& spawnTimer, float& sugaroidsSpawnRate, float& deltaTime, Vector2& playerPos, std::list<Sugaroid>& sugaroids)
 {
 	spawnTimer += deltaTime;
 	if (spawnTimer > sugaroidsSpawnRate)
 	{
-		Constructor(playerPos, sugaroids, newScreenWidth, newScreenHeight);
+		Constructor(playerPos, sugaroids);
 		spawnTimer = 0;
 	}
 }

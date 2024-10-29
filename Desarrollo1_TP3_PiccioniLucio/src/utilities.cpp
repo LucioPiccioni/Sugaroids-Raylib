@@ -29,29 +29,17 @@ bool Tools::CheckMouseButtonCollition(Vector2 mouse, Rectangle button)
 	return false;
 }
 
-bool Tools::CheckIfOutOfBounds(Vector2 position, float radius, int newScreenWidth, int newScreenHeight)
+bool Tools::CheckIfOutOfBounds(Vector2 position, float radius)
 {
-	return  (position.x + radius < 0 || position.x - radius > newScreenWidth || position.y + radius < 0 || position.y - radius > newScreenHeight);
+	return  (position.x + radius < 0 || position.x - radius > screenWidth || position.y + radius < 0 || position.y - radius > screenHeight);
 }
 
-void Tools::DrawButton(Rectangle rect, const std::string text, Color color, Color outline, Font font, int newScreenWidth, int newScreenHeight, float scaleFactor)
+void Tools::DrawButton(Rectangle rect, const std::string text, Color color, Color outline, Font font)
 {
-	float scaleX = static_cast<float>(newScreenWidth) / static_cast<float>(screenWidth);
-	float scaleY = static_cast<float>(newScreenHeight) / static_cast<float>(screenHeight);
-
-	float centerX = rect.x + rect.width / 2;
-	float centerY = rect.y + rect.height / 2;
-
-	rect.width *= scaleX;
-	rect.height *= scaleY;
-
-	rect.x = centerX - rect.width / 2;
-	rect.y = centerY - rect.height / 2;
-
 	DrawRectangleRec(rect, color);
 	DrawRectangleLinesEx(rect, 2, outline);
 
-	Vector2 textSize = MeasureTextEx(font, text.c_str(), static_cast<float>(textFontSize) * scaleFactor, 1);
+	Vector2 textSize = MeasureTextEx(font, text.c_str(), textFontSize, 1);
 
 	Vector2 textPosition = {
 		rect.x + (rect.width - textSize.x) / 2,
@@ -63,24 +51,8 @@ void Tools::DrawButton(Rectangle rect, const std::string text, Color color, Colo
 		textPosition,
 		Vector2{ 0,0 },
 		0,
-		textFontSize * scaleFactor,
+		textFontSize,
 		0,
 		BLACK);
-}
-
-void Tools::AdjustSizeAndPos(Vector2& position, float& size, float& radius, int newScreenWidth, int newScreenHeight)
-{
-	float scaleX = static_cast<float>(newScreenWidth) / static_cast<float>(screenWidth);
-	float scaleY = static_cast<float>(newScreenHeight) / static_cast<float>(screenHeight);
-
-	float scale = (scaleX + scaleY) / 2;
-
-	position.x *= scale;
-	position.y *= scale;
-#pragma warning(disable:4244)
-	size = static_cast<int>(size * scale);
-#pragma warning(default:4244)
-
-	radius = size / 2;
 }
 

@@ -36,13 +36,13 @@ void GameManager::ResetGame(std::list<Bullet::Bullet>& bullets, std::list<Sugaro
 	gameOver = false;
 }
 
-void GameManager::BulletActions(std::list<Bullet::Bullet>& bullets, std::list<Sugaroid::Sugaroid>& sugaroids, Sound& boomSound, float deltaTime, int newScreenWidth, int newScreenHeight)
+void GameManager::BulletActions(std::list<Bullet::Bullet>& bullets, std::list<Sugaroid::Sugaroid>& sugaroids, Sound& boomSound, float deltaTime)
 {
 	for (auto bulletIt = bullets.begin(); bulletIt != bullets.end(); )
 	{
 		Bullet::Movement(*bulletIt, deltaTime);
 
-		if (Tools::CheckIfOutOfBounds(bulletIt->position, bulletIt->radius, newScreenWidth, newScreenHeight))
+		if (Tools::CheckIfOutOfBounds(bulletIt->position, bulletIt->radius))
 			bulletIt->toDestroy = true;
 
 		for (auto& sugaroid : sugaroids)
@@ -66,13 +66,13 @@ void GameManager::BulletActions(std::list<Bullet::Bullet>& bullets, std::list<Su
 	}
 }
 
-void GameManager::SugaroidsActions(std::list<Sugaroid::Sugaroid>& sugaroids, Sound& hurtSound, Player::Player& player, float deltaTime, int newScreenWidth, int newScreenHeight)
+void GameManager::SugaroidsActions(std::list<Sugaroid::Sugaroid>& sugaroids, Sound& hurtSound, Player::Player& player, float deltaTime)
 {
 	for (auto sugaroidIt = sugaroids.begin(); sugaroidIt != sugaroids.end(); sugaroidIt++)
 	{
 		Sugaroid::Movement(*sugaroidIt, deltaTime);
 
-		if (Tools::CheckIfOutOfBounds(sugaroidIt->position, sugaroidIt->radius, newScreenWidth, newScreenHeight))
+		if (Tools::CheckIfOutOfBounds(sugaroidIt->position, sugaroidIt->radius))
 		{
 			sugaroidIt->outOfScreen = true;
 			sugaroidIt->toDestroy = true;

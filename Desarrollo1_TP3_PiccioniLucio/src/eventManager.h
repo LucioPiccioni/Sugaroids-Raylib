@@ -20,5 +20,5 @@ namespace Engine
 
 	void MusicControl(Menus& gameState, SoundTracks::GameMusic music, bool gameOver);
 
-	void ConfirmExit(Menus& gameState, Menus previusMenu, int screenWidth, int screenHeight, float& scaleFactor);
+	void ConfirmExit(Menus& gameState, Menus previusMenu);
 }

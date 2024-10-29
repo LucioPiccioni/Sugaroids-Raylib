@@ -19,7 +19,7 @@ namespace Sugaroid
 	};
 
 
-	void Constructor(Vector2& playerPosition, std::list<Sugaroid>& sugaroids, int screenWidth, int screenHeight);
-	void Spawner(float& spawnTimer, float& sugaroidsSpawnRate, float& deltaTime, Vector2& playerPos, std::list<Sugaroid>& sugaroids, int screenWidth, int screenHeight);
+	void Constructor(Vector2& playerPosition, std::list<Sugaroid>& sugaroids);
+	void Spawner(float& spawnTimer, float& sugaroidsSpawnRate, float& deltaTime, Vector2& playerPos, std::list<Sugaroid>& sugaroids);
 	void Movement(Sugaroid& sugaroid, float& deltaTime);
 }
