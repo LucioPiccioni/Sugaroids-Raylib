@@ -10,15 +10,15 @@
 #include "sugaroid.h"
 #include <vector>
 
-namespace EventManager
+namespace Engine
 {
 	void InitProgram();
-	void ProgramExecutionAndLoop(int screenWidth, int screenHeight);
+	void ProgramExecutionAndLoop();
 	void InitAssets(SoundTracks::GameMusic& music, Textures::GameTextures& textures, Sounds::GameSounds& sounds);
 	void UnloadAssets(SoundTracks::GameMusic& music, Font& font, Textures::GameTextures& textures, Sounds::GameSounds& sounds);
 
 
 	void MusicControl(Menus& gameState, SoundTracks::GameMusic music, bool gameOver);
 
-	void ConfirmExit(Menus& gameState, Menus previusMenu, int screenWidth, int screenHeight);
+	void ConfirmExit(Menus& gameState, Menus previusMenu, int screenWidth, int screenHeight, float& scaleFactor);
 }

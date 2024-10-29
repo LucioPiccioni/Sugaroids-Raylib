@@ -15,6 +15,7 @@ namespace Sugaroid
 		bool didItHitPlayer = false;
 		bool bigSugaroid = false;
 		bool outOfScreen = false;
+		bool mother = false;
 	};
 
 

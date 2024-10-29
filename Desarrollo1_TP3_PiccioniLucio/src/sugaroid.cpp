@@ -1,7 +1,7 @@
 #include "sugaroid.h"
 #include "utilities.h"
 
-void Sugaroid::Constructor(Vector2& playerPosition, std::list<Sugaroid>& sugaroids, int screenWidth, int screenHeight)
+void Sugaroid::Constructor(Vector2& playerPosition, std::list<Sugaroid>& sugaroids, int newScreenWidth, int newScreenHeight)
 {
 	int edge = rand() % 4 + 1;
 	Vector2 spawnPosition = { 0, 0 };
@@ -9,20 +9,20 @@ void Sugaroid::Constructor(Vector2& playerPosition, std::list<Sugaroid>& sugaroi
 	switch (edge)
 	{
 	case 1:  // Top edge
-		spawnPosition.x = static_cast<float>(rand() % screenWidth);
+		spawnPosition.x = static_cast<float>(rand() % newScreenWidth);
 		spawnPosition.y = 0.0f;
 		break;
 	case 2:  // Bottom edge
-		spawnPosition.x = static_cast<float>(rand() % screenWidth);
-		spawnPosition.y = static_cast<float>(screenHeight);
+		spawnPosition.x = static_cast<float>(rand() % newScreenWidth);
+		spawnPosition.y = static_cast<float>(newScreenHeight);
 		break;
 	case 3:  // Left edge
 		spawnPosition.x = 0.0f;
-		spawnPosition.y = static_cast<float>(rand() % screenHeight);
+		spawnPosition.y = static_cast<float>(rand() % newScreenHeight);
 		break;
 	case 4:  // Right edge
-		spawnPosition.x = static_cast<float>(screenWidth);
-		spawnPosition.y = static_cast<float>(rand() % screenHeight);
+		spawnPosition.x = static_cast<float>(newScreenWidth);
+		spawnPosition.y = static_cast<float>(rand() % newScreenHeight);
 		break;
 	}
 
@@ -45,17 +45,18 @@ void Sugaroid::Constructor(Vector2& playerPosition, std::list<Sugaroid>& sugaroi
 	newSugaroid.size = size;
 	newSugaroid.radius = size / 2.0f;
 	newSugaroid.toDestroy = false;
+	newSugaroid.mother = true;
 
 	sugaroids.push_back(newSugaroid);
 }
 
 
-void Sugaroid::Spawner(float& spawnTimer, float& sugaroidsSpawnRate, float& deltaTime, Vector2& playerPos, std::list<Sugaroid>& sugaroids, int screenWidth, int screenHeight)
+void Sugaroid::Spawner(float& spawnTimer, float& sugaroidsSpawnRate, float& deltaTime, Vector2& playerPos, std::list<Sugaroid>& sugaroids, int newScreenWidth, int newScreenHeight)
 {
 	spawnTimer += deltaTime;
 	if (spawnTimer > sugaroidsSpawnRate)
 	{
-		Constructor(playerPos, sugaroids, screenWidth, screenHeight);
+		Constructor(playerPos, sugaroids, newScreenWidth, newScreenHeight);
 		spawnTimer = 0;
 	}
 }

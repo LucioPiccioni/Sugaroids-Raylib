@@ -1,6 +1,9 @@
 #include "utilities.h"
 #include "menus.h"
 
+int screenWidth = 1024;
+int screenHeight = 768;
+
 float timmerToCleanBuffer = 0;
 
 bool Tools::CheckCollisionCircles(Vector2 center1, float radius1, Vector2 center2, float radius2)
@@ -16,7 +19,8 @@ bool Tools::CheckMouseButtonCollition(Vector2 mouse, Rectangle button)
 	if (mouse.x >= button.x &&        // right of the left edge AND
 		mouse.x <= button.x + button.width &&   // left of the right edge AND
 		mouse.y >= button.y &&        // below the top AND
-		mouse.y <= button.y + button.height) {   // above the bottom
+		mouse.y <= button.y + button.height)
+	{   // above the bottom
 
 		return true;
 	}
@@ -24,18 +28,34 @@ bool Tools::CheckMouseButtonCollition(Vector2 mouse, Rectangle button)
 	return false;
 }
 
-bool Tools::CheckIfOutOfBounds(Vector2 position, float radius, int screenWidth, int screenHeight)
+bool Tools::CheckIfOutOfBounds(Vector2 position, float radius, int newScreenWidth, int newScreenHeight)
 {
-	return  (position.x + radius < 0 || position.x - radius > screenWidth || position.y + radius < 0 || position.y - radius > screenHeight);
+	return  (position.x + radius < 0 || position.x - radius > newScreenWidth || position.y + radius < 0 || position.y - radius > newScreenHeight);
 }
 
-
-
-void Tools::DrawButton(Rectangle rect, const std::string text, Color color, Color outline, Font font)
+void Tools::DrawButton(Rectangle rect, const std::string text, Color color, Color outline, Font font, float scaleFactor)
 {
+	rect.width *= scaleFactor;
+	rect.height *= scaleFactor;
+	rect.x *= scaleFactor;
+	rect.y *= scaleFactor;
+
 	DrawRectangleRec(rect, color);
 	DrawRectangleLinesEx(rect, 2, outline);
-	Vector2 textSize = MeasureTextEx(font, text.c_str(), static_cast<float>(textFontSize), 1);
-	Vector2 textPosition = { rect.x + (rect.width - textSize.x) / 2, rect.y + (rect.height - textSize.y) / 2 };
-	DrawTextEx(font, text.c_str(), Vector2{ textPosition.x, textPosition.y }, textFontSize, 0, BLACK);
+	Vector2 textSize = MeasureTextEx(font, text.c_str(), static_cast<float>(textFontSize) * scaleFactor, 1);
+	Vector2 textPosition = { rect.x + (rect.width - textSize.x * scaleFactor) / 2, rect.y + (rect.height - textSize.y * scaleFactor) / 2 };
+	DrawTextEx(font, text.c_str(), Vector2{ textPosition.x * scaleFactor, textPosition.y * scaleFactor }, textFontSize * scaleFactor, 0, BLACK);
 }
+
+void Tools::AdjustSizeAndPos(Vector2& position, float& size, float& radius,int newScreenWidth, int newScreenHeight)
+{
+	float scaleX = (float)newScreenWidth / screenWidth;
+	float scaleY = (float)newScreenHeight / screenHeight;
+
+	position.x *= scaleX;
+	position.y *= scaleY;
+
+	size *= scaleX;
+	radius *= scaleY;
+}
+

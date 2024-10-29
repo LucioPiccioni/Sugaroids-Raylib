@@ -2,7 +2,7 @@
 
 int main()
 {
-	EventManager::InitProgram();
+	Engine::InitProgram();
 
 	return 0;
 }

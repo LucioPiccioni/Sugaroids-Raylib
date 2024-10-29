@@ -2,7 +2,7 @@
 #include <cmath>
 #include "bullet.h"
 
-void Player::Movement(Player& player, float deltaTime, int screenWidth, int screenHeight)
+void Player::Movement(Player& player, float deltaTime, int newScreenWidth, int newScreenHeight)
 {
 	const float acceleration = 600.0f;
 
@@ -39,13 +39,13 @@ void Player::Movement(Player& player, float deltaTime, int screenWidth, int scre
 	player.pos.y += player.speed.y * deltaTime;
 
 	// Teletransporte si el jugador sale de la pantalla
-	if (player.pos.x < 0) player.pos.x = static_cast<float>(screenWidth);
-	if (player.pos.x > screenWidth) player.pos.x = 0;
-	if (player.pos.y < 0) player.pos.y = static_cast<float>(screenHeight);
-	if (player.pos.y > screenHeight) player.pos.y = 0;
+	if (player.pos.x < 0) player.pos.x = static_cast<float>(newScreenWidth);
+	if (player.pos.x > newScreenWidth) player.pos.x = 0;
+	if (player.pos.y < 0) player.pos.y = static_cast<float>(newScreenHeight);
+	if (player.pos.y > newScreenHeight) player.pos.y = 0;
 }
 
-void Player::Shoot(Player& player, Sound shootSound, std::list<Bullet::Bullet>& bullets, std::list<Sugaroid::Sugaroid> sugaroids)
+void Player::Shoot(Player& player, Sound shootSound, std::list<Bullet::Bullet>& bullets, std::list<Sugaroid::Sugaroid>& sugaroids)
 {
 	if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
 	{

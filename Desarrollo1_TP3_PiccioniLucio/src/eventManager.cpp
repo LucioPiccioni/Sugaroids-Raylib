@@ -5,11 +5,8 @@
 #include "scene.h"
 #include <ctime>
 
-void EventManager::InitProgram()
+void Engine::InitProgram()
 {
-	int screenWidth = 1024;
-	int screenHeight = 768;
-
 #pragma warning(disable:4244)
 	srand(time(NULL));
 #pragma warning(default:4244)
@@ -22,20 +19,20 @@ void EventManager::InitProgram()
 
 	InitAudioDevice();
 
-	ProgramExecutionAndLoop(screenWidth, screenHeight);
+	ProgramExecutionAndLoop();
 
 	CloseAudioDevice();
 	CloseWindow();
 }
 
-void EventManager::InitAssets(SoundTracks::GameMusic& music, Textures::GameTextures& textures, Sounds::GameSounds& sounds)
+void Engine::InitAssets(SoundTracks::GameMusic& music, Textures::GameTextures& textures, Sounds::GameSounds& sounds)
 {
 	Sounds::init(sounds);
 	SoundTracks::init(music);
 	Textures::init(textures);
 }
 
-void EventManager::ProgramExecutionAndLoop(int screenWidth, int screenHeight)
+void Engine::ProgramExecutionAndLoop()
 {
 	Menus gameState = Menus::MainMenu;
 
@@ -58,23 +55,44 @@ void EventManager::ProgramExecutionAndLoop(int screenWidth, int screenHeight)
 
 	std::list<Bullet::Bullet> bullets;
 	std::list<Sugaroid::Sugaroid> sugaroids;
+	std::list<Sugaroid::Sugaroid> sugaroidsChildList;
 
-	Menus PreviousMenu = Menus::MainMenu;
+	Menus previousMenu = Menus::MainMenu;
 
 	bool pause = false;
 	bool allBoostsUnlocked = false;
+
+	int newScreenWidth = 1200;
+	int newScreenHeight = 800;
 
 	while (!WindowShouldClose() && gameState != Menus::Exit)
 	{
 		deltaTime = GetFrameTime();
 
-		EventManager::MusicControl(gameState, music, gameOver);
+		if (IsKeyDown(KEY_DOWN))
+		{
+			newScreenWidth--;
+			newScreenHeight--;
+		}
+		else if (IsKeyDown(KEY_UP))
+		{
+			newScreenWidth++;
+			newScreenHeight++;
+		}
+
+		SetWindowSize(newScreenWidth, newScreenHeight);
+
+		float scaleFactorX = static_cast<float>(newScreenWidth / screenWidth);
+		float scaleFactorY = static_cast<float>(newScreenHeight / screenHeight);
+		float scaleFactor = std::min(scaleFactorX, scaleFactorY);
+
+		Engine::MusicControl(gameState, music, gameOver);
 
 		switch (gameState)
 		{
 		case Menus::MainMenu:
 
-			PreviousMenu = Menus::MainMenu;
+			previousMenu = Menus::MainMenu;
 
 			if (IsKeyPressed(KEY_ESCAPE))
 				gameState = Menus::WantToExit;
@@ -82,28 +100,32 @@ void EventManager::ProgramExecutionAndLoop(int screenWidth, int screenHeight)
 
 		case Menus::Playing:
 
-			PreviousMenu = Menus::Playing;
+			previousMenu = Menus::Playing;
 
 			if (!gameOver)
 			{
 
 				if (!pause && !player.levelingUp)
 				{
+					GameManager::SugaroidDestroyer(sugaroids, sugaroidsChildList, bullets, player.EXP, points);
+
+					GameManager::SpawnAsteroidsChilds(sugaroids, sugaroidsChildList);
+
 					allBoostsUnlocked = GameManager::AreAllPowerUpsUnlocked(player.boost);
 
 					mouse = GetMousePosition();
 
 					player.angle = atan2f(mouse.y - player.pos.y, mouse.x - player.pos.x) * (180.0f / PI);
 
-					Player::Movement(player, deltaTime, screenWidth, screenHeight);
+					Player::Movement(player, deltaTime, newScreenWidth, newScreenHeight);
 
 					Player::Shoot(player, sounds.shoot, bullets, sugaroids);
 
-					Sugaroid::Spawner(spawnTimer, sugaroidsSpawnRate, deltaTime, player.pos, sugaroids, screenWidth, screenHeight);
+					Sugaroid::Spawner(spawnTimer, sugaroidsSpawnRate, deltaTime, player.pos, sugaroids, newScreenWidth, newScreenHeight);
 
-					GameManager::SugaroidsActions(sugaroids, bullets, sounds.hurt, player.EXP, points, player, deltaTime, screenWidth, screenHeight);
+					GameManager::SugaroidsActions(sugaroids, sounds.hurt, player, deltaTime, newScreenWidth, newScreenHeight);
 
-					GameManager::BulletActions(bullets, sugaroids, sounds.boom, deltaTime, screenWidth, screenHeight);
+					GameManager::BulletActions(bullets, sugaroids, sounds.boom, deltaTime, newScreenWidth, newScreenHeight);
 
 					gameOver = GameManager::DidPlayerDied(player);
 
@@ -142,7 +164,7 @@ void EventManager::ProgramExecutionAndLoop(int screenWidth, int screenHeight)
 			if (IsKeyPressed(KEY_ESCAPE))
 				gameState = Menus::MainMenu;
 
-			ConfirmExit(gameState, PreviousMenu, screenWidth, screenHeight);
+			ConfirmExit(gameState, previousMenu, newScreenWidth, newScreenHeight, scaleFactor);
 
 			break;
 
@@ -161,7 +183,7 @@ void EventManager::ProgramExecutionAndLoop(int screenWidth, int screenHeight)
 		DrawTexturePro(
 			textures.backgroundImage,
 			Rectangle{ 0.0f, 0.0f, static_cast<float>(textures.backgroundImage.width), static_cast<float>(textures.backgroundImage.height) },
-			Rectangle{ 0.0f, 0.0f, static_cast<float>(screenWidth), static_cast<float>(screenHeight) },
+			Rectangle{ 0.0f, 0.0f, static_cast<float>(newScreenWidth), static_cast<float>(newScreenHeight) },
 			Vector2{ 0, 0 },
 			0.0f,
 			WHITE);
@@ -171,7 +193,7 @@ void EventManager::ProgramExecutionAndLoop(int screenWidth, int screenHeight)
 		case Menus::MainMenu:
 
 			if (timmerToCleanBuffer <= 0)
-				Scene::DrawMainMenu(gameState, font, textures.gamesTitle, screenWidth, screenHeight);
+				Scene::DrawMainMenu(gameState, font, textures.gamesTitle, newScreenWidth, newScreenHeight, scaleFactor);
 			else
 				timmerToCleanBuffer -= 1 * deltaTime;
 			break;
@@ -182,7 +204,7 @@ void EventManager::ProgramExecutionAndLoop(int screenWidth, int screenHeight)
 			{
 				if (gameOver)
 				{
-					Scene::DrawGameOver(gameState, font, screenWidth, screenHeight);
+					Scene::DrawGameOver(gameState, font, newScreenWidth, newScreenHeight, scaleFactor);
 
 					GameManager::ShouldResetMatch(gameState, player, bullets, sugaroids, gameOver, points, sugaroidsSpawnRate);
 				}
@@ -193,7 +215,7 @@ void EventManager::ProgramExecutionAndLoop(int screenWidth, int screenHeight)
 
 					if (player.levelingUp && !allBoostsUnlocked)
 					{
-						Scene::DrawPowerUpUnlockHud(player.lastPowerUnlock, player.levelingUp, font, screenWidth, screenHeight);
+						Scene::DrawPowerUpUnlockHud(player.lastPowerUnlock, player.levelingUp, font, newScreenWidth, newScreenHeight, scaleFactor);
 					}
 
 					DrawTextEx(font, pointsText.c_str(), Vector2{ 0,0 }, scoreFontSize, 0, BLACK);
@@ -207,17 +229,17 @@ void EventManager::ProgramExecutionAndLoop(int screenWidth, int screenHeight)
 
 		case Menus::Rules:
 
-			Scene::DrawGameRules(screenWidth, screenHeight, font);
+			Scene::DrawGameRules(newScreenWidth, newScreenHeight, font, scaleFactor);
 			break;
 
 		case Menus::Credits:
 
-			Scene::DrawCredits(screenWidth, screenHeight, font);
+			Scene::DrawCredits(newScreenWidth, newScreenHeight, font, scaleFactor);
 			break;
 
 		case Menus::WantToExit:
 
-			Scene::DrawConfirmExit(font, screenWidth, screenHeight);
+			Scene::DrawConfirmExit(gameState, font, previousMenu, newScreenWidth, newScreenHeight, scaleFactor);
 
 			break;
 
@@ -231,7 +253,7 @@ void EventManager::ProgramExecutionAndLoop(int screenWidth, int screenHeight)
 	UnloadAssets(music, font, textures, sounds);
 }
 
-void EventManager::UnloadAssets(SoundTracks::GameMusic& music, Font& font, Textures::GameTextures& textures, Sounds::GameSounds& sounds)
+void Engine::UnloadAssets(SoundTracks::GameMusic& music, Font& font, Textures::GameTextures& textures, Sounds::GameSounds& sounds)
 {
 	UnloadFont(font);
 
@@ -251,7 +273,7 @@ void EventManager::UnloadAssets(SoundTracks::GameMusic& music, Font& font, Textu
 	UnloadSound(sounds.shoot);
 }
 
-void EventManager::MusicControl(Menus& gameState, SoundTracks::GameMusic music, bool gameOver)
+void Engine::MusicControl(Menus& gameState, SoundTracks::GameMusic music, bool gameOver)
 {
 	const int AllMusic = 3;
 
@@ -326,7 +348,7 @@ void EventManager::MusicControl(Menus& gameState, SoundTracks::GameMusic music, 
 	}
 }
 
-void EventManager::ConfirmExit(Menus& gameState, Menus previusMenu, int screenWidth, int screenHeight)
+void Engine::ConfirmExit(Menus& gameState, Menus previusMenu, int newScreenWidth, int newScreenHeight, float& scaleFactor)
 {
 	const int maxButtons = 2;
 
@@ -337,15 +359,19 @@ void EventManager::ConfirmExit(Menus& gameState, Menus previusMenu, int screenWi
 
 	float startX, startY;
 
-	startX = (screenWidth - buttonWidth) / 2;
-	startY = (screenHeight - (buttonHeight * maxButtons + buttonSpacing * (maxButtons - 1))) / 2;
+	float newButtonWidth = buttonWidth * scaleFactor;
+	float newButtonHeight = buttonHeight * scaleFactor;
+	float newButtonSpacing = buttonSpacing * scaleFactor;
+
+	startX = (newScreenWidth - newButtonWidth) / 2;
+	startY = (newScreenHeight - (newButtonHeight * maxButtons + newButtonSpacing * scaleFactor * (maxButtons - 1))) / 2;
 
 	button[0].option = Menus::ConfirmExit;
 	button[1].option = Menus::CancelExit;
 
 	for (int i = 0; i < maxButtons; i++)
 	{
-		button[i].rec = { startX, startY + i * (buttonHeight + buttonSpacing), static_cast<float>(buttonWidth), static_cast<float>(buttonHeight) };
+		button[i].rec = { startX, startY + i * (newButtonHeight + newButtonSpacing), static_cast<float>(newButtonHeight), static_cast<float>(newButtonHeight) };
 
 		switch (button[i].option)
 		{
