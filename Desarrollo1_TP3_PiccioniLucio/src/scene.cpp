@@ -8,7 +8,7 @@ void Scene::DrawGamePlay(std::list<Bullet::Bullet> bullets, std::list<Sugaroid::
 	for (auto& bullet : bullets)
 	{
 		DrawTexturePro(bulletsImage,
-			Rectangle{ 0, 0, (float)bulletsImage.width, (float)bulletsImage.height },  // Fuente (imagen completa)
+			Rectangle{ 0, 0, static_cast<float>(bulletsImage.width), static_cast<float>(bulletsImage.height) },  // Fuente (imagen completa)
 			Rectangle{ bullet.position.x, bullet.position.y, bullet.size, bullet.size },  // Destino (posición y tamaño)
 			Vector2{ bullet.radius, bullet.radius },  // Offset de origen para el centro
 			0.0f,
@@ -18,7 +18,7 @@ void Scene::DrawGamePlay(std::list<Bullet::Bullet> bullets, std::list<Sugaroid::
 	// Ajustar y dibujar jugador
 	DrawTexturePro(
 		playerImage,  // La textura original
-		Rectangle{ 0, 0, (float)playerImage.width, (float)playerImage.height },  // Fuente: toda la imagen original
+		Rectangle{ 0, 0, static_cast<float>(playerImage.width), static_cast<float>(playerImage.height) },  // Fuente: toda la imagen original
 		Rectangle{ player.pos.x, player.pos.y, player.size, player.size },  // Destino: posición y nuevo tamaño
 		Vector2{ player.size / 2, player.size / 2 },  // Offset (centro) si es necesario
 		player.angle,  // Rotación (0 si no quieres rotar)
@@ -30,7 +30,7 @@ void Scene::DrawGamePlay(std::list<Bullet::Bullet> bullets, std::list<Sugaroid::
 	{
 		DrawTexturePro(
 			sugaroidImage,
-			Rectangle{ 0, 0, (float)sugaroidImage.width, (float)sugaroidImage.height },  // Fuente (imagen completa)
+			Rectangle{ 0, 0, static_cast<float>(sugaroidImage.width), static_cast<float>(sugaroidImage.height) },  // Fuente (imagen completa)
 			Rectangle{ sugaroid.position.x, sugaroid.position.y, sugaroid.size, sugaroid.size },  // Destino (posición y tamaño)
 			Vector2{ sugaroid.radius, sugaroid.radius },  // Offset del centro
 			0.0f,  // Rotación (puedes agregar rotación si es necesario)
@@ -97,7 +97,7 @@ void Scene::DrawPowerUpUnlockHud(PowerUpList unlockedPower, bool& levelUp, Font 
 		0,
 		WHITE);
 
-	Tools::DrawButton(button.rec, "Resume", button.color, outline, font, scaleFactor);
+	Tools::DrawButton(button.rec, "Resume", button.color, outline, font, newScreenWidth, newScreenHeight, scaleFactor);
 }
 
 void Scene::DrawMainMenu(Menus& gameState, Font font, Texture2D gamesTitle, int newScreenWidth, int newScreenHeight, float& scaleFactor)
@@ -147,7 +147,7 @@ void Scene::DrawMainMenu(Menus& gameState, Font font, Texture2D gamesTitle, int 
 
 	DrawTexturePro(
 		gamesTitle,
-		Rectangle{ 0, 0, newWidth, newHeight },  // Fuente: toda la imagen original
+		Rectangle{ 0, 0, static_cast<float>(gamesTitle.width), static_cast<float>(gamesTitle.height) },  // Fuente: toda la imagen original
 		Rectangle{ (newScreenWidth - newWidth) / 2, (newScreenHeight / 2 - newHeight), newWidth, newHeight },  // Destino: posición centrada con tamaño escalado
 		Vector2{ 0, 0 },  // Offset de origen (esquina superior izquierda)
 		0.0f,  // Sin rotación
@@ -159,16 +159,16 @@ void Scene::DrawMainMenu(Menus& gameState, Font font, Texture2D gamesTitle, int 
 		switch (button[i].option)
 		{
 		case Menus::Playing:
-			Tools::DrawButton(button[i].rec, "Play", button[i].color, outline, font, scaleFactor);
+			Tools::DrawButton(button[i].rec, "Play", button[i].color, outline, font, newScreenWidth, newScreenHeight, scaleFactor);
 			break;
 		case Menus::Rules:
-			Tools::DrawButton(button[i].rec, "Rules", button[i].color, outline, font, scaleFactor);
+			Tools::DrawButton(button[i].rec, "Rules", button[i].color, outline, font, newScreenWidth, newScreenHeight, scaleFactor);
 			break;
 		case Menus::Credits:
-			Tools::DrawButton(button[i].rec, "Credits", button[i].color, outline, font, scaleFactor);
+			Tools::DrawButton(button[i].rec, "Credits", button[i].color, outline, font, newScreenWidth, newScreenHeight, scaleFactor);
 			break;
 		case Menus::WantToExit:
-			Tools::DrawButton(button[i].rec, "Exit", button[i].color, outline, font, scaleFactor);
+			Tools::DrawButton(button[i].rec, "Exit", button[i].color, outline, font, newScreenWidth, newScreenHeight, scaleFactor);
 			break;
 		default:
 			break;
@@ -178,6 +178,8 @@ void Scene::DrawMainMenu(Menus& gameState, Font font, Texture2D gamesTitle, int 
 
 void Scene::DrawCredits(int newScreenWidth, int newScreenHeight, Font customFont, float& scaleFactor)
 {
+	Button button = {};
+
 	float newSmallFontSize = (10 * scaleFactor); // Ajustar tamaño de fuente
 	float newtextFontSize = (textFontSize * scaleFactor);  // Ajustar tamaño de fuente
 	float newtitlesFontSize = (titlesFontSize * scaleFactor); // Ajustar tamaño de fuente
@@ -192,6 +194,9 @@ void Scene::DrawCredits(int newScreenWidth, int newScreenHeight, Font customFont
 	Vector2 soundEffectsPos = { static_cast<float>(newScreenWidth) / 2 - MeasureTextEx(customFont, "Sound Effects:", newtextFontSize, 2).x / 2, music4Pos.y + 30 * scaleFactor };
 	Vector2 chipTonePos = { static_cast<float>(newScreenWidth) / 2 - MeasureTextEx(customFont, "ChipTone", newSmallFontSize, 2).x / 2, soundEffectsPos.y + 30 * scaleFactor };
 	Vector2 menuPos = { static_cast<float>(newScreenWidth) / 2 - MeasureTextEx(customFont, "Press ESC to go back to the Menu.", newSmallFontSize, 2).x / 2, static_cast<float>(newScreenHeight) - 40 * scaleFactor };
+
+	button.rec.x += developerPos.x;
+	button.rec.y = developerPos.y;
 
 	DrawTextEx(customFont, "Credits", titlePos, newtitlesFontSize, 2, BLACK);
 	DrawTextEx(customFont, "Developer: Lucio Stefano Piccioni.", developerPos, newtextFontSize, 2, BLACK);
@@ -340,13 +345,13 @@ void Scene::DrawGameOver(Menus& gameState, Font font, int newScreenWidth, int ne
 		switch (button[i].option)
 		{
 		case Menus::Replay:
-			Tools::DrawButton(button[i].rec, "Replay", button[i].color, outline, font, scaleFactor);
+			Tools::DrawButton(button[i].rec, "Replay", button[i].color, outline, font, newScreenWidth, newScreenHeight, scaleFactor);
 			break;
 		case Menus::MainMenu:
-			Tools::DrawButton(button[i].rec, "Main Menu", button[i].color, outline, font, scaleFactor);
+			Tools::DrawButton(button[i].rec, "Main Menu", button[i].color, outline, font, newScreenWidth, newScreenHeight, scaleFactor);
 			break;
 		case Menus::WantToExit:
-			Tools::DrawButton(button[i].rec, "Exit", button[i].color, outline, font, scaleFactor);
+			Tools::DrawButton(button[i].rec, "Exit", button[i].color, outline, font, newScreenWidth, newScreenHeight, scaleFactor);
 			break;
 		}
 	}
@@ -438,11 +443,11 @@ void Scene::DrawConfirmExit(Menus& gameState, Font font, Menus previusMenu, int 
 		switch (button[i].option)
 		{
 		case Menus::ConfirmExit:
-			Tools::DrawButton(button[i].rec, "Yes", button[i].color, outLine, font, scaleFactor);
+			Tools::DrawButton(button[i].rec, "Yes", button[i].color, outLine, font, newScreenWidth, newScreenHeight, scaleFactor);
 			break;
 
 		case Menus::CancelExit:
-			Tools::DrawButton(button[i].rec, "No", button[i].color, outLine, font, scaleFactor);
+			Tools::DrawButton(button[i].rec, "No", button[i].color, outLine, font, newScreenWidth, newScreenHeight, scaleFactor);
 			break;
 
 		default:

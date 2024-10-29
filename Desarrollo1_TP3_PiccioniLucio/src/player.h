@@ -2,6 +2,7 @@
 #include "raylib.h"
 #include "powerUps.h"
 #include "sugaroid.h"
+#include "utilities.h"
 #include "bullet.h"
 #include <list>
 
@@ -11,13 +12,14 @@ namespace Player
 	{
 		int lives = 3;
 
-		Vector2 pos = { (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 };
+		Vector2 pos = { static_cast<float>(screenWidth / 2), static_cast<float>(screenHeight / 2) };
 		Vector2 speed = {};
 		Vector2 targetPos = {};
 		Vector2 directionVector = {};
 		float directionLength = 0;
 		float maxSpeed = 300.0f;
 		float size = 64;
+		float radius = size / 2;
 		float angle = 0;
 
 		int bulletBuffer = 0;

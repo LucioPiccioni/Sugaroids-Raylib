@@ -62,8 +62,8 @@ void Engine::ProgramExecutionAndLoop()
 	bool pause = false;
 	bool allBoostsUnlocked = false;
 
-	int newScreenWidth = 1200;
-	int newScreenHeight = 800;
+	int newScreenWidth = screenWidth;
+	int newScreenHeight = screenHeight;
 
 	while (!WindowShouldClose() && gameState != Menus::Exit)
 	{
@@ -71,19 +71,28 @@ void Engine::ProgramExecutionAndLoop()
 
 		if (IsKeyDown(KEY_DOWN))
 		{
-			newScreenWidth--;
-			newScreenHeight--;
+			newScreenHeight++;
+			newScreenWidth++;
 		}
 		else if (IsKeyDown(KEY_UP))
 		{
-			newScreenWidth++;
-			newScreenHeight++;
+			newScreenHeight--;
+			newScreenWidth--;
 		}
+
+		if (IsKeyPressed(KEY_R))
+		{
+			newScreenWidth = screenWidth;
+			newScreenHeight = screenHeight;
+		}
+
+		if (IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_UP) || IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_RIGHT) || IsKeyPressed(KEY_R))
+			Tools::AdjustSizeAndPos(player.pos, player.size, player.radius, newScreenWidth, newScreenHeight);
 
 		SetWindowSize(newScreenWidth, newScreenHeight);
 
-		float scaleFactorX = static_cast<float>(newScreenWidth / screenWidth);
-		float scaleFactorY = static_cast<float>(newScreenHeight / screenHeight);
+		float scaleFactorX = static_cast<float>(newScreenWidth) / static_cast<float>(screenWidth);
+		float scaleFactorY = static_cast<float>(newScreenHeight) / static_cast<float>(screenHeight);
 		float scaleFactor = std::min(scaleFactorX, scaleFactorY);
 
 		Engine::MusicControl(gameState, music, gameOver);
@@ -104,7 +113,6 @@ void Engine::ProgramExecutionAndLoop()
 
 			if (!gameOver)
 			{
-
 				if (!pause && !player.levelingUp)
 				{
 					GameManager::SugaroidDestroyer(sugaroids, sugaroidsChildList, bullets, player.EXP, points);
@@ -259,6 +267,7 @@ void Engine::UnloadAssets(SoundTracks::GameMusic& music, Font& font, Textures::G
 
 	UnloadTexture(textures.playerImage);
 	UnloadTexture(textures.sugaroidImage);
+	UnloadTexture(textures.cometkieImage);
 	UnloadTexture(textures.backgroundImage);
 	UnloadTexture(textures.bulletsImage);
 
