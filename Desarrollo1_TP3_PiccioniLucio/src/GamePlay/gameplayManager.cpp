@@ -103,6 +103,7 @@ void GameManager::SugaroidDestroyer(Vector2 playerPos, std::list<Sugaroid::Sugar
 	{
 		if (sugaroidIt->toDestroy)
 		{
+
 			if (!sugaroidIt->didItHitPlayer && !sugaroidIt->outOfScreen)
 			{
 				switch (sugaroidIt->whichEnemy)
@@ -132,7 +133,7 @@ void GameManager::SugaroidDestroyer(Vector2 playerPos, std::list<Sugaroid::Sugar
 				}
 			}
 
-			if (sugaroidIt->mother && sugaroidIt->whichEnemy == Enemies::Sugaroid && !sugaroidIt->didItHitPlayer)
+			if (sugaroidIt->mother && sugaroidIt->whichEnemy == Enemies::Sugaroid)
 			{
 				Sugaroid::Sugaroid child1 = *sugaroidIt;
 				Sugaroid::Sugaroid child2 = *sugaroidIt;
@@ -201,7 +202,7 @@ void GameManager::SugaroidDestroyer(Vector2 playerPos, std::list<Sugaroid::Sugar
 				childSugaroids.push_back(child1);
 				childSugaroids.push_back(child2);
 			}
-			else if (sugaroidIt->mother && sugaroidIt->whichEnemy == Enemies::Cometkie && !sugaroidIt->didItHitPlayer)
+			else if (sugaroidIt->mother && sugaroidIt->whichEnemy == Enemies::Cometkie)
 			{
 				for (int i = 0; i < 4; ++i)
 				{
@@ -236,11 +237,10 @@ void GameManager::SugaroidDestroyer(Vector2 playerPos, std::list<Sugaroid::Sugar
 
 			// Eliminar el sugaroid original de la lista
 			sugaroidIt = sugaroids.erase(sugaroidIt);
-
 		}
 		else
 		{
-			sugaroidIt++;
+			++sugaroidIt;
 		}
 	}
 }
