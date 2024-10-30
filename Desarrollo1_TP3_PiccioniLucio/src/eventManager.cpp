@@ -43,7 +43,7 @@ void Engine::ProgramExecutionAndLoop()
 	Player::Player player;
 	int points = 0;
 
-	float sugaroidsSpawnRate = 1;
+	float sugaroidsSpawnRate = 2;
 	float spawnTimer = 0;
 	Vector2 mouse = { 0,0 };
 
@@ -99,7 +99,7 @@ void Engine::ProgramExecutionAndLoop()
 			{
 				if (!pause && !player.levelingUp)
 				{
-					GameManager::SugaroidDestroyer(sugaroids, sugaroidsChildList, bullets, player.EXP, points);
+					GameManager::SugaroidDestroyer(player.pos, sugaroids, sugaroidsChildList, bullets, player.EXP, points);
 
 					GameManager::SpawnAsteroidsChilds(sugaroids, sugaroidsChildList);
 
@@ -206,7 +206,7 @@ void Engine::ProgramExecutionAndLoop()
 				else
 				{
 
-					Scene::DrawGamePlay(shader, bullets, sugaroids, player, textures.bulletsImage, textures.playerImage, textures.sugaroidImage);
+					Scene::DrawGamePlay(shader, bullets, sugaroids, player, textures.bulletsImage, textures.playerImage, textures.sugaroidImage, textures.cometkieImage, textures.chipImage);
 
 					if (player.levelingUp && !allBoostsUnlocked)
 					{
@@ -256,6 +256,7 @@ void Engine::UnloadAssets(SoundTracks::GameMusic& music, Font& font, Textures::G
 	UnloadTexture(textures.playerImage);
 	UnloadTexture(textures.sugaroidImage);
 	UnloadTexture(textures.cometkieImage);
+	UnloadTexture(textures.chipImage);
 	UnloadTexture(textures.backgroundImage);
 	UnloadTexture(textures.bulletsImage);
 

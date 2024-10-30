@@ -29,7 +29,7 @@ void GameManager::ResetGame(std::list<Bullet::Bullet>& bullets, std::list<Sugaro
 
 	points = 0;
 
-	sugaroidsSpawnTime = 1;
+	sugaroidsSpawnTime = 2;
 
 	player = Player::Player{};
 
@@ -95,37 +95,136 @@ void GameManager::SugaroidsActions(std::list<Sugaroid::Sugaroid>& sugaroids, Sou
 	}
 }
 
-void GameManager::SugaroidDestroyer(std::list<Sugaroid::Sugaroid>& sugaroids, std::list<Sugaroid::Sugaroid>& childSugaroids, std::list<Bullet::Bullet>& bullets, float& playerEXP, int& score)
+void GameManager::SugaroidDestroyer(Vector2 playerPos, std::list<Sugaroid::Sugaroid>& sugaroids, std::list<Sugaroid::Sugaroid>& childSugaroids, std::list<Bullet::Bullet>& bullets, float& playerEXP, int& score)
 {
 	for (auto sugaroidIt = sugaroids.begin(); sugaroidIt != sugaroids.end();)
 	{
 		if (sugaroidIt->toDestroy)
 		{
-			if (!sugaroidIt->didItHitPlayer && sugaroidIt->toDestroy && !sugaroidIt->outOfScreen)
+
+			if (!sugaroidIt->didItHitPlayer && !sugaroidIt->outOfScreen)
 			{
-				playerEXP += 25;
-				score += 25;
+				switch (sugaroidIt->whichEnemy)
+				{
+				case Enemies::Sugaroid:
+
+					playerEXP += 25;
+					score += 25;
+					break;
+
+				case Enemies::Cometkie:
+
+					playerEXP += 10;
+					score += 10;
+					break;
+
+				case Enemies::Chip:
+
+					playerEXP += 3;
+					score += 3;
+					break;
+
+				case Enemies::None:
+					break;
+				default:
+					break;
+				}
 			}
 
-			if (sugaroidIt->mother && !sugaroidIt->didItHitPlayer)
+			if (sugaroidIt->mother && sugaroidIt->whichEnemy == Enemies::Sugaroid)
 			{
-				// Create two new sugaroids
 				Sugaroid::Sugaroid child1 = *sugaroidIt;
 				Sugaroid::Sugaroid child2 = *sugaroidIt;
 
-				// Modify their properties to differentiate them
-				child1.velocity.x += 0.1f; // Slightly change direction
-				child2.velocity.x *= -0.1f; // Slightly change direction
+				// Separación basada en el eje de velocidad dominante
+				const float separationOffset = 30.0f;  // Ajusta el valor para más o menos separación
+
+				if (fabs(sugaroidIt->velocity.x) > fabs(sugaroidIt->velocity.y))
+				{
+					// Si la velocidad en X es mayor, separar en el eje X
+					child1.position.x += separationOffset;
+					child2.position.x -= separationOffset;
+				}
+				else
+				{
+					// Si la velocidad en Y es mayor, separar en el eje Y
+					child1.position.y += separationOffset;
+					child2.position.y -= separationOffset;
+				}
+
+				// Modificación de las velocidades para diferenciar a los hijos
+				child1.velocity.x += 0.1f;
+				child2.velocity.x *= -0.1f;
+
+				// Reducción del tamaño en un 20%
+				child1.size *= 0.8f;
+				child2.size *= 0.8f;
+
+				// Actualización de los radios
+				child1.radius = child1.size / 2;
+				child2.radius = child2.size / 2;
+
+				// Ambos hijos no serán madres
 				child1.mother = false;
 				child2.mother = false;
+
+				// Calcular dirección y velocidad para child1
+				Vector2 direction = { playerPos.x - child1.position.x, playerPos.y - child1.position.y };
+				float speed = static_cast<float>(rand() % 51 + 100);  // Velocidad entre 50 y 100
+				float length = sqrtf(direction.x * direction.x + direction.y * direction.y);
+
+				if (length > 0)
+				{
+					child1.velocity.x = (direction.x / length) * speed;
+					child1.velocity.y = (direction.y / length) * speed;
+				}
+
+				direction = { playerPos.x - child2.position.x, playerPos.y - child2.position.y };
+				length = sqrtf(direction.x * direction.x + direction.y * direction.y);
+
+				if (length > 0)
+				{
+					child2.velocity.x = (direction.x / length) * speed;
+					child2.velocity.y = (direction.y / length) * speed;
+				}
+
+				// Definir que los hijos no deben ser destruidos inicialmente
 				child1.toDestroy = false;
 				child2.toDestroy = false;
 
-				// Add the new sugaroids to the temporary list
+				// Definir el tipo de enemigo para ambos hijos
+				child1.whichEnemy = Enemies::Sugaroid;
+				child2.whichEnemy = Enemies::Sugaroid;
+
+				// Agregar los hijos a la lista temporal
 				childSugaroids.push_back(child1);
 				childSugaroids.push_back(child2);
 			}
+			else if (sugaroidIt->mother && sugaroidIt->whichEnemy == Enemies::Cometkie)
+			{
+				for (int i = 0; i < 4; ++i)
+				{
+					Sugaroid::Sugaroid childCometkie = *sugaroidIt;
+					childCometkie.mother = false;
+					childCometkie.toDestroy = false;
 
+					childCometkie.size *= 0.6f;
+					childCometkie.radius = childCometkie.size / 2;
+
+					childCometkie.velocity.x = (static_cast<float>(rand()) / static_cast<float>(RAND_MAX)) * 2.0f - 1.0f;
+					childCometkie.velocity.y = (static_cast<float>(rand()) / static_cast<float>(RAND_MAX)) * 2.0f - 1.0f;
+
+					float speedFactor = static_cast<float>(rand() % 50 + 50);  // Entre 50 y 100
+					childCometkie.velocity.x *= speedFactor;
+					childCometkie.velocity.y *= speedFactor;
+
+					childCometkie.whichEnemy = Enemies::Chip;
+
+					childSugaroids.push_back(childCometkie);
+				}
+			}
+
+			// Desvincular el sugaroid de los proyectiles que lo apuntaban
 			for (auto& bullet : bullets)
 			{
 				if (&(*sugaroidIt) == bullet.targetedSugaroid)
@@ -134,12 +233,16 @@ void GameManager::SugaroidDestroyer(std::list<Sugaroid::Sugaroid>& sugaroids, st
 				}
 			}
 
+			// Eliminar el sugaroid original de la lista
 			sugaroidIt = sugaroids.erase(sugaroidIt);
 		}
 		else
-			sugaroidIt++;
+		{
+			++sugaroidIt;
+		}
 	}
 }
+
 
 void GameManager::SpawnAsteroidsChilds(std::list<Sugaroid::Sugaroid>& sugaroids, std::list<Sugaroid::Sugaroid>& childSugaroids)
 {
@@ -150,7 +253,7 @@ void GameManager::SpawnAsteroidsChilds(std::list<Sugaroid::Sugaroid>& sugaroids,
 
 void GameManager::DificultyIncreas(float& sugaroidsSpawnTime)
 {
-	sugaroidsSpawnTime -= sugaroidsSpawnTime * 0.15f;
+	sugaroidsSpawnTime -= sugaroidsSpawnTime * 0.1f;
 }
 
 void GameManager::PowerUnlockerLogic(PowerUps& boosts, PowerUpList& powerUpUnlocked)

@@ -1,10 +1,13 @@
 #pragma once
 
+#include <list>
+
+#include "raylib.h"
+
 #include "sugaroid.h"
 #include "player.h"
 #include "menus.h"
 #include "bullet.h"
-#include <list>
 
 namespace GameManager
 {
@@ -13,7 +16,7 @@ namespace GameManager
 	void BulletActions(std::list<Bullet::Bullet>& bullets, std::list<Sugaroid::Sugaroid>& sugaroids, Sound& boomSound, float deltaTime);
 	void SugaroidsActions(std::list<Sugaroid::Sugaroid>& sugaroids, Sound& hurtSound, Player::Player& player, float deltaTime);
 
-	void SugaroidDestroyer(std::list<Sugaroid::Sugaroid>& sugaroids, std::list<Sugaroid::Sugaroid>& childSugaroids, std::list<Bullet::Bullet>& bullets, float& points, int& score);
+	void SugaroidDestroyer(Vector2 playerPos, std::list<Sugaroid::Sugaroid>& sugaroids, std::list<Sugaroid::Sugaroid>& childSugaroids, std::list<Bullet::Bullet>& bullets, float& points, int& score);
 
 	void SpawnAsteroidsChilds(std::list<Sugaroid::Sugaroid>& sugaroids, std::list<Sugaroid::Sugaroid>& childSugaroids);
 

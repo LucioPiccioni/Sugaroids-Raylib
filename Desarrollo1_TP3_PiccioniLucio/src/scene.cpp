@@ -3,7 +3,7 @@
 #include "button.h"
 #include "utilities.h"
 
-void Scene::DrawGamePlay(Shader shader, std::list<Bullet::Bullet> bullets, std::list<Sugaroid::Sugaroid> sugaroids, Player::Player player, Texture2D bulletsImage, Texture2D playerImage, Texture2D sugaroidImage)
+void Scene::DrawGamePlay(Shader shader, std::list<Bullet::Bullet> bullets, std::list<Sugaroid::Sugaroid> sugaroids, Player::Player player, Texture2D bulletsImage, Texture2D playerImage, Texture2D sugaroidImage, Texture2D cometkieImage, Texture2D chipImage)
 {
 	// Dibujar balas
 	for (const auto& bullet : bullets)
@@ -17,6 +17,7 @@ void Scene::DrawGamePlay(Shader shader, std::list<Bullet::Bullet> bullets, std::
 	}
 
 	if (player.invisibility <= 0)
+	{
 		DrawTexturePro(
 			playerImage,  // La textura original
 			Rectangle{ 0, 0, static_cast<float>(playerImage.width), static_cast<float>(playerImage.height) },  // Fuente: toda la imagen original
@@ -25,6 +26,7 @@ void Scene::DrawGamePlay(Shader shader, std::list<Bullet::Bullet> bullets, std::
 			player.angle,  // Rotación (0 si no quieres rotar)
 			WHITE  // Color (generalmente WHITE para no aplicar ningún tinte)
 		);
+	}
 	else
 	{
 		BeginShaderMode(shader);
@@ -40,15 +42,49 @@ void Scene::DrawGamePlay(Shader shader, std::list<Bullet::Bullet> bullets, std::
 	}
 
 	// Dibujar sugaroids
-	for (const auto& sugaroid : sugaroids)
+	for (auto& sugaroid : sugaroids)
 	{
-		DrawTexturePro(
-			sugaroidImage,
-			Rectangle{ 0, 0, static_cast<float>(sugaroidImage.width), static_cast<float>(sugaroidImage.height) },  // Fuente (imagen completa)
-			Rectangle{ sugaroid.position.x, sugaroid.position.y, sugaroid.size, sugaroid.size },  // Destino (posición y tamaño)
-			Vector2{ sugaroid.radius, sugaroid.radius },  // Offset del centro
-			0.0f,  // Rotación (puedes agregar rotación si es necesario)
-			WHITE);
+		switch (sugaroid.whichEnemy)
+		{
+		case Enemies::Sugaroid:
+
+			DrawTexturePro(
+				sugaroidImage,
+				Rectangle{ 0, 0, static_cast<float>(sugaroidImage.width), static_cast<float>(sugaroidImage.height) },  // Fuente (imagen completa)
+				Rectangle{ sugaroid.position.x, sugaroid.position.y, sugaroid.size, sugaroid.size },  // Destino (posición y tamaño)
+				Vector2{ sugaroid.radius, sugaroid.radius },  // Offset del centro
+				sugaroid.angle,
+				WHITE);
+			break;
+
+		case Enemies::Cometkie:
+
+			DrawTexturePro(
+				cometkieImage,
+				Rectangle{ 0, 0, static_cast<float>(cometkieImage.width), static_cast<float>(cometkieImage.height) },  // Fuente (imagen completa)
+				Rectangle{ sugaroid.position.x, sugaroid.position.y, sugaroid.size, sugaroid.size },  // Destino (posición y tamaño)
+				Vector2{ sugaroid.radius, sugaroid.radius },  // Offset del centro
+				sugaroid.angle,
+				WHITE);
+			break;
+
+
+		case Enemies::Chip:
+
+			DrawTexturePro(
+				chipImage,
+				Rectangle{ 0, 0, static_cast<float>(chipImage.width), static_cast<float>(chipImage.height) },  // Fuente (imagen completa)
+				Rectangle{ sugaroid.position.x, sugaroid.position.y, sugaroid.size, sugaroid.size },  // Destino (posición y tamaño)
+				Vector2{ sugaroid.radius, sugaroid.radius },  // Offset del centro
+				sugaroid.angle,
+				WHITE);
+			break;
+
+		case Enemies::None:
+			break;
+		default:
+			break;
+		}
 	}
 }
 
