@@ -2,16 +2,16 @@
 
 #include "utilities.h"
 
-void GameManager::ShouldResetMatch(Menus& gameState, Player::Player& player, std::list<Bullet::Bullet>& bullets, std::list<Sugaroid::Sugaroid>& sugaroids, bool& gameOver, int& points, float& sugaroidsSpawnTime)
+void GameManager::ShouldResetMatch(Menus& gameState, Player::Player& player, std::list<Bullet::Bullet>& bullets, std::list<Sugaroid::Sugaroid>& sugaroids, bool& gameOver, int& points, float& sugaroidsSpawnTime, float& spawnRate)
 {
 	switch (gameState)
 	{
 	case Menus::MainMenu:
-		GameManager::ResetGame(bullets, sugaroids, player, gameOver, points, sugaroidsSpawnTime);
+		GameManager::ResetGame(bullets, sugaroids, player, gameOver, points, sugaroidsSpawnTime, spawnRate);
 		break;
 
 	case Menus::Replay:
-		GameManager::ResetGame(bullets, sugaroids, player, gameOver, points, sugaroidsSpawnTime);
+		GameManager::ResetGame(bullets, sugaroids, player, gameOver, points, sugaroidsSpawnTime, spawnRate);
 		gameState = Menus::Playing;
 		break;
 
@@ -22,12 +22,14 @@ void GameManager::ShouldResetMatch(Menus& gameState, Player::Player& player, std
 	}
 }
 
-void GameManager::ResetGame(std::list<Bullet::Bullet>& bullets, std::list<Sugaroid::Sugaroid>& sugaroids, Player::Player& player, bool& gameOver, int& points, float& sugaroidsSpawnTime)
+void GameManager::ResetGame(std::list<Bullet::Bullet>& bullets, std::list<Sugaroid::Sugaroid>& sugaroids, Player::Player& player, bool& gameOver, int& points, float& sugaroidsSpawnTime, float& spawnTime)
 {
 	sugaroids.clear();
 	bullets.clear();
 
 	points = 0;
+
+	spawnTime = 0;
 
 	sugaroidsSpawnTime = 2;
 

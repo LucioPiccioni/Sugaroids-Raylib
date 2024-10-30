@@ -432,7 +432,10 @@ void Scene::DrawPauseMenu(Menus& gameState, Font font, bool& pause)
 			}
 
 			if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON))
+			{
 				gameState = buttons[i].option;
+				pause = false;
+			}
 		}
 	}
 
@@ -471,7 +474,6 @@ void Scene::DrawPauseMenu(Menus& gameState, Font font, bool& pause)
 
 	if (gameState == Menus::Resume)
 	{
-		pause = false;
 		gameState = Menus::Playing;
 	}
 }

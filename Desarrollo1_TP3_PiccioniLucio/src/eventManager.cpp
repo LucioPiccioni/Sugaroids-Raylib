@@ -201,23 +201,28 @@ void Engine::ProgramExecutionAndLoop()
 				{
 					Scene::DrawGameOver(gameState, font);
 
-					GameManager::ShouldResetMatch(gameState, player, bullets, sugaroids, gameOver, points, sugaroidsSpawnRate);
+					GameManager::ShouldResetMatch(gameState, player, bullets, sugaroids, gameOver, points, sugaroidsSpawnRate, spawnTimer);
 				}
 				else
 				{
 					if (pause)
-						Scene::DrawPauseMenu(gameState, font, pause);
 					{
-						Scene::DrawGamePlay(shader, bullets, sugaroids, player, textures.bulletsImage, textures.playerImage, textures.sugaroidImage, textures.cometkieImage, textures.chipImage);
+						Scene::DrawPauseMenu(gameState, font, pause);
 
-						if (player.levelingUp && !allBoostsUnlocked)
-						{
-							Scene::DrawPowerUpUnlockHud(player.lastPowerUnlock, player.levelingUp, font);
-						}
-
-						DrawTextEx(font, pointsText.c_str(), Vector2{ 0,0 }, scoreFontSize, 0, BLACK);
-						DrawTextEx(font, playerLives.c_str(), Vector2{ 0, 20 }, scoreFontSize, 0, BLACK);
+						if (gameState == Menus::MainMenu)
+							GameManager::ResetGame(bullets, sugaroids, player, gameOver, points, sugaroidsSpawnRate, spawnTimer);
 					}
+
+					Scene::DrawGamePlay(shader, bullets, sugaroids, player, textures.bulletsImage, textures.playerImage, textures.sugaroidImage, textures.cometkieImage, textures.chipImage);
+
+					if (player.levelingUp && !allBoostsUnlocked)
+					{
+						Scene::DrawPowerUpUnlockHud(player.lastPowerUnlock, player.levelingUp, font);
+					}
+
+					DrawTextEx(font, pointsText.c_str(), Vector2{ 0,0 }, scoreFontSize, 0, BLACK);
+					DrawTextEx(font, playerLives.c_str(), Vector2{ 0, 20 }, scoreFontSize, 0, BLACK);
+
 				}
 			}
 			else
