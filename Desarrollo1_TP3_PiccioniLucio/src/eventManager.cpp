@@ -71,8 +71,8 @@ void Engine::ProgramExecutionAndLoop()
 
 	while (!WindowShouldClose() && gameState != Menus::Exit)
 	{
-
 		double time = GetTime();
+
 		SetShaderValue(shader, GetShaderLocation(shader, "time"), &time, SHADER_UNIFORM_FLOAT);
 		SetShaderValue(shader, GetShaderLocation(shader, "blinkFrequency"), &blinkFrequency, SHADER_UNIFORM_FLOAT);
 		SetShaderValue(shader, GetShaderLocation(shader, "blinkAmplitude"), &blinkAmplitude, SHADER_UNIFORM_FLOAT);
@@ -205,16 +205,19 @@ void Engine::ProgramExecutionAndLoop()
 				}
 				else
 				{
-
-					Scene::DrawGamePlay(shader, bullets, sugaroids, player, textures.bulletsImage, textures.playerImage, textures.sugaroidImage, textures.cometkieImage, textures.chipImage);
-
-					if (player.levelingUp && !allBoostsUnlocked)
+					if (pause)
+						Scene::DrawPauseMenu(gameState, font, pause);
 					{
-						Scene::DrawPowerUpUnlockHud(player.lastPowerUnlock, player.levelingUp, font);
-					}
+						Scene::DrawGamePlay(shader, bullets, sugaroids, player, textures.bulletsImage, textures.playerImage, textures.sugaroidImage, textures.cometkieImage, textures.chipImage);
 
-					DrawTextEx(font, pointsText.c_str(), Vector2{ 0,0 }, scoreFontSize, 0, BLACK);
-					DrawTextEx(font, playerLives.c_str(), Vector2{ 0, 20 }, scoreFontSize, 0, BLACK);
+						if (player.levelingUp && !allBoostsUnlocked)
+						{
+							Scene::DrawPowerUpUnlockHud(player.lastPowerUnlock, player.levelingUp, font);
+						}
+
+						DrawTextEx(font, pointsText.c_str(), Vector2{ 0,0 }, scoreFontSize, 0, BLACK);
+						DrawTextEx(font, playerLives.c_str(), Vector2{ 0, 20 }, scoreFontSize, 0, BLACK);
+					}
 				}
 			}
 			else
@@ -224,12 +227,12 @@ void Engine::ProgramExecutionAndLoop()
 
 		case Menus::Rules:
 
-			Scene::DrawGameRules(font);
+			Scene::DrawGameRules(gameState, font);
 			break;
 
 		case Menus::Credits:
 
-			Scene::DrawCredits(font);
+			Scene::DrawCredits(gameState, font);
 			break;
 
 		case Menus::WantToExit:

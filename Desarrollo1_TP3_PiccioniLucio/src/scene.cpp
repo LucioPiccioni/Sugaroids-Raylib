@@ -196,7 +196,6 @@ void Scene::DrawMainMenu(Menus& gameState, Font font, Texture2D gamesTitle)
 		WHITE  // Sin tintes de color
 	);
 
-
 	for (int i = 0; i < maxButtons; i++)
 	{
 		switch (button[i].option)
@@ -219,126 +218,262 @@ void Scene::DrawMainMenu(Menus& gameState, Font font, Texture2D gamesTitle)
 	}
 }
 
-void Scene::DrawCredits(Font customFont)
+void Scene::DrawCredits(Menus& gameState, Font font)
 {
 	Button button = {};
 
-	float newSmallFontSize = (10); // Ajustar tamaño de fuente
-	float newtextFontSize = (textFontSize);  // Ajustar tamaño de fuente
-	float newtitlesFontSize = (titlesFontSize); // Ajustar tamaño de fuente
+	Vector2 mouse = GetMousePosition();
 
-	Vector2 titlePos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Credits", newtitlesFontSize, 2).x / 2, static_cast<float>(screenHeight) / 4 };
-	Vector2 developerPos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Developer: Lucio Stefano Piccioni.", newtextFontSize, 2).x / 2, titlePos.y + 60 };
-	Vector2 musicPos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Music:", newtextFontSize, 2).x / 2, static_cast<float>(screenHeight) / 2 - 60 };
-	Vector2 music1Pos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "1. 'Game Over!' - Harris Cole", newSmallFontSize, 2).x / 2, musicPos.y + 30 };
-	Vector2 music2Pos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "2. 'Falling Apart' - yawgooh (Lofi Girl Ambient)", newSmallFontSize, 2).x / 2, music1Pos.y + 20 };
-	Vector2 music3Pos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "3. 'Quiet Nights' - JEN", newSmallFontSize, 2).x / 2, music2Pos.y + 20 };
-	Vector2 music4Pos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "4. 'Facade' - JEN", newSmallFontSize, 2).x / 2, music3Pos.y + 20 };
-	Vector2 soundEffectsPos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Sound Effects:", newtextFontSize, 2).x / 2, music4Pos.y + 30 };
-	Vector2 chipTonePos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "ChipTone", newSmallFontSize, 2).x / 2, soundEffectsPos.y + 30 };
-	Vector2 menuPos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Press ESC to go back to the Menu.", newSmallFontSize, 2).x / 2, static_cast<float>(screenHeight) - 40 };
+	float newSmallFontSize = 20.0f;
+	float newTextFontSize = 25.0f;
+	float newTitleFontSize = 30.0f;
 
-	button.rec.x += developerPos.x;
-	button.rec.y = developerPos.y;
+	Vector2 titlePos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(font, "Credits", newTitleFontSize, 2).x / 2, static_cast<float>(screenHeight) / 6 };
+	Vector2 developerPos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(font, "Developer: Lucio Stefano Piccioni.", newTextFontSize, 2).x / 2, titlePos.y + 60 };
+	Vector2 musicPos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(font, "Music:", newTextFontSize, 2).x / 2, developerPos.y + 60 };
+	Vector2 music1Pos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(font, "1. 'Game Over!' - Harris Cole", newSmallFontSize, 2).x / 2, musicPos.y + 40 };
+	Vector2 music2Pos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(font, "2. 'Falling Apart' - yawgooh (Lofi Girl Ambient)", newSmallFontSize, 2).x / 2, music1Pos.y + 30 };
+	Vector2 music3Pos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(font, "3. 'Quiet Nights' - JEN", newSmallFontSize, 2).x / 2, music2Pos.y + 30 };
+	Vector2 music4Pos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(font, "4. 'Facade' - JEN", newSmallFontSize, 2).x / 2, music3Pos.y + 30 };
+	Vector2 soundEffectsPos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(font, "Sound Effects:", newTextFontSize, 2).x / 2, music4Pos.y + 50 };
+	Vector2 chipTonePos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(font, "ChipTone", newSmallFontSize, 2).x / 2, soundEffectsPos.y + 30 };
+	Vector2 menuPos = { static_cast<float>(screenWidth) / 2 - MeasureTextEx(font, "Press ESC to go back to the Menu.", newSmallFontSize, 2).x / 2, static_cast<float>(screenHeight) - 40 };
 
-	DrawTextEx(customFont, "Credits", titlePos, newtitlesFontSize, 2, BLACK);
-	DrawTextEx(customFont, "Developer: Lucio Stefano Piccioni.", developerPos, newtextFontSize, 2, BLACK);
-	DrawTextEx(customFont, "Music:", musicPos, newtextFontSize, 2, BLACK);
-	DrawTextEx(customFont, "1. 'Game Over!' - Harris Cole", music1Pos, newSmallFontSize, 2, BLACK);
-	DrawTextEx(customFont, "2. 'Falling Apart' - yawgooh (Lofi Girl Ambient)", music2Pos, newSmallFontSize, 2, BLACK);
-	DrawTextEx(customFont, "3. 'Quiet Nights' - JEN", music3Pos, newSmallFontSize, 2, BLACK);
-	DrawTextEx(customFont, "4. 'Facade' - JEN", music4Pos, newSmallFontSize, 2, BLACK);
-	DrawTextEx(customFont, "Sound Effects:", soundEffectsPos, newtextFontSize, 2, BLACK);
-	DrawTextEx(customFont, "ChipTone", chipTonePos, newSmallFontSize, 2, BLACK);
-	DrawTextEx(customFont, "Press ESC to go back to the Menu.", menuPos, newSmallFontSize, 2, BLACK);
+	button.rec.width = buttonWidth;
+	button.rec.height = buttonHeight;
+	button.option = Menus::MainMenu;
+	button.rec.x = static_cast<float>(screenWidth) / 2 - (button.rec.width / 2);
+
+	button.rec.y = (chipTonePos.y + menuPos.y) / 2 - (button.rec.height / 2);
+
+	DrawTextEx(font, "Credits", titlePos, newTitleFontSize, 2, BLACK);
+	DrawTextEx(font, "Developer: Lucio Stefano Piccioni.", developerPos, newTextFontSize, 2, BLACK);
+	DrawTextEx(font, "Music:", musicPos, newTextFontSize, 2, BLACK);
+	DrawTextEx(font, "1. 'Game Over!' - Harris Cole", music1Pos, newSmallFontSize, 2, BLACK);
+	DrawTextEx(font, "2. 'Falling Apart' - yawgooh (Lofi Girl Ambient)", music2Pos, newSmallFontSize, 2, BLACK);
+	DrawTextEx(font, "3. 'Quiet Nights' - JEN", music3Pos, newSmallFontSize, 2, BLACK);
+	DrawTextEx(font, "4. 'Facade' - JEN", music4Pos, newSmallFontSize, 2, BLACK);
+	DrawTextEx(font, "Sound Effects:", soundEffectsPos, newTextFontSize, 2, BLACK);
+	DrawTextEx(font, "ChipTone", chipTonePos, newSmallFontSize, 2, BLACK);
+	DrawTextEx(font, "Press ESC to go back to the Menu.", menuPos, newSmallFontSize, 2, BLACK);
+
+	Color outline = BLACK;
+
+	if (Tools::CheckMouseButtonCollition(mouse, button.rec))
+	{
+		button.color = WHITE;
+
+		if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+		{
+			button.color = YELLOW;
+		}
+
+		if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON))
+			gameState = button.option;
+	}
+
+	std::string text = "Menu";
+	Tools::DrawButton(button.rec, text, button.color, outline, font);
 }
 
-
-void Scene::DrawGameRules(Font customFont)
+void Scene::DrawGameRules(Menus& gameState, Font font)
 {
-	ClearBackground(RAYWHITE);
+	float newtextFontSize = 25.0f;
+	float newTitleFontSize = 30.0f;  // Tamaño de fuente para títulos más grandes
+
+	Button button = {};
+	Vector2 mouse = GetMousePosition();
 
 	Vector2 titlePos = {
-		static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Game Rules", titlesFontSize, 2).x / 2,
+		static_cast<float>(screenWidth) / 2 - MeasureTextEx(font, "Game Rules", titlesFontSize, 2).x / 2,
 		static_cast<float>(screenHeight) / 10
 	};
 
 	Vector2 controlsTitlePos = {
-		static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Controls:", textFontSize, 2).x / 2,
+		static_cast<float>(screenWidth) / 2 - MeasureTextEx(font, "Controls:", newTitleFontSize, 2).x / 2,
 		titlePos.y + titlesFontSize + buttonSpacing
 	};
 
-	Vector2 upArrowPos = {
-		static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Up Arrow: Move Up", textFontSize, 2).x / 2,
-		controlsTitlePos.y + buttonSpacing
-	};
-
-	Vector2 downArrowPos = {
-		static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Down Arrow: Move Down", textFontSize, 2).x / 2,
-		upArrowPos.y + buttonSpacing
-	};
-
-	Vector2 leftArrowPos = {
-		static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Left Arrow: Move Left", textFontSize, 2).x / 2,
-		downArrowPos.y + buttonSpacing
-	};
-
-	Vector2 rightArrowPos = {
-		static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Right Arrow: Move Right", textFontSize, 2).x / 2,
-		leftArrowPos.y + buttonSpacing
+	Vector2 leftClickMovementPos = {
+		static_cast<float>(screenWidth) / 2 - MeasureTextEx(font, "Left Click: Move right", newtextFontSize, 2).x / 2,
+		controlsTitlePos.y + buttonSpacing + titlesFontSize / 3
 	};
 
 	Vector2 firePos = {
-		static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Left Click: Fire", textFontSize, 2).x / 2,
-		rightArrowPos.y + buttonSpacing
+		static_cast<float>(screenWidth) / 2 - MeasureTextEx(font, "Left Click: Fire", newtextFontSize, 2).x / 2,
+		leftClickMovementPos.y + buttonSpacing
 	};
 
-	Vector2 escPausePos = {
-		static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "ESC: Pause", textFontSize, 2).x / 2,
-		firePos.y + buttonSpacing
+	Vector2 enemyTypesTitlePos = {
+		static_cast<float>(screenWidth) / 2 - MeasureTextEx(font, "Enemy Types:", newTitleFontSize, 2).x / 2,
+		firePos.y + buttonSpacing + newtextFontSize / 2
 	};
 
-	Vector2 points1Pos = {
-		static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Points for destroying sugaroids: 25", textFontSize, 2).x / 2,
-		escPausePos.y + buttonSpacing
+	Vector2 sugaroidTitlePos = {
+		static_cast<float>(screenWidth) / 2 - MeasureTextEx(font, "Sugaroids:", newTitleFontSize, 2).x / 2,
+		enemyTypesTitlePos.y + buttonSpacing * 2 + newTitleFontSize / 2
 	};
 
-	Vector2 points2Pos = {
-		static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Points for avoiding sugaroids: 5", textFontSize, 2).x / 2,
-		points1Pos.y + buttonSpacing
+	Vector2 sugaroidInfoPos = {
+		static_cast<float>(screenWidth) / 2 - MeasureTextEx(font, "Fast enemies that split into 2 when destroyed. Worth 25 points.", newtextFontSize, 2).x / 2,
+		sugaroidTitlePos.y + buttonSpacing + newTitleFontSize / 3
 	};
 
-	Vector2 lives1Pos = {
-		static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "You start with 3 lives.", textFontSize, 2).x / 2,
-		points2Pos.y + buttonSpacing
+	Vector2 cookieTitlePos = {
+		static_cast<float>(screenWidth) / 2 - MeasureTextEx(font, "Cookies:", newTitleFontSize, 2).x / 2,
+		sugaroidInfoPos.y + buttonSpacing * 2 + newtextFontSize / 2
 	};
 
-	Vector2 lives2Pos = {
-		static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Lose all lives to end the game.", textFontSize, 2).x / 2,
-		lives1Pos.y + buttonSpacing
+	Vector2 cookieInfoPos = {
+		static_cast<float>(screenWidth) / 2 - MeasureTextEx(font, "Give 10 points and explode into 4 chips.", newtextFontSize, 2).x / 2,
+		cookieTitlePos.y + buttonSpacing
+	};
+
+	Vector2 chipTitlePos = {
+		static_cast<float>(screenWidth) / 2 - MeasureTextEx(font, "Chips:", newTitleFontSize, 2).x / 2,
+		cookieInfoPos.y + buttonSpacing * 2
+	};
+
+	Vector2 chipInfoPos = {
+		static_cast<float>(screenWidth) / 2 - MeasureTextEx(font, "Each chip is worth 4 points.", newtextFontSize, 2).x / 2,
+		chipTitlePos.y + buttonSpacing
+	};
+
+	Vector2 powerUpTitlePos = {
+		static_cast<float>(screenWidth) / 2 - MeasureTextEx(font, "Power-Ups:", newTitleFontSize, 2).x / 2,
+		chipInfoPos.y + buttonSpacing * 2
+	};
+
+	Vector2 powerUpInfoPos = {
+		static_cast<float>(screenWidth) / 2 - MeasureTextEx(font, "Unlock a power-up every 500 points. The game gets harder!", newtextFontSize, 2).x / 2,
+		powerUpTitlePos.y + buttonSpacing
 	};
 
 	Vector2 backToMenuPos = {
-		static_cast<float>(screenWidth) / 2 - MeasureTextEx(customFont, "Press ESC to return to menu", textFontSize, 2).x / 2,
+		static_cast<float>(screenWidth) / 2 - MeasureTextEx(font, "Press ESC to return to menu", newtextFontSize, 2).x / 2,
 		static_cast<float>(screenHeight) - 60
 	};
 
-	// Dibuja el texto en las posiciones calculadas
-	DrawTextEx(customFont, "Game Rules", titlePos, titlesFontSize, 2, BLACK);
-	DrawTextEx(customFont, "Controls:", controlsTitlePos, textFontSize, 2, BLACK);
-	DrawTextEx(customFont, "Up Arrow: Move Up", upArrowPos, textFontSize, 2, BLACK);
-	DrawTextEx(customFont, "Down Arrow: Move Down", downArrowPos, textFontSize, 2, BLACK);
-	DrawTextEx(customFont, "Left Arrow: Move Left", leftArrowPos, textFontSize, 2, BLACK);
-	DrawTextEx(customFont, "Right Arrow: Move Right", rightArrowPos, textFontSize, 2, BLACK);
-	DrawTextEx(customFont, "Left Click: Fire", firePos, textFontSize, 2, BLACK);
-	DrawTextEx(customFont, "ESC: Pause", escPausePos, textFontSize, 2, BLACK);
+	button.rec.width = buttonWidth;
+	button.rec.height = buttonHeight;
+	button.option = Menus::MainMenu;
+	button.rec.x = static_cast<float>(screenWidth) / 2 - (button.rec.width / 2);
+	button.rec.y = (backToMenuPos.y + powerUpInfoPos.y) / 2 - (button.rec.height / 2);
 
-	DrawTextEx(customFont, "Points for destroying sugaroids: 25", points1Pos, textFontSize, 2, BLACK);
-	DrawTextEx(customFont, "Points for avoiding sugaroids: 5", points2Pos, textFontSize, 2, BLACK);
-	DrawTextEx(customFont, "You start with 3 lives.", lives1Pos, textFontSize, 2, BLACK);
-	DrawTextEx(customFont, "Lose all lives to end the game.", lives2Pos, textFontSize, 2, BLACK);
+	DrawTextEx(font, "Game Rules", titlePos, titlesFontSize, 2, BLACK);
+	DrawTextEx(font, "Controls:", controlsTitlePos, newTitleFontSize, 2, BLACK);
+	DrawTextEx(font, "Left Click: Move right", leftClickMovementPos, newtextFontSize, 2, BLACK);
+	DrawTextEx(font, "Left Click: Fire", firePos, newtextFontSize, 2, BLACK);
+	DrawTextEx(font, "Enemy Types:", enemyTypesTitlePos, newTitleFontSize, 2, BLACK);
+	DrawTextEx(font, "Sugaroids:", sugaroidTitlePos, newTitleFontSize, 2, BLACK);
+	DrawTextEx(font, "Fast enemies that split into 2 when destroyed. Worth 25 points.", sugaroidInfoPos, newtextFontSize, 2, BLACK);
+	DrawTextEx(font, "Cookies:", cookieTitlePos, newTitleFontSize, 2, BLACK);
+	DrawTextEx(font, "Give 10 points and explode into 4 chips.", cookieInfoPos, newtextFontSize, 2, BLACK);
+	DrawTextEx(font, "Chips:", chipTitlePos, newTitleFontSize, 2, BLACK);
+	DrawTextEx(font, "Each chip is worth 4 points.", chipInfoPos, newtextFontSize, 2, BLACK);
+	DrawTextEx(font, "Power-Ups:", powerUpTitlePos, newTitleFontSize, 2, BLACK);
+	DrawTextEx(font, "Unlock a power-up every 500 points. The game gets harder!", powerUpInfoPos, newtextFontSize, 2, BLACK);
+	DrawTextEx(font, "Press ESC to return to menu", backToMenuPos, newtextFontSize, 2, BLACK);
 
-	DrawTextEx(customFont, "Press ESC to return to menu", backToMenuPos, textFontSize, 2, BLACK);
+	Color outline = BLACK;
+
+	if (Tools::CheckMouseButtonCollition(mouse, button.rec))
+	{
+		button.color = WHITE;
+
+		if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+		{
+			button.color = YELLOW;
+		}
+
+		if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON))
+			gameState = button.option;
+	}
+
+	std::string text = "Menu";
+	Tools::DrawButton(button.rec, text, button.color, outline, font);
+}
+
+
+void Scene::DrawPauseMenu(Menus& gameState, Font font, bool& pause)
+{
+	const int buttonCount = 3;  // Cantidad de botones
+	Vector2 mouse;
+	Button buttons[buttonCount] = {}; // Array de botones
+
+	// Inicializa la posición de los botones
+	float startX = (screenWidth - buttonWidth) / 2;
+	float startY = screenHeight - (buttonHeight * buttonCount + buttonSpacing * (buttonCount - 1));
+
+	// Establece las opciones de los botones
+	buttons[0].option = Menus::Resume;
+	buttons[1].option = Menus::MainMenu;
+	buttons[2].option = Menus::WantToExit;
+
+	// Inicialización de los rectángulos de los botones
+	for (int i = 0; i < buttonCount; i++)
+	{
+		buttons[i].rec = { startX, startY + i * (buttonHeight + buttonSpacing), buttonWidth, buttonHeight };
+	}
+
+	Color outline = BLACK;
+	mouse = GetMousePosition();
+
+	// Dibuja los botones y gestiona la interacción
+	for (int i = 0; i < buttonCount; i++)
+	{
+		if (Tools::CheckMouseButtonCollition(mouse, buttons[i].rec))
+		{
+			buttons[i].color = WHITE;
+
+			if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+			{
+				buttons[i].color = YELLOW;
+			}
+
+			if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON))
+				gameState = buttons[i].option;
+		}
+	}
+
+
+	Color semiTransparentBlack = { 0, 0, 0, 150 };
+	DrawRectangle(0, 0, screenWidth, screenHeight, semiTransparentBlack);
+
+	Vector2 titlePos =
+	{
+		static_cast<float>(screenWidth) / 2 - MeasureTextEx(font, "Pause", titlesFontSize, 2).x / 2,
+		static_cast<float>(screenHeight) / 5
+	};
+
+	Color pastelPurple = { 214, 196, 224, 255 };
+
+
+	DrawTextEx(font, "Pause", titlePos, titlesFontSize, 2, pastelPurple);
+
+	for (int i = 0; i < buttonCount; i++)
+	{
+		switch (buttons[i].option)
+		{
+		case Menus::Resume:
+			Tools::DrawButton(buttons[i].rec, "Resume", buttons[i].color, outline, font);
+			break;
+		case Menus::MainMenu:
+			Tools::DrawButton(buttons[i].rec, "Main Menu", buttons[i].color, outline, font);
+			break;
+		case Menus::WantToExit:
+			Tools::DrawButton(buttons[i].rec, "Exit Game", buttons[i].color, outline, font);
+			break;
+		default:
+			break;
+		}
+	}
+
+	if (gameState == Menus::Resume)
+	{
+		pause = false;
+		gameState = Menus::Playing;
+	}
 }
 
 
@@ -362,7 +497,6 @@ void Scene::DrawGameOver(Menus& gameState, Font font)
 	button[1].option = Menus::MainMenu;
 	button[2].option = Menus::WantToExit;
 
-	// Procesar el estado del mouse y los clics
 	for (int i = 0; i < maxButtons; i++)
 	{
 		if (Tools::CheckMouseButtonCollition(mouse, button[i].rec))
@@ -374,10 +508,10 @@ void Scene::DrawGameOver(Menus& gameState, Font font)
 		}
 	}
 
-	Vector2 gameOverTextSize = MeasureTextEx(font, "GAME OVER", titlesFontSize, 0);  // Escalar el tamaño del texto
+	Vector2 gameOverTextSize = MeasureTextEx(font, "GAME OVER", titlesFontSize, 0);
 	Vector2 gameOverPos = { static_cast<float>(screenWidth) / 2 - gameOverTextSize.x / 2, static_cast<float>(screenHeight) / 3 };
 
-	DrawTextEx(font, "GAME OVER", gameOverPos, titlesFontSize, 0, RED);  // Escalar el tamaño del texto
+	DrawTextEx(font, "GAME OVER", gameOverPos, titlesFontSize, 0, RED);
 
 	for (int i = 0; i < maxButtons; i++)
 	{
@@ -395,7 +529,6 @@ void Scene::DrawGameOver(Menus& gameState, Font font)
 		}
 	}
 }
-
 
 void Scene::DrawConfirmExit(Menus& gameState, Font font, Menus previusMenu)
 {
@@ -487,5 +620,3 @@ void Scene::DrawConfirmExit(Menus& gameState, Font font, Menus previusMenu)
 		}
 	}
 }
-
-
