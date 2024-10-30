@@ -1,20 +1,26 @@
-**Sugaroids**
+# Sugaroids
+---
+![Gameplay Image](https://github.com/user-attachments/assets/0ac8d21a-df17-4150-9166-3135e7f7378f)
 
-**Summary**  
-This is an Asteroids game that I created using the Love2D and Lua languages. Now I update it to be run by Raylib and C++ and added new mechanics.
+## Summary
+**Sugaroids** is a modern twist on the classic Asteroids game, initially developed in Love2D with Lua. Now updated to Raylib and C++, this version includes new mechanics, making for a more challenging and exciting space adventure.
 
-**About Me**  
-I'm a college student on an exciting journey learning the ins and outs of game development!
+## About Me
+I'm a college student on a dedicated journey to learn game development and explore all it has to offer!
 
-**Download Game**  
-Head over to itch.io(https://kapnack.itch.io/sugaroids) to download Planet Destroyer, and feel free to explore my other projects as well!
+## Download
+Head over to [my itch.io page](https://kapnack.itch.io/sugaroids) to download **Sugaroids** and check out my other projects.
 
-**Gameplay**
-https://youtu.be/A7O5nfVKGsU
+## Gameplay
+[Watch Gameplay on YouTube](https://youtu.be/A7O5nfVKGsU)
+
+---
 
 ![dJkI3u](https://github.com/user-attachments/assets/8e54e101-c159-4a3c-b64e-5e7a6037d858) ![BZIWYB](https://github.com/user-attachments/assets/1090dc3c-9458-4050-9a84-e0257b39dcb3) ![b8dTk4](https://github.com/user-attachments/assets/cde8cd6b-a219-400f-aa25-fd7827655d45)
 
-**Game Brief**
+## Game Brief
+
+Take a look into the universe of Sugaroids with these visuals that showcase the creative process behind its unique style:
 
 ![1](https://github.com/user-attachments/assets/2725f254-5563-48ed-9f18-2b5a56a990fc)
 ![2](https://github.com/user-attachments/assets/2b22ae29-c943-4555-93af-5d4cb2e8fdf2)
